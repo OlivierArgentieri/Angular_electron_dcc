@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-socketmaya',
-  templateUrl: './test.socketmaya.component.html',
-  styleUrls: ['./test.socketmaya.component.scss']
+  templateUrl: './socket.socketmaya.component.html',
+  styleUrls: ['./socket.socketmaya.component.scss']
 })
 export class SocketMayaComponent implements OnInit {
 

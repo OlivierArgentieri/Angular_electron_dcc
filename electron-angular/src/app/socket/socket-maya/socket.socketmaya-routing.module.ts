@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { SocketMayaComponent } from './test.socketmaya.component';
+import { SocketMayaComponent } from './socket.socketmaya.component';
 
 const routes: Routes = [
   {
-    path: 'test/socketmaya',
+    path: 'socket/socketmaya',
     component: SocketMayaComponent
   }
 ];

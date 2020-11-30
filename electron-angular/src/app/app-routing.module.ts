@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './shared/components';
 
 import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
-import { SocketMayaRoutingModule } from './test/socket-maya/test.socketmaya-routing.module';
+import { SocketMayaRoutingModule } from './socket/socket-maya/socket.socketmaya-routing.module';
 
 const routes: Routes = [
   {
