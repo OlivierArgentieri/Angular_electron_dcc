@@ -15,6 +15,7 @@ import { HomeModule } from './home/home.module';
 import { DetailModule } from './detail/detail.module';
 import { SocketMayaModule } from './socket/socket-maya/socket.socketmaya.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 
 // material
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SocketMayaModule,
     AppRoutingModule,
     MaterialModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

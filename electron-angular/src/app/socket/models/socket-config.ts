@@ -1,4 +1,4 @@
-class SocketConfig {
+export class SocketConfig {
 
     // attr
     address : string;
