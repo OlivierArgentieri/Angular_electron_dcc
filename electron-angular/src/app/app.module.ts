@@ -21,6 +21,10 @@ import { AppComponent } from './app.component';
 // material
 import { MaterialModule } from './material.module';
 
+// SocketIo
+//import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+//const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -40,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
+   // SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

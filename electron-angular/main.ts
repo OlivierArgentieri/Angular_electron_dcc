@@ -1,4 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
+import SocketServer  from "./socketio-server/server";
+
+
 import * as path from 'path';
 import * as url from 'url';
 
@@ -8,6 +11,8 @@ const args = process.argv.slice(1),
 
 function createWindow(): BrowserWindow {
 
+  var t = new SocketServer();
+  t.test();
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
