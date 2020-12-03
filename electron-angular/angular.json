@@ -16,6 +16,11 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "socket.io-client",
+              "socket.io-parser",
+              "debug"
+              ],
             "assets": [
               "src/assets"
             ],

@@ -8,7 +8,6 @@ var win = null;
 var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
 function createWindow() {
     var t = new server_1.default();
-    t.test();
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
     // Create the browser window.
