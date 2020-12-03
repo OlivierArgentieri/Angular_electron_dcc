@@ -18,37 +18,43 @@ import { io } from 'socket.io-client';
 })
 export class SocketMayaComponent implements OnInit {
 
-  socket;
+  port: number = 0;
+  host: string = "";
+  message: string = "";
+
+
+  socket = null;
   setupSocketConnection() {
-    //this.socket = io('http://localhost:6060');
-    this.socket = io('http://localhost:3000',  {autoConnect: false, transports: ['websocket'], upgrade: false});
+    this.socket = io('http://localhost:3000', { autoConnect: false, transports: ['websocket'], upgrade: false });
+    this.socket.open();
+  }
+
+  setupAction() {
+    if(this.socket == null) return;
+
+    this.socket.on("callback", (message)=>{
+      console.log(message)
+    });
   }
 
   constructor() {
-   // this.setupSocketConnection();
-   }
-
-  ngOnInit(): void {
-   // this.setupSocketConnection();
-   // this.setupSocketConnection();
-    //var _app = express();
-    //subject.subscribe(); 
-
-    //var _app = express();
-    //var _http = createServer(_app);
-    //this.setupSocketConnection();
+    // this.setupSocketConnection();
   }
 
-  Test()
-  {
-   console.log("aaa");
-    //if(this.socket != null) return;
-   
-   
+  ngOnInit(): void {
     this.setupSocketConnection();
-    this.socket.open();
+    this.setupAction();
+  }
+
+  Test() {
+    // if(this.socket != null) return;
+    //this.setupSocketConnection();
+    this.socket.emit("mayaCommand", this.message);
+
+    // 
+
     //this.socket.emit("message", 'import maya.cmds as cmds\ncmds.polyCube()');
-  
-   // subject.next({message:'import maya.cmds as cmds\ncmds.polyCube()'})
+
+    // subject.next({message:'import maya.cmds as cmds\ncmds.polyCube()'})
   }
 }

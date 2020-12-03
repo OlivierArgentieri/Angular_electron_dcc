@@ -7,7 +7,6 @@ var url = require("url");
 var win = null;
 var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
 function createWindow() {
-    var t = new server_1.default();
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
     // Create the browser window.
@@ -37,6 +36,9 @@ function createWindow() {
             slashes: true
         }));
     }
+    var t = new server_1.default();
+    t.test();
+    t.startServer();
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window

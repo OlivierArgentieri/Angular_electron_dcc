@@ -11,7 +11,8 @@ const args = process.argv.slice(1),
 
 function createWindow(): BrowserWindow {
 
-  var t = new SocketServer();
+  
+  
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
@@ -45,6 +46,10 @@ function createWindow(): BrowserWindow {
       slashes: true
     }));
   }
+
+  var t = new SocketServer();
+  t.test();
+  t.startServer();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
