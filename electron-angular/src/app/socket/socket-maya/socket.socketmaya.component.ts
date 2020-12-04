@@ -3,7 +3,6 @@ import { SocketConfig } from '../models/socket-config';
 
 import { io } from 'socket.io-client';
 
-
 // SocketIoModule
 //import { Socket } from 'ngx-socket-io';
 //import { Injectable } from '@angular/core';
@@ -22,7 +21,6 @@ export class SocketMayaComponent implements OnInit {
   host: string = "";
   message: string = "";
 
-
   socket = null;
   setupSocketConnection() {
     this.socket = io('http://localhost:3000', { autoConnect: false, transports: ['websocket'], upgrade: false });
@@ -38,7 +36,6 @@ export class SocketMayaComponent implements OnInit {
   }
 
   constructor() {
-    // this.setupSocketConnection();
   }
 
   ngOnInit(): void {
@@ -50,11 +47,9 @@ export class SocketMayaComponent implements OnInit {
     // if(this.socket != null) return;
     //this.setupSocketConnection();
     this.socket.emit("mayaCommand", this.message);
+  }
 
-    // 
-
-    //this.socket.emit("message", 'import maya.cmds as cmds\ncmds.polyCube()');
-
-    // subject.next({message:'import maya.cmds as cmds\ncmds.polyCube()'})
+  RelaunchServer(){
+    
   }
 }

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen } from 'electron';
-import SocketServer from './socketio-server/server';
+import SocketInterpreter from './socketio-server/main';
 
 
 import * as path from 'path';
@@ -47,9 +47,8 @@ function createWindow(): BrowserWindow {
     }));
   }
 
-  var t = new SocketServer();
+  var t = new SocketInterpreter();
   t.test();
-  t.startServer();
 
   // Emitted when the window is closed.
   win.on('closed', () => {

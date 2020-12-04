@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
-var server_1 = require("./socketio-server/server");
+var main_1 = require("./socketio-server/main");
 var path = require("path");
 var url = require("url");
 var win = null;
@@ -36,9 +36,8 @@ function createWindow() {
             slashes: true
         }));
     }
-    var t = new server_1.default();
+    var t = new main_1.default();
     t.test();
-    t.startServer();
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window

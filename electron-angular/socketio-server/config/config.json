@@ -1,0 +1,12 @@
+{
+    "ExpressSettings" :{
+        "Port" : 3000
+    },
+    "DccPortSettings":{
+        "MayaPortRangeStart": 6000, 
+        "MayaPortRangeEnd": 6019,
+
+        "HoudiniPortRangeStart": 6020,
+        "HoudiniPortRangeEnd": 6039
+    }
+}
