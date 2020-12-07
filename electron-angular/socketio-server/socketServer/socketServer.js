@@ -16,7 +16,7 @@ var SocketServer = /** @class */ (function () {
             console.log('listening on *:3000');
         });
     };
-    SocketServer.prototype.closeServer = function () {
+    SocketServer.prototype.stopServer = function () {
         if (http == undefined)
             return;
         http.close();

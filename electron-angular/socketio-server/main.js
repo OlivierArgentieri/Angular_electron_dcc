@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var socketServer_1 = require("./socketServer");
+var socketServer_1 = require("./socketServer/socketServer");
 var net = require('net'); // to communicate with maya
 // config
 var config = require('./config/config.json');
@@ -25,7 +25,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         _this.client = net.Socket();
         return _this;
     }
-    // overriding
+    // overriding : for create specific action per DCCs
     SocketInterpreter.prototype.setupAction = function (io) {
         var _this = this;
         io.on('connection', function (socket) {

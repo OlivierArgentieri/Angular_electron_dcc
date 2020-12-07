@@ -1,10 +1,12 @@
+import ISocketServer from "./ISocketServer";
+
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 
 
-export default class SocketServer{
+export default class SocketServer implements ISocketServer{
     
     mainSocket = io;
     
@@ -25,12 +27,12 @@ export default class SocketServer{
         });
     }
 
-    closeServer():void {
+    stopServer():void {
         if(http == undefined) return;
         http.close();
     }
 
     setupAction(io):void {
-
+        
     }
 }

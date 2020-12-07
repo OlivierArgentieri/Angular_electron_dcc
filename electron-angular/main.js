@@ -36,8 +36,6 @@ function createWindow() {
             slashes: true
         }));
     }
-    var t = new main_1.default();
-    t.test();
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window
@@ -52,7 +50,12 @@ try {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-    electron_1.app.on('ready', function () { return setTimeout(createWindow, 400); });
+    electron_1.app.on('ready', function () {
+        setTimeout(createWindow, 400);
+        // start express server
+        var t = new main_1.default();
+        t.test();
+    });
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {
         // On OS X it is common for applications and their menu bar

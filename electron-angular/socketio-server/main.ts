@@ -1,4 +1,4 @@
-import SocketServer  from "./socketServer";
+import SocketServer  from "./socketServer/socketServer";
 const net = require('net'); // to communicate with maya
 
 // config
