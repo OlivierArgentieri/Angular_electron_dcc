@@ -1,4 +1,6 @@
 import SocketServer  from "./socketServer/socketServer";
+import DccResolver from "./dccResolver/dccResolver";
+
 const net = require('net'); // to communicate with maya
 
 // config
@@ -6,9 +8,9 @@ var config = require('./config/config.json');
 
 
 
-
 export default class SocketInterpreter extends SocketServer {
 
+    dccResolver = new DccResolver();
     client = null;
     constructor() {
         super();
@@ -32,10 +34,10 @@ export default class SocketInterpreter extends SocketServer {
         });
      }
 
-     test(){
+    test(){
          // start express server
          this.startServer();
-
+    
 
         /**/ this.client.connect(1111, '127.0.0.1', function() {
              console.log('Connected');
@@ -44,6 +46,9 @@ export default class SocketInterpreter extends SocketServer {
          });
          //var command = 'import maya.cmds as cmds\ncmds.polyCube()' 
          //this.client.write(command);
+
+         // test dcc resolver
+         this.dccResolver.main();
      }
 
 

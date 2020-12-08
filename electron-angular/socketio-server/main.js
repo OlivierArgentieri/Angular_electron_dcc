@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var socketServer_1 = require("./socketServer/socketServer");
+var dccResolver_1 = require("./dccResolver/dccResolver");
 var net = require('net'); // to communicate with maya
 // config
 var config = require('./config/config.json');
@@ -21,6 +22,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
         var _this = _super.call(this) || this;
+        _this.dccResolver = new dccResolver_1.default();
         _this.client = null;
         _this.client = net.Socket();
         return _this;
@@ -49,6 +51,8 @@ var SocketInterpreter = /** @class */ (function (_super) {
         });
         //var command = 'import maya.cmds as cmds\ncmds.polyCube()' 
         //this.client.write(command);
+        // test dcc resolver
+        this.dccResolver.main();
     };
     SocketInterpreter.prototype.sendMayaCommand = function (command) {
         this.client.write(command);
