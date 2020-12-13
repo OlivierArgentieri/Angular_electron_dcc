@@ -37,7 +37,6 @@ export default class SocketInterpreter extends SocketServer {
     test(){
          // start express server
          this.startServer();
-    
 
         /**/ this.client.connect(1111, '127.0.0.1', function() {
              console.log('Connected');
@@ -48,6 +47,7 @@ export default class SocketInterpreter extends SocketServer {
          //this.client.write(command);
 
          // test dcc resolver
+        
          this.dccResolver.main();
      }
 

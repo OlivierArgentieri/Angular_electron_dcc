@@ -48,8 +48,4 @@ export class SocketMayaComponent implements OnInit {
     //this.setupSocketConnection();
     this.socket.emit("mayaCommand", this.message);
   }
-
-  RelaunchServer(){
-    
-  }
 }

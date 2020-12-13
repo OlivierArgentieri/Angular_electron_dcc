@@ -36,39 +36,90 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var worker_threads_1 = require("worker_threads");
+var net = require('net');
+//const client = net.Socket();
 var DccResolver = /** @class */ (function () {
     function DccResolver() {
     }
-    DccResolver.prototype.isUp = function (_filePath, _port) {
-        return new Promise(function (resolve, reject) {
-            var _worker = new worker_threads_1.Worker(_filePath, {
-                workerData: {
-                    port: _port
-                }
+    /*
+      isUp(_filePath : string, _port : number)
+       {
+           
+            return new Promise((resolve, reject) => {
+                const _worker = new Worker(_filePath, {
+                    workerData:{
+                        port: _port
+                    }
+                });
+                _worker.on('online', ()=> {console.log(`Worker dccSolver launched`)});
+                _worker.on('message', messageFromWorker => {
+                    console.log(messageFromWorker)
+                    return resolve;
+                });
+    
+               
+                _worker.on('error',reject)
+                _worker.on('exit', code =>{
+                    if(code !== 0){
+                        reject(new Error(`Worker stop with code ${code}`))
+                    }
+                });
             });
-            _worker.on('online', function () { console.log("Worker dccSolver launched"); });
-            _worker.on('message', function (messageFromWorker) {
-                console.log(messageFromWorker);
-                return resolve;
-            });
-            _worker.on('error', reject);
-            _worker.on('exit', function (code) {
-                if (code !== 0) {
-                    reject(new Error("Worker stop with code " + code));
-                }
+    
+       }*/
+    DccResolver.prototype.resolve = function (_port, _address) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var client = net.Socket();
+                        var tcpConnection = client.connect(_port, '127.0.0.1', function () {
+                            console.log("Found on : " + _port);
+                            client.destroy();
+                            resolve(true);
+                            return true;
+                        });
+                        tcpConnection.on('error', function (error) {
+                            console.log("not found on : " + _port + " error : " + error);
+                            client.destroy();
+                            reject(false);
+                            return false;
+                        });
+                    })];
             });
         });
     };
     DccResolver.prototype.main = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var promises, _i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.isUp("./socketio-server/dccResolver/worker/worker.js", 10)];
+                    case 0:
+                        promises = [
+                        //this.resolve(1234,"localhost"),
+                        //this.resolve(1111,"localhost"),
+                        ];
+                        for (_i = 1111; _i < 1114; _i++) {
+                            promises.push(this.resolve(_i, "localhost")
+                                .catch(function (e) { }));
+                        }
+                        //promises.push(this.resolve(1234,"localhost"))
+                        //await this.isUp("./socketio-server/dccResolver/worker/worker.js", 10);
+                        //await this.isUp("./socketio-server/dccResolver/worker/worker.js", 1111);
+                        //let [result_1234, result_1111] = await Promise.all([this.resolve(1234,"localhost"), this.resolve(1111,"localhost")]);
+                        //console.log(`${result_1234} and ${result_1111}`);
+                        return [4 /*yield*/, Promise.all(promises)
+                                .then(function (results) {
+                                for (var _i = 0; _i < 1114 - 1111; _i++) {
+                                    console.log(_i + " : " + (results[_i] === undefined ? false : true));
+                                }
+                                //console.log(`1234 : ${results[0]}`, `1111 : ${results[1]}`)
+                            })];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.isUp("./socketio-server/dccResolver/worker/worker.js", 1111)];
-                    case 2:
+                        //promises.push(this.resolve(1234,"localhost"))
+                        //await this.isUp("./socketio-server/dccResolver/worker/worker.js", 10);
+                        //await this.isUp("./socketio-server/dccResolver/worker/worker.js", 1111);
+                        //let [result_1234, result_1111] = await Promise.all([this.resolve(1234,"localhost"), this.resolve(1111,"localhost")]);
+                        //console.log(`${result_1234} and ${result_1111}`);
                         _a.sent();
                         return [2 /*return*/];
                 }
