@@ -79,7 +79,7 @@ var DccResolver = /** @class */ (function () {
                             return true;
                         });
                         tcpConnection.on('error', function (error) {
-                            console.log("not found on : " + _port + " error : " + error);
+                            console.log("not found on : " + _port);
                             client.destroy();
                             reject(false);
                             return false;

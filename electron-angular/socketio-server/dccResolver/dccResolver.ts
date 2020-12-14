@@ -1,5 +1,3 @@
-import { Resolver } from 'dns';
-import { Worker} from 'worker_threads';
 const net = require('net');
 
 
@@ -45,7 +43,7 @@ export default class  DccResolver {
            });
 
         tcpConnection.on('error', (error)=>{
-            console.log(`not found on : ${_port} error : ${error}`)
+            console.log(`not found on : ${_port}`)
             client.destroy();
             reject(false);
             return false;

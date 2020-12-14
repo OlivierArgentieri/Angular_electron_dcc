@@ -24,12 +24,22 @@ export default class SocketInterpreter extends SocketServer {
             this.mainSocket = socket;
 
             console.log('user connected');
+
             socket.on("mayaCommand", (command)=> {
 
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);
                 this.sendMayaCommand(command);
                 console.log(command);
+            });
+
+
+            socket.on("mayaResolve", () => {
+                this.dccResolver.main();
+                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                //this.client.write(command);
+               // this.sendMayaCommand(command);
+                //console.log(command);
             });
         });
      }
@@ -38,7 +48,7 @@ export default class SocketInterpreter extends SocketServer {
          // start express server
          this.startServer();
 
-        /**/ this.client.connect(1111, '127.0.0.1', function() {
+         this.client.connect(1111, '127.0.0.1', function() {
              console.log('Connected');
              //client.write('Hello, server! Love, Client.');
              //client.write('import maya.cmds as mc\n mc.polyCube()');
@@ -47,7 +57,6 @@ export default class SocketInterpreter extends SocketServer {
          //this.client.write(command);
 
          // test dcc resolver
-        
          this.dccResolver.main();
      }
 

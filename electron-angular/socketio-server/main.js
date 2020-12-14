@@ -39,12 +39,19 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 _this.sendMayaCommand(command);
                 console.log(command);
             });
+            socket.on("mayaResolve", function () {
+                _this.dccResolver.main();
+                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                //this.client.write(command);
+                // this.sendMayaCommand(command);
+                //console.log(command);
+            });
         });
     };
     SocketInterpreter.prototype.test = function () {
         // start express server
         this.startServer();
-        /**/ this.client.connect(1111, '127.0.0.1', function () {
+        this.client.connect(1111, '127.0.0.1', function () {
             console.log('Connected');
             //client.write('Hello, server! Love, Client.');
             //client.write('import maya.cmds as mc\n mc.polyCube()');

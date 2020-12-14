@@ -43,9 +43,13 @@ export class SocketMayaComponent implements OnInit {
     this.setupAction();
   }
 
-  Test() {
+  Emit() {
     // if(this.socket != null) return;
     //this.setupSocketConnection();
     this.socket.emit("mayaCommand", this.message);
+  }
+
+  Resolve(){
+    this.socket.emit("mayaResolve");
   }
 }
