@@ -11,6 +11,7 @@ var SocketServer = /** @class */ (function () {
         app.get('/', function (req, res) {
             res.send('<h1> Server Running </h1>');
         });
+        // setup socket action
         this.setupAction(io);
         http.listen(3000, function () {
             console.log('listening on *:3000');

@@ -69,8 +69,8 @@ try {
     setTimeout(createWindow, 400)
     
     // start express server
-    var t = new SocketInterpreter();
-    t.test();
+    var _interpreter = new SocketInterpreter();
+    _interpreter.main();
   });
 
   // Quit when all windows are closed.

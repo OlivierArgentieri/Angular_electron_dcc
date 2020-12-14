@@ -53,8 +53,8 @@ try {
     electron_1.app.on('ready', function () {
         setTimeout(createWindow, 400);
         // start express server
-        var t = new main_1.default();
-        t.test();
+        var _interpreter = new main_1.default();
+        _interpreter.main();
     });
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {

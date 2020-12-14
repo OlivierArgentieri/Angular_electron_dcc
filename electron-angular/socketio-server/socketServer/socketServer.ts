@@ -18,6 +18,7 @@ export default class SocketServer implements ISocketServer{
             res.send('<h1> Server Running </h1>');
         });
 
+        // setup socket action
         this.setupAction(io);
 
         

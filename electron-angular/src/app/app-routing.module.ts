@@ -5,11 +5,12 @@ import { PageNotFoundComponent } from './shared/components';
 import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import { SocketMayaRoutingModule } from './socket/socket-maya/socket.socketmaya-routing.module';
+import { SocketRoutingModule } from './socket/socket.socket-routing.module';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'socket/socketmaya',
     pathMatch: 'full'
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     HomeRoutingModule,
     DetailRoutingModule,
-    SocketMayaRoutingModule
+    SocketMayaRoutingModule,
+    SocketRoutingModule
   ],
   exports: [RouterModule]
 })

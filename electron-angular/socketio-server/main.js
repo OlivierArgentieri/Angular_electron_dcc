@@ -40,7 +40,11 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 console.log(command);
             });
             socket.on("mayaResolve", function () {
-                _this.dccResolver.main();
+                _this.dccResolver.main()
+                    .then(function (result) {
+                    //console.log(`then result  ${result.get(1111)}`);
+                    console.log("then result  " + JSON.stringify(result));
+                });
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);
                 // this.sendMayaCommand(command);
@@ -48,7 +52,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
             });
         });
     };
-    SocketInterpreter.prototype.test = function () {
+    SocketInterpreter.prototype.main = function () {
         // start express server
         this.startServer();
         this.client.connect(1111, '127.0.0.1', function () {
@@ -59,7 +63,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         //var command = 'import maya.cmds as cmds\ncmds.polyCube()' 
         //this.client.write(command);
         // test dcc resolver
-        this.dccResolver.main();
+        //this.dccResolver.main();
     };
     SocketInterpreter.prototype.sendMayaCommand = function (command) {
         this.client.write(command);

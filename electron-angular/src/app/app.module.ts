@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HomeModule } from './home/home.module';
 import { DetailModule } from './detail/detail.module';
 import { SocketMayaModule } from './socket/socket-maya/socket.socketmaya.module';
+import { SocketModule } from './socket/socket.socket.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -42,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HomeModule,
     DetailModule,
     SocketMayaModule,
+    SocketModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
