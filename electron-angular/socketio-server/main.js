@@ -39,11 +39,12 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 _this.sendMayaCommand(command);
                 console.log(command);
             });
-            socket.on("mayaResolve", function () {
+            socket.on("mayaResolve", function (callbackFn) {
                 _this.dccResolver.main()
                     .then(function (result) {
                     //console.log(`then result  ${result.get(1111)}`);
                     console.log("then result  " + JSON.stringify(result));
+                    callbackFn(result);
                 });
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);

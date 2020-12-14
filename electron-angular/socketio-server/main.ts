@@ -34,11 +34,12 @@ export default class SocketInterpreter extends SocketServer {
             });
 
 
-            socket.on("mayaResolve", () => {
+            socket.on("mayaResolve", (callbackFn) => {
                 this.dccResolver.main()
                 .then((result)=>{
                     //console.log(`then result  ${result.get(1111)}`);
                     console.log(`then result  ${JSON.stringify(result)}`);
+                    callbackFn(result);
                 });
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);

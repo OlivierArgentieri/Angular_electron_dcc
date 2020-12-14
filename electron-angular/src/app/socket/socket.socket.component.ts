@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketConfig } from './models/socket-config';
+import { MayaSocketService } from './services/maya/maya-service';
 
 import { io } from 'socket.io-client';
 // SocketIoModule
@@ -15,40 +15,30 @@ import { io } from 'socket.io-client';
   styleUrls: ['./socket.socket.component.scss']
 })
 export class SocketComponent implements OnInit {
-
-  port: number = 0;
-  host: string = "";
-  message: string = "";
-
-  socket = null;
-  setupSocketConnection() {
-    this.socket = io('http://localhost:3000', { autoConnect: false, transports: ['websocket'], upgrade: false });
-    this.socket.open();
-  }
-
-  setupAction() {
-    if(this.socket == null) return;
-
-    this.socket.on("callback", (message)=>{
-      console.log(message)
-    });
-  }
-
-  constructor() {
-  }
+  
+  constructor(private service: MayaSocketService){  }
 
   ngOnInit(): void {
-    this.setupSocketConnection();
-    this.setupAction();
+    this.service.service.subscribe(_msg =>{
+      console.log(_msg);
+    })
+
+    //this.setupSocketConnection();
+    //this.setupAction();
+  }
+
+  sendMessage() {
+    this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()");
+    
+    console.log("SendCommand")
   }
 
   Emit() {
     // if(this.socket != null) return;
-    //this.setupSocketConnection();
-    this.socket.emit("mayaCommand", this.message);
+    //this.setupSocketConnection(); 
   }
 
   Resolve(){
-    this.socket.emit("mayaResolve");
+    //this.service.sendMessage("test");
   }
 }

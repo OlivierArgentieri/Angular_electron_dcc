@@ -48,6 +48,7 @@ var DccResolver = /** @class */ (function () {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         var client = net.Socket();
                         var tcpConnection = client.connect(_port, '127.0.0.1', function () {
+                            //
                             console.log("Found on : " + _port);
                             client.destroy();
                             resolve(true);

@@ -16,6 +16,10 @@ import { DetailModule } from './detail/detail.module';
 import { SocketMayaModule } from './socket/socket-maya/socket.socketmaya.module';
 import { SocketModule } from './socket/socket.socket.module';
 
+// Providers
+import { MayaSocketService } from './socket/services/maya/maya-service';
+import { SocketService } from './socket/services/socket-service';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 
@@ -56,7 +60,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       }
     })
   ],
-  providers: [],
+  providers: [
+    MayaSocketService,
+    SocketService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

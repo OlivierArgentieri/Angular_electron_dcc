@@ -1,4 +1,5 @@
 export const AppConfig = {
   production: false,
-  environment: 'WEB'
+  environment: 'WEB',
+  interpreter_url: 'http://localhost:3000'
 };
