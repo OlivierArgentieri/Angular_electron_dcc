@@ -33,12 +33,19 @@ var SocketInterpreter = /** @class */ (function (_super) {
         io.on('connection', function (socket) {
             _this.mainSocket = socket;
             console.log('user connected');
-            socket.on("mayaCommand", function (command, callback) {
+            socket.on("mayaCommand", function (command) {
+                new Promise(function (res, rej) {
+                    _this.client.connect(12346, '127.0.0.1', function () { });
+                    res(true);
+                }).then(function () {
+                    _this.sendMayaCommand(command);
+                    console.log(command);
+                });
+                //this.client.connect(12346, '127.0.0.1', function() {});
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);
-                _this.sendMayaCommand(command);
-                callback("test");
-                console.log(command);
+                // this.sendMayaCommand(command);
+                //console.log(command);
             });
             socket.on("mayaResolve", function (callbackFn) {
                 _this.dccResolver.main()
@@ -57,11 +64,12 @@ var SocketInterpreter = /** @class */ (function (_super) {
     SocketInterpreter.prototype.main = function () {
         // start express server
         this.startServer();
-        this.client.connect(1111, '127.0.0.1', function () {
+        /*
+        this.client.connect(12346, '127.0.0.1', function() {
             console.log('Connected');
             //client.write('Hello, server! Love, Client.');
             //client.write('import maya.cmds as mc\n mc.polyCube()');
-        });
+        });*/
         //var command = 'import maya.cmds as cmds\ncmds.polyCube()' 
         //this.client.write(command);
         // test dcc resolver
