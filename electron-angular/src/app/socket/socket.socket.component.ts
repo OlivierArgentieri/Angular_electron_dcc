@@ -19,9 +19,10 @@ export class SocketComponent implements OnInit {
   constructor(private service: MayaSocketService){  }
 
   ngOnInit(): void {
+    /*
     this.service.service.subscribe(_msg =>{
       console.log(_msg);
-    })
+    })*/
 
     //this.setupSocketConnection();
     //this.setupAction();

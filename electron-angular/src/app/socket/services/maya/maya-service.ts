@@ -7,16 +7,18 @@ export class MayaSocketService{
     
     service:Subject<any>;
 
-    constructor(private _socketService:SocketService){
-        this.service = <Subject<any>>_socketService
-        .connect()
-        .map((_response: any):any =>{
-            return _response;
-        });
+    constructor(private socketService:SocketService){
+     
     }
 
     // sending message to socket io server
     sendCommand(_cmd){
+       this.service = <Subject<any>>this.socketService
+        .sendCommand()
+        .map((_service: any):any =>{
+            return _service;
+        });
+
         this.service.next(_cmd);
     }
 }

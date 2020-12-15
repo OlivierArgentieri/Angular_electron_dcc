@@ -14,10 +14,22 @@ export class SocketService{
         
     }
 
-    connect(): Rx.Subject<MessageEvent>{
+
+    connect(): Rx.Subject<any> {
+
+        const subject = new Rx.Subject();
+
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
+        
 
+        subject.subscribe((data:Object) =>{
+                this.socket.emit('mayaCommand', data)
+            });
+
+        return subject;
+
+        /*
         let _observable = new Observable(observer => {
 
             // routes ?
@@ -35,7 +47,42 @@ export class SocketService{
                 this.socket.emit('mayaCommand', data);
             }
         }
+        
+        return Rx.Subject.create(_observer, _observable); // todo*/
+    }
 
-        return Rx.Subject.create(_observer, _observable); // todo
+
+    receiveMessage():Rx.Subject<any>{
+        const subject = new Rx.Subject();
+
+
+        subject.subscribe(observer => {
+
+            // routes ?
+            this.socket.on('message', (data)=>{
+                console.log("Received message from socket server")
+                subject.next(data);
+            })
+            return () => {
+                this.socket.disconnect();
+            }
+        });
+        
+
+        return subject;
+    }
+
+    sendCommand():Rx.Subject<any>{
+        const subject = new Rx.Subject();
+
+        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
+        this.socket.open();
+
+        subject.subscribe((data:Object) =>{
+            this.socket.emit('mayaCommand', data, (aa)=>{ console.log(aa)})
+        });
+
+
+        return subject;
     }
 }

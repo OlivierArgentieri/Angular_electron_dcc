@@ -33,10 +33,11 @@ var SocketInterpreter = /** @class */ (function (_super) {
         io.on('connection', function (socket) {
             _this.mainSocket = socket;
             console.log('user connected');
-            socket.on("mayaCommand", function (command) {
+            socket.on("mayaCommand", function (command, callback) {
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);
                 _this.sendMayaCommand(command);
+                callback("test");
                 console.log(command);
             });
             socket.on("mayaResolve", function (callbackFn) {

@@ -25,11 +25,12 @@ export default class SocketInterpreter extends SocketServer {
 
             console.log('user connected');
 
-            socket.on("mayaCommand", (command)=> {
+            socket.on("mayaCommand", (command, callback)=> {
 
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
                 //this.client.write(command);
                 this.sendMayaCommand(command);
+                callback("test");
                 console.log(command);
             });
 
