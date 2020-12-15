@@ -24,13 +24,19 @@ def function_to_process(data, client):
 
     logging.info("Maya Server, Process Function: {}".format(data))
     
-    data = data.replace("print", "out = str")
-    exec(data)
-    print(out)
-    client.send(out)
+    out = ""
+    if("print" in data):
+        data = data.replace("print", "out = str")
     
-    cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
-
+    try:
+        cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
+        
+        print("ssss")
+        exec(data)
+        client.send(out)
+    except Exception, exec_error:
+        #cmds.error("Maya Server, Exception processing Function: {}".format(exec_error))
+        client.send(str(exec_error))
 
 def process_update(data, client):
     """
@@ -43,7 +49,7 @@ def process_update(data, client):
         maya_utils.executeInMainThreadWithResult(function_to_process, data, client)
     except Exception, e:
         cmds.error("Maya Server, Exception processing Function: {}".format(e))
-
+        
 
 def maya_server(host=HOST, port=PORT, connections=CONNECTIONS):
     """
