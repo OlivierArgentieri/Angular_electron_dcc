@@ -1,5 +1,4 @@
 """
-original author : https://gist.github.com/Meatplowz/154fb17487e9ce0c0e8b362262a2d8a4
 Maya Threaded Server
 Run this in Maya
 """
@@ -13,10 +12,10 @@ import maya.utils as maya_utils
 
 HOST = "localhost"
 PORT = 12346
-CONNECTIONS = 4
+CONNECTIONS = 1
 
 
-def function_to_process(data):
+def function_to_process(data, client):
     """
     Maya function
     :param data: incoming data to process
@@ -24,11 +23,16 @@ def function_to_process(data):
     """
 
     logging.info("Maya Server, Process Function: {}".format(data))
+    
+    data = data.replace("print", "out = str")
     exec(data)
+    print(out)
+    client.send(out)
+    
     cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
 
 
-def process_update(data):
+def process_update(data, client):
     """
     Process incoming data, run this in the Maya main thread
     :param data:
@@ -36,7 +40,7 @@ def process_update(data):
     """
 
     try:
-        maya_utils.executeInMainThreadWithResult(function_to_process, data)
+        maya_utils.executeInMainThreadWithResult(function_to_process, data, client)
     except Exception, e:
         cmds.error("Maya Server, Exception processing Function: {}".format(e))
 
@@ -69,9 +73,11 @@ def maya_server(host=HOST, port=PORT, connections=CONNECTIONS):
                 break
             else:
                 logging.info("Maya Server, Data Received: {}".format(data))
-                process_update(data)
+                process_update(data, client)
+               
         try:
             client.close()
+            print("close client")
         except Exception, client_error:
             logging.info("Maya Server, Error Closing Client Socket: {}".format(client_error))
 

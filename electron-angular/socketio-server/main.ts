@@ -27,9 +27,14 @@ export default class SocketInterpreter extends SocketServer {
 
             socket.on("mayaCommand", (command)=> {
                 new Promise<Boolean>((res, rej)=>{
+                    this.client = net.Socket();
                     this.client.connect(12346, '127.0.0.1', function() {});
                     res(true);
                 }).then(()=>{
+                    this.client.on('data', (data)=>{
+                    console.log(data.toString());
+                        this.client.destroy()
+                    })
                     this.sendMayaCommand(command);
                     console.log(command);
                 })

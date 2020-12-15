@@ -13,6 +13,10 @@ var SocketServer = /** @class */ (function () {
         });
         // setup socket action
         this.setupAction(io);
+        app.post('/fromdcc', function (req, res) {
+            res.send('OK');
+            console.log(req.body);
+        });
         http.listen(3000, function () {
             console.log('listening on *:3000');
         });

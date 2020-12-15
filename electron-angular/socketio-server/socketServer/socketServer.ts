@@ -21,7 +21,11 @@ export default class SocketServer implements ISocketServer{
         // setup socket action
         this.setupAction(io);
 
-        
+        app.post('/fromdcc', (req, res)=>{
+            res.send('OK')
+    
+            console.log(req.body);
+        });
 
         http.listen(3000, () => {
             console.log('listening on *:3000');

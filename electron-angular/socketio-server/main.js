@@ -35,9 +35,14 @@ var SocketInterpreter = /** @class */ (function (_super) {
             console.log('user connected');
             socket.on("mayaCommand", function (command) {
                 new Promise(function (res, rej) {
+                    _this.client = net.Socket();
                     _this.client.connect(12346, '127.0.0.1', function () { });
                     res(true);
                 }).then(function () {
+                    _this.client.on('data', function (data) {
+                        console.log(data.toString());
+                        _this.client.destroy();
+                    });
                     _this.sendMayaCommand(command);
                     console.log(command);
                 });
