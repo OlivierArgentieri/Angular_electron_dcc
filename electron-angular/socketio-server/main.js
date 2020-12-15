@@ -15,7 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var socketServer_1 = require("./socketServer/socketServer");
 var dccResolver_1 = require("./dccResolver/dccResolver");
-var net = require('net'); // to communicate with maya
+//const net = require('net'); // to communicate with maya
 // config
 var config = require('./config/config.json');
 var SocketInterpreter = /** @class */ (function (_super) {
@@ -24,8 +24,8 @@ var SocketInterpreter = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.dccResolver = new dccResolver_1.default();
         _this.client = null;
-        _this.client = net.Socket();
         return _this;
+        //this.client = net.Socket();
     }
     // overriding : for create specific action per DCCs
     SocketInterpreter.prototype.setupAction = function (io) {
@@ -34,23 +34,18 @@ var SocketInterpreter = /** @class */ (function (_super) {
             _this.mainSocket = socket;
             console.log('user connected');
             socket.on("mayaCommand", function (command) {
-                new Promise(function (res, rej) {
-                    _this.client = net.Socket();
-                    _this.client.connect(12346, '127.0.0.1', function () { });
-                    res(true);
-                }).then(function () {
-                    _this.client.on('data', function (data) {
+                // new promise request
+                _this.newRequest(12346, '127.0.0.1')
+                    .then(function (client) {
+                    client.on('data', function (data) {
                         console.log(data.toString());
-                        _this.client.destroy();
+                        client.write(command);
+                        client.destroy();
                     });
-                    _this.sendMayaCommand(command);
-                    console.log(command);
                 });
-                //this.client.connect(12346, '127.0.0.1', function() {});
+                _this.sendMayaCommand(command);
+                console.log(command);
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
-                //this.client.write(command);
-                // this.sendMayaCommand(command);
-                //console.log(command);
             });
             socket.on("mayaResolve", function (callbackFn) {
                 _this.dccResolver.main()

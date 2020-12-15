@@ -4,6 +4,8 @@ import { Observable } from "rxjs/Observable";
 import * as Rx from "rxjs/Rx";
 
 import { AppConfig } from '../../../environments/environment';
+import { Action } from "rxjs/internal/scheduler/Action";
+import { MethodCall } from "@angular/compiler";
 
 @Injectable()
 export class SocketService{
@@ -28,61 +30,33 @@ export class SocketService{
             });
 
         return subject;
-
-        /*
-        let _observable = new Observable(observer => {
-
-            // routes ?
-            this.socket.on('message', (data)=>{
-                console.log("Received message from socket server")
-                observer.next(data);
-            })
-            return () => {
-                this.socket.disconnect();
-            }
-        });
-
-        let _observer = {
-            next: (data:Object) =>{
-                this.socket.emit('mayaCommand', data);
-            }
-        }
-        
-        return Rx.Subject.create(_observer, _observable); // todo*/
-    }
-
-
-    receiveMessage():Rx.Subject<any>{
-        const subject = new Rx.Subject();
-
-
-        subject.subscribe(observer => {
-
-            // routes ?
-            this.socket.on('message', (data)=>{
-                console.log("Received message from socket server")
-                subject.next(data);
-            })
-            return () => {
-                this.socket.disconnect();
-            }
-        });
-        
-
-        return subject;
     }
 
     sendCommand():Rx.Subject<any>{
-        const subject = new Rx.Subject();
+        const _subject = new Rx.Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
 
-        subject.subscribe((data:Object) =>{
+        _subject.subscribe((data:Object) =>{
             this.socket.emit('mayaCommand', data, (aa)=>{ console.log(aa)})
         });
 
+        return _subject;
+    }
 
-        return subject;
+    resolve():Rx.Subject<any>{
+        const _subject = new Rx.Subject();
+
+        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
+        this.socket.open();
+
+        _subject.subscribe((_callback:any) =>{
+            this.socket.emit('mayaResolve',(out)=>{ 
+                console.log(out)
+                _callback(out);
+            })
+        });
+        return _subject;
     }
 }

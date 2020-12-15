@@ -21,4 +21,15 @@ export class MayaSocketService{
 
         this.service.next(_cmd);
     }
+
+    // resolve dccs on port
+    resolve(_callback){
+        this.service = <Subject<any>>this.socketService
+        .resolve()
+        .map((_service: any):any =>{
+            return _service;
+        });
+
+        this.service.next(_callback);
+    }
 }

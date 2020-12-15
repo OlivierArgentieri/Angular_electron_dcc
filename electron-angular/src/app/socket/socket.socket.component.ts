@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MayaSocketService } from './services/maya/maya-service';
 
 import { io } from 'socket.io-client';
+import { Server } from 'http';
 // SocketIoModule
 //import { Socket } from 'ngx-socket-io';
 //import { Injectable } from '@angular/core';
@@ -14,7 +15,7 @@ import { io } from 'socket.io-client';
   templateUrl: './socket.socket.component.html',
   styleUrls: ['./socket.socket.component.scss']
 })
-export class SocketComponent implements OnInit {
+export class SocketComponent implements OnInit, OnDestroy {
   
   constructor(private service: MayaSocketService){  }
 
@@ -28,9 +29,12 @@ export class SocketComponent implements OnInit {
     //this.setupAction();
   }
 
+  ngOnDestroy(): void {
+
+  }
+
   sendMessage() {
     this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()");
-    
     console.log("SendCommand")
   }
 
@@ -40,6 +44,9 @@ export class SocketComponent implements OnInit {
   }
 
   Resolve(){
-    //this.service.sendMessage("test");
+    this.service.resolve((test) => console.log(test))
+
+    
+    //this.service.emit("mayaResolve", );
   }
 }

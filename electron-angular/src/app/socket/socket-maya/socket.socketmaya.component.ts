@@ -49,7 +49,5 @@ export class SocketMayaComponent implements OnInit {
     this.socket.emit("mayaCommand", this.message);
   }
 
-  Resolve(){
-    this.socket.emit("mayaResolve");
-  }
+  
 }
