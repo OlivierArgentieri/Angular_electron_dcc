@@ -17,7 +17,8 @@ import { SocketMayaModule } from './socket/socket-maya/socket.socketmaya.module'
 import { SocketModule } from './socket/socket.socket.module';
 
 // Providers
-import { MayaSocketService } from './socket/services/maya/maya-service';
+import { MayaSocketService } from './socket/services/maya/maya-socket-service';
+import { MayaService } from './socket/services/maya/maya-service';
 import { SocketService } from './socket/services/socket-service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -61,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     })
   ],
   providers: [
+    MayaService,
     MayaSocketService,
     SocketService,
   ],

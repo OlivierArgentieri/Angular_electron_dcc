@@ -30,17 +30,14 @@ export default class SocketInterpreter extends SocketServer {
                 // new promise request
                 this.newRequest(12346, '127.0.0.1')
                     .then((client) => {
-                            client.on('data', (data) => {
-                            console.log(data.toString());
                             client.write(command);
-                            client.destroy()
+                            client.on('data', (data) => {
+                                console.log(data.toString());
+                                client.destroy()
                         })
                     })
-                this.sendMayaCommand(command);
                 console.log(command);
-
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
-
             });
 
 
@@ -74,10 +71,5 @@ export default class SocketInterpreter extends SocketServer {
 
         // test dcc resolver
         //this.dccResolver.main();
-    }
-
-
-    sendMayaCommand(command) {
-        this.client.write(command);
     }
 }

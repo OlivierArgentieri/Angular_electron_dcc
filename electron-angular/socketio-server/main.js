@@ -37,13 +37,12 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 // new promise request
                 _this.newRequest(12346, '127.0.0.1')
                     .then(function (client) {
+                    client.write(command);
                     client.on('data', function (data) {
                         console.log(data.toString());
-                        client.write(command);
                         client.destroy();
                     });
                 });
-                _this.sendMayaCommand(command);
                 console.log(command);
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
             });
@@ -74,9 +73,6 @@ var SocketInterpreter = /** @class */ (function (_super) {
         //this.client.write(command);
         // test dcc resolver
         //this.dccResolver.main();
-    };
-    SocketInterpreter.prototype.sendMayaCommand = function (command) {
-        this.client.write(command);
     };
     return SocketInterpreter;
 }(socketServer_1.default));

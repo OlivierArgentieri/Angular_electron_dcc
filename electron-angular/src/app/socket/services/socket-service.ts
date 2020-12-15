@@ -1,61 +1,55 @@
 import { Injectable } from "@angular/core";
 import { io } from 'socket.io-client';
-import { Observable } from "rxjs/Observable";
 import * as Rx from "rxjs/Rx";
 
 import { AppConfig } from '../../../environments/environment';
-import { Action } from "rxjs/internal/scheduler/Action";
-import { MethodCall } from "@angular/compiler";
 
 @Injectable()
 export class SocketService{
     
-    private socket = null;
+    protected socket = null;
 
     constructor() {
         
     }
 
-
-    connect(): Rx.Subject<any> {
-
-        const subject = new Rx.Subject();
-
-        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
-        this.socket.open();
-        
-
-        subject.subscribe((data:Object) =>{
-                this.socket.emit('mayaCommand', data)
-            });
-
-        return subject;
+    /// override this
+    public actionConnect(data){
+        throw new Error("not Implemented")
     }
 
-    sendCommand():Rx.Subject<any>{
+    public actionSendCommand(data){
+        throw new Error("not Implemented")
+
+    }
+
+    public actionResolve(callback){
+        throw new Error("not Implemented")
+    };
+    // end override
+    
+
+    public sendCommand():Rx.Subject<any>{
         const _subject = new Rx.Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
 
         _subject.subscribe((data:Object) =>{
-            this.socket.emit('mayaCommand', data, (aa)=>{ console.log(aa)})
+            this.actionSendCommand(data)
         });
 
         return _subject;
     }
 
-    resolve():Rx.Subject<any>{
+    public resolve():Rx.Subject<any>{
         const _subject = new Rx.Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
 
         _subject.subscribe((_callback:any) =>{
-            this.socket.emit('mayaResolve',(out)=>{ 
-                console.log(out)
-                _callback(out);
-            })
+            this.actionResolve(_callback)
         });
         return _subject;
     }

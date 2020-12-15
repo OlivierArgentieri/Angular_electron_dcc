@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MayaSocketService } from './services/maya/maya-service';
+import { MayaService } from './services/maya/maya-service';
 
-import { io } from 'socket.io-client';
-import { Server } from 'http';
 // SocketIoModule
 //import { Socket } from 'ngx-socket-io';
 //import { Injectable } from '@angular/core';
@@ -17,16 +15,11 @@ import { Server } from 'http';
 })
 export class SocketComponent implements OnInit, OnDestroy {
   
-  constructor(private service: MayaSocketService){  }
+  constructor(private service: MayaService){  }
 
+  outjson:String;
   ngOnInit(): void {
-    /*
-    this.service.service.subscribe(_msg =>{
-      console.log(_msg);
-    })*/
-
-    //this.setupSocketConnection();
-    //this.setupAction();
+  
   }
 
   ngOnDestroy(): void {
@@ -44,9 +37,18 @@ export class SocketComponent implements OnInit, OnDestroy {
   }
 
   Resolve(){
-    this.service.resolve((test) => console.log(test))
+    this.service.resolve((test) => {
+      console.log(this.outjson);
+      this.outjson = test}
+      );
 
-    
+
     //this.service.emit("mayaResolve", );
+  }
+
+  getData() {
+    
+    return this.outjson;
+    
   }
 }

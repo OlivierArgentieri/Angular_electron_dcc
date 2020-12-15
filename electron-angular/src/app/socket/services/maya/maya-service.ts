@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { SocketService }  from '../socket-service';
 import { Observable, Subject } from 'rxjs/Rx';
+import { MayaSocketService } from './maya-socket-service';
 
 @Injectable()
-export class MayaSocketService{
+export class MayaService{
     
     service:Subject<any>;
 
-    constructor(private socketService:SocketService){
+    constructor(private socketService:MayaSocketService){
      
     }
 
     // sending message to socket io server
-    sendCommand(_cmd){
+    public sendCommand(_cmd){
        this.service = <Subject<any>>this.socketService
         .sendCommand()
         .map((_service: any):any =>{
@@ -23,7 +24,7 @@ export class MayaSocketService{
     }
 
     // resolve dccs on port
-    resolve(_callback){
+    public resolve(_callback){
         this.service = <Subject<any>>this.socketService
         .resolve()
         .map((_service: any):any =>{
