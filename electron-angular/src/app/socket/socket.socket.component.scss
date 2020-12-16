@@ -1,13 +1,24 @@
-$darkLight-color : #6e8296;
+$darkLight-color : #33ac79;
+$disable-color : #424242;
 $primary-color : #37464f;
 $light-color : #31363b;
 $dark-color : #101f27;
 $text-color : #ffffff;
 
-.bg-darklight{
+.bg-darklight,
+.bg-enable{
     background: $darkLight-color
+}
+
+.bg-disable{
+    background: $disable-color
 }
 
 .bg-primary{
     background: $primary-color;
+}
+
+.row,
+.row > .column {
+    padding: 8px;
 }

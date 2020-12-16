@@ -14,7 +14,6 @@ export default class SocketInterpreter extends SocketServer {
     client = null;
     constructor() {
         super();
-        //this.client = net.Socket();
     }
 
 
@@ -26,6 +25,8 @@ export default class SocketInterpreter extends SocketServer {
             console.log('user connected');
 
             socket.on("mayaCommand", (command) => {
+
+                // todo json request
 
                 // new promise request
                 this.newRequest(12346, '127.0.0.1')
@@ -44,14 +45,10 @@ export default class SocketInterpreter extends SocketServer {
             socket.on("mayaResolve", (callbackFn) => {
                 this.dccResolver.main()
                     .then((result) => {
-                        //console.log(`then result  ${result.get(1111)}`);
                         console.log(`then result  ${JSON.stringify(result)}`);
-                        callbackFn(JSON.stringify(result));
+                        callbackFn(JSON.stringify(result)); // callbackFn is output of this method; called in service of component;
                     });
-                //command = 'import maya.cmds as cmds cmds.polyCube()' 
-                //this.client.write(command);
-                // this.sendMayaCommand(command);
-                //console.log(command);
+              
             });
         });
     }
@@ -59,17 +56,5 @@ export default class SocketInterpreter extends SocketServer {
     main() {
         // start express server
         this.startServer();
-
-        /*
-        this.client.connect(12346, '127.0.0.1', function() {
-            console.log('Connected');
-            //client.write('Hello, server! Love, Client.');
-            //client.write('import maya.cmds as mc\n mc.polyCube()');
-        });*/
-        //var command = 'import maya.cmds as cmds\ncmds.polyCube()' 
-        //this.client.write(command);
-
-        // test dcc resolver
-        //this.dccResolver.main();
     }
 }

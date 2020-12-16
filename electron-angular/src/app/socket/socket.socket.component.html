@@ -1,17 +1,51 @@
 <section class="bg-dark text-white" id="main">
   <div class="container">
     <div class="row">
-     
+     <div class="mx-auto text-center">
+      
         <button class="bg-primary center col-lg-12 mb-5" mat-button (click)="Resolve()">Refresh</button>
-
-       
-          <mat-card *ngFor="let obj of objects let i = index" class="col-md-3 bg-darklight mt-2 mb-2 ml-2 text-white text-center">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-4"  *ngFor="let obj of objects let i = index">
+          
+           <!-- if reachable block -->
+          <mat-card *ngIf="obj.reachable; else elseBlock "class="bg-enable text-white mb-4">
             <mat-card-header>
-              <mat-card-title>{{ obj.port }}</mat-card-title>
+              <div mat-card-avatar class=""><fa-icon [icon]="faTerminal"></fa-icon></div>
+              <mat-card-title>{{ obj.filename }}</mat-card-title>
               <mat-card-subtitle>{{ obj.reachable }}</mat-card-subtitle>
             </mat-card-header>
+
+            <mat-card-content>
+              <p> TODO content</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button (click)="Open" class="bg-dark">Open</button>
+            </mat-card-actions>
           </mat-card>
-        
+
+          <!-- else block -->
+          <ng-template #elseBlock>
+          <mat-card  class="bg-disable text-white mb-4">
+            <mat-card-header>
+              <div mat-card-avatar class=""><fa-icon [icon]="faTerminal"></fa-icon></div>
+              <mat-card-title>{{ obj.port }}</mat-card-title>
+              <mat-card-subtitle>unavailable</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p> TODO content</p>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-button (click)="Open"class="bg-dark">Open</button>
+            </mat-card-actions>
+
+          </mat-card>
+        </ng-template>
+        </div>
 
 
         <!--

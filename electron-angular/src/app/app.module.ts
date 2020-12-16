@@ -27,7 +27,7 @@ import { AppComponent } from './app.component';
 // material
 import { MaterialModule } from './material.module';
 
-
+// components
 // SocketIo
 //import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 //const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -38,7 +38,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -52,7 +52,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
-   // SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -68,4 +67,5 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

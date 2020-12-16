@@ -6,6 +6,11 @@ import { SocketRoutingModule } from './socket.socket-routing.module';
 import { SocketComponent } from './socket.socket.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material.module';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas, faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+
 @NgModule({
   declarations: [SocketComponent],
   imports: 
@@ -13,7 +18,12 @@ import { MaterialModule } from '../material.module';
     CommonModule,
     SharedModule,
     SocketRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FontAwesomeModule
     ]
 })
-export class SocketModule {}
+export class SocketModule {
+  constructor(){
+    library.add(fas, faTerminal, faSignInAlt)
+    }
+}

@@ -38,6 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var net = require('net');
 var resolverRowData_1 = require("./models/resolverRowData");
+var getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
+var outResolve = /** @class */ (function () {
+    function outResolve() {
+    }
+    return outResolve;
+}());
 //const client = net.Socket();
 var DccResolver = /** @class */ (function () {
     function DccResolver() {
@@ -46,19 +52,29 @@ var DccResolver = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
+                        // create new connection
                         var client = net.Socket();
                         var tcpConnection = client.connect(_port, '127.0.0.1', function () {
-                            //
-                            console.log("Found on : " + _port);
-                            client.destroy();
-                            resolve(true);
-                            return true;
                         });
                         tcpConnection.on('error', function (error) {
                             console.log("not found on : " + _port);
                             client.destroy();
-                            reject(false);
-                            return false;
+                            var out = new outResolve();
+                            out.filename = "undefined";
+                            out.reachable = false;
+                            resolve(out);
+                            return out;
+                        });
+                        // result doesn't contains name of file
+                        // so we make another request to fill this filename
+                        tcpConnection.write(getNameFile_Python);
+                        tcpConnection.on('data', function (data) {
+                            var out = new outResolve();
+                            console.log("test");
+                            out.filename = data.toString().length < 1 ? "Unsaved" : data.toString();
+                            out.reachable = true;
+                            resolve(out);
+                            return out;
                         });
                     })];
             });
@@ -70,8 +86,8 @@ var DccResolver = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _startPort = 1111;
-                        _endPort = 1114;
+                        _startPort = 12345;
+                        _endPort = 12350;
                         _promises = [];
                         _toReturn = new Array();
                         for (_i = _startPort; _i < _endPort; _i++) {
@@ -81,14 +97,11 @@ var DccResolver = /** @class */ (function () {
                         return [4 /*yield*/, Promise.all(_promises)
                                 .then(function (results) {
                                 for (var _i = 0; _i < _endPort - _startPort; _i++) {
-                                    //_toReturn.set(_startPort+_i, results[_i] === undefined ? false : true)
-                                    _toReturn.push(new resolverRowData_1.default(_startPort + _i, results[_i] === undefined ? false : true));
-                                    //console.log(`${_i} : ${results[_i] === undefined ? false : true}`)
+                                    _toReturn.push(new resolverRowData_1.default(_startPort + _i, results[_i].reachable, results[_i].filename));
                                 }
                             })];
                     case 1:
                         _a.sent();
-                        //console.log().stringify(_toReturn));
                         return [2 /*return*/, _toReturn];
                 }
             });

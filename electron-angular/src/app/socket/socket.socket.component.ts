@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MayaService } from './services/maya/maya-service';
-
+import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 // SocketIoModule
 //import { Socket } from 'ngx-socket-io';
 //import { Injectable } from '@angular/core';
@@ -10,6 +10,7 @@ import { MayaService } from './services/maya/maya-service';
 interface ResolverSocketRow {
   port:Number;
   reachable:Boolean;
+  fileName:String;
   
 } 
 @Component({
@@ -18,7 +19,8 @@ interface ResolverSocketRow {
   styleUrls: ['./socket.socket.component.scss']
 })
 export class SocketComponent implements OnInit, OnDestroy {
-  
+  faTerminal = faTerminal;
+  faSignInAlt = faSignInAlt;
   constructor(private service: MayaService){  }
 
   outjson:String;
