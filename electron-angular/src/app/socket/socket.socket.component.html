@@ -1,10 +1,20 @@
-<section class="bg-dark text-white" id="about">
-
+<section class="bg-dark text-white" id="main">
   <div class="container">
-
     <div class="row">
-      <div class="col-lg-12 text-center ">
-        <button class="bg-primary center col-lg-12 " mat-button (click)="Resolve()">Refresh</button>
+     
+        <button class="bg-primary center col-lg-12 mb-5" mat-button (click)="Resolve()">Refresh</button>
+
+       
+          <mat-card *ngFor="let obj of objects let i = index" class="col-md-3 bg-darklight mt-2 mb-2 ml-2 text-white text-center">
+            <mat-card-header>
+              <mat-card-title>{{ obj.port }}</mat-card-title>
+              <mat-card-subtitle>{{ obj.reachable }}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        
+
+
+        <!--
         <mat-card class="bg-darklight mt-5 mb-4 text-white">
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
@@ -30,9 +40,8 @@
             <button mat-button (click)="sendMessage()">Exec</button>
             <p>{{getData()}} aaa </p>
           </mat-card-actions>
-        </mat-card>
+        </mat-card>-->
       </div>
-    </div>
 
   </div>
 </section>

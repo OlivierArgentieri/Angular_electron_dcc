@@ -58,7 +58,7 @@ export class SocketComponent implements OnInit, OnDestroy {
   getData() {
     
     if(this.objects.length > 0)
-      return this.objects[0];
+      return this.objects[0].port;
     return "NULL"
   }
 }
