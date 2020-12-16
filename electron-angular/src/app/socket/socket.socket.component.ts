@@ -7,7 +7,11 @@ import { MayaService } from './services/maya/maya-service';
 
 //
 //const socket = io("ws://localhost:1234/");
-
+interface ResolverSocketRow {
+  port:Number;
+  reachable:Boolean;
+  
+} 
 @Component({
   selector: 'app-sockethome',
   templateUrl: './socket.socket.component.html',
@@ -18,6 +22,8 @@ export class SocketComponent implements OnInit, OnDestroy {
   constructor(private service: MayaService){  }
 
   outjson:String;
+
+  objects:ResolverSocketRow[];
   ngOnInit(): void {
   
   }
@@ -39,6 +45,9 @@ export class SocketComponent implements OnInit, OnDestroy {
   Resolve(){
     this.service.resolve((test) => {
       console.log(this.outjson);
+
+      this.objects = JSON.parse(test);
+      // this.objects = taaa
       this.outjson = test}
       );
 
@@ -48,7 +57,8 @@ export class SocketComponent implements OnInit, OnDestroy {
 
   getData() {
     
-    return this.outjson;
-    
+    if(this.objects.length > 0)
+      return this.objects[0];
+    return "NULL"
   }
 }

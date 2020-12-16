@@ -1,6 +1,13 @@
 $darkLight-color : #6e8296;
-
+$primary-color : #37464f;
+$light-color : #31363b;
+$dark-color : #101f27;
+$text-color : #ffffff;
 
 .bg-darklight{
     background: $darkLight-color
+}
+
+.bg-primary{
+    background: $primary-color;
 }
