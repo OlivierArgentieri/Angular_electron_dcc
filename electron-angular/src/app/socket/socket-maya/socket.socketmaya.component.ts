@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketConfig } from '../models/socket-config';
 
 import { io } from 'socket.io-client';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // SocketIoModule
 //import { Socket } from 'ngx-socket-io';
@@ -22,6 +23,10 @@ export class SocketMayaComponent implements OnInit {
   message: string = "";
 
   socket = null;
+
+  constructor(private route: ActivatedRoute,) {
+  }
+
   setupSocketConnection() {
     this.socket = io('http://localhost:3000', { autoConnect: false, transports: ['websocket'], upgrade: false });
     this.socket.open();
@@ -35,12 +40,15 @@ export class SocketMayaComponent implements OnInit {
     });
   }
 
-  constructor() {
-  }
+ 
 
   ngOnInit(): void {
     this.setupSocketConnection();
     this.setupAction();
+
+    this.route.queryParams.subscribe(params => {
+      this.port = params['port'];
+    });
   }
 
   Emit() {

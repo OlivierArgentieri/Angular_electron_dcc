@@ -23,11 +23,9 @@ export class SocketComponent implements OnInit, OnDestroy {
   faSignInAlt = faSignInAlt;
   constructor(private service: MayaService){  }
 
-  outjson:String;
-
   objects:ResolverSocketRow[];
   ngOnInit(): void {
-  
+    this.resolve();
   }
 
   ngOnDestroy(): void {
@@ -36,25 +34,18 @@ export class SocketComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()");
-    console.log("SendCommand")
   }
 
-  Emit() {
+  ewmit() {
     // if(this.socket != null) return;
     //this.setupSocketConnection(); 
   }
 
-  Resolve(){
-    this.service.resolve((test) => {
-      console.log(this.outjson);
+  resolve(){
+    this.service.resolve((_outdata) => {
+      this.objects = JSON.parse(_outdata);
+      });
 
-      this.objects = JSON.parse(test);
-      // this.objects = taaa
-      this.outjson = test}
-      );
-
-
-    //this.service.emit("mayaResolve", );
   }
 
   getData() {
