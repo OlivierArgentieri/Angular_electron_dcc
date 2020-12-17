@@ -1,3 +1,6 @@
+<link rel="stylesheet" type="text/css" href="litegraph.css">
+	<script type="text/javascript" src="litegraph.js"></script>
+
 <div class="container">
 
   <div class="row">
@@ -23,11 +26,20 @@
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button (click)="Emit()">Exec</button>
-          <button mat-button (click)="Resolve()">Resolve</button>
+          <button mat-button (click)="sendCommand()">Exec</button>
         </mat-card-actions>
       </mat-card>
     </div>
   </div>
 
 </div>
+<!--
+<div class="container">
+  <div class="row">
+    <canvas id="canvas" width="1024" height="720">
+
+    </canvas>
+  </div>
+</div>
+
+-->
