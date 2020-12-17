@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MayaService } from '../services/maya/maya-service';
-import * as litegraph from 'litegraph.js'
-
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-socketmaya',
   templateUrl: './socket.socketmaya.component.html',
@@ -15,10 +14,11 @@ export class SocketMayaComponent implements OnInit {
 
   private route:ActivatedRoute = null;
   private service:MayaService = null;
-
-  constructor(private _route: ActivatedRoute,private _service: MayaService) {
+  private snackBar:MatSnackBar = null;
+  constructor(private _route: ActivatedRoute,private _service: MayaService, private _snackBar:MatSnackBar) {
     this.route = _route;
     this.service = _service;
+    this.snackBar = _snackBar;
   }
 
 
@@ -29,8 +29,12 @@ export class SocketMayaComponent implements OnInit {
   }
 
   sendCommand() {
-    this.service.sendCommand(this.message);
+    this.service.sendCommand(this.message, (out)=>{this.snackBar.open(out)});
   }
 
+  getSceneObjects() {
+    //print(str(cmds.ls(type='mesh')).replace('u', '').replace('[','').replace(']', ''))
+    this.service.sendCommand("print('test')", (out)=>{this.snackBar.open(out);});
+  }
   
 }

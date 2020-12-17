@@ -33,7 +33,7 @@ export class SocketComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()");
+    this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()", (out)=>{console.log(out)});
   }
 
   ewmit() {

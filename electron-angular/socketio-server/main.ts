@@ -24,7 +24,7 @@ export default class SocketInterpreter extends SocketServer {
 
             console.log('user connected');
 
-            socket.on("mayaCommand", (command) => {
+            socket.on("mayaCommand", (command, callback) => {
 
                 // todo json request
 
@@ -34,10 +34,11 @@ export default class SocketInterpreter extends SocketServer {
                             client.write(command);
                             client.on('data', (data) => {
                                 console.log(data.toString());
+                                callback(data.toString());
                                 client.destroy()
                         })
                     })
-                console.log(command);
+                //console.log(command);
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
             });
 

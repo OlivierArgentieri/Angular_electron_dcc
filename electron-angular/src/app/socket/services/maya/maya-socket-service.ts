@@ -9,9 +9,13 @@ export class MayaSocketService extends SocketService{
         super();
     }
 
-    public actionSendCommand(data){
-        this.socket.emit('mayaCommand', data, (out)=>{ console.log(out)})
+    test(out){
+        console.log(out);
     }
+    public actionSendCommand(_data, _callback){
+        this.socket.emit('mayaCommand', _data, (out)=>{_callback(out);}
+     )};   
+
 
     public actionResolve(callback){
         this.socket.emit('mayaResolve',(out)=>{ 

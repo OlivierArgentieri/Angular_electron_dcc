@@ -70,7 +70,6 @@ var DccResolver = /** @class */ (function () {
                         tcpConnection.write(getNameFile_Python);
                         tcpConnection.on('data', function (data) {
                             var out = new outResolve();
-                            console.log("test");
                             out.filename = data.toString() == "empty" ? "Unsaved" : data.toString();
                             out.reachable = true;
                             resolve(out);

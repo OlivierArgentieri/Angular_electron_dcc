@@ -13,14 +13,16 @@ export class MayaService{
     }
 
     // sending message to socket io server
-    public sendCommand(_cmd){
+    public sendCommand(_cmd, _callback){
        this.service = <Subject<any>>this.socketService
         .sendCommand()
         .map((_service: any):any =>{
             return _service;
         });
 
-        this.service.next(_cmd);
+        this.service.next([_cmd, (_out) =>
+            _callback(_out)
+        ]);
     }
 
     // resolve dccs on port

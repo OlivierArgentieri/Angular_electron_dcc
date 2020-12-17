@@ -18,7 +18,7 @@ export class SocketService{
         throw new Error("not Implemented")
     }
 
-    public actionSendCommand(data){
+    public actionSendCommand(data, callback){
         throw new Error("not Implemented")
 
     }
@@ -35,8 +35,9 @@ export class SocketService{
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
 
-        _subject.subscribe((data:Object) =>{
-            this.actionSendCommand(data)
+        _subject.subscribe((data) =>{
+            console.log();
+            this.actionSendCommand(data[0],data[1])
         });
 
         return _subject;

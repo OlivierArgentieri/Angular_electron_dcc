@@ -32,7 +32,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         io.on('connection', function (socket) {
             _this.mainSocket = socket;
             console.log('user connected');
-            socket.on("mayaCommand", function (command) {
+            socket.on("mayaCommand", function (command, callback) {
                 // todo json request
                 // new promise request
                 _this.newRequest(12346, '127.0.0.1')
@@ -40,10 +40,11 @@ var SocketInterpreter = /** @class */ (function (_super) {
                     client.write(command);
                     client.on('data', function (data) {
                         console.log(data.toString());
+                        callback(data.toString());
                         client.destroy();
                     });
                 });
-                console.log(command);
+                //console.log(command);
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
             });
             socket.on("mayaResolve", function (callbackFn) {
