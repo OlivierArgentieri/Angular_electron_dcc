@@ -29,12 +29,20 @@ export class SocketMayaComponent implements OnInit {
   }
 
   sendCommand() {
-    this.service.sendCommand(this.message, (out)=>{this.snackBar.open(out)});
+    this.service.sendCommand(this.message, (out)=>{
+      this.snackBar.open(out, "close", {
+        duration: 5000
+      });
+    });
   }
 
   getSceneObjects() {
     //print(str(cmds.ls(type='mesh')).replace('u', '').replace('[','').replace(']', ''))
-    this.service.sendCommand("print('test')", (out)=>{this.snackBar.open(out);});
-  }
+    this.service.sendCommand("print('test')", (out)=>{
+      this.snackBar.open(out, "close", {
+        duration: 5000
+      });
+  })
+}
   
 }
