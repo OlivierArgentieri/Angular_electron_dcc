@@ -64,21 +64,21 @@ export class SocketMayaComponent implements OnInit {
   }
 
   test() {
-    var t = "";
-    this.sceneObjects.forEach(o => t += o + " ")
-
-    
+    var _results=[];
+    var log:string = "";
     // tes export
 
     this.sceneObjects.forEach(_object => {
+     
       const cmd_exportAbc = "-frameRange " + this.abc_startFrame + " " + this.abc_endFrame + " -uvWrite -dataFormat ogawa -root " + _object + " -file " + this.abc_out + "/" + _object + ".abc "
-      this.service.sendCommand(`cmds.AbcExport(j  = '${cmd_exportAbc}')`, () => { });
-      this.snackBar.open(cmd_exportAbc, "close", {
-        duration: 5000
-      })
+      
+      this.service.sendCommand(`cmds.AbcExport(j  = '${cmd_exportAbc}')`, (_out) => { console.log(log);});
+      
     })
-
-    
+    console.log(log)
+    this.snackBar.open(log, "close", {
+      duration: 5000
+    })    
   }
 
   removeSceneObject(sceneObject: string): void {

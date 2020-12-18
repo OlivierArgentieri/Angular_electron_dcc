@@ -8,5 +8,8 @@
 
         "HoudiniPortRangeStart": 6020,
         "HoudiniPortRangeEnd": 6039
+    },
+    "py":{
+        "ActionsPath":""
     }
 }
