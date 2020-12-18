@@ -1,4 +1,5 @@
 {
+    "dcc":"maya",
     "params":[
         {"name":"objects", "type":"array:string", "default":"", "default_script":"cmds.ls()"},
         {"name":"outPath", "type":"string"},

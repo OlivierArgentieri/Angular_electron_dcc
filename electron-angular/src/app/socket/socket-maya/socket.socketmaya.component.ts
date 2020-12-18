@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MayaService } from '../services/maya/maya-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
+import { Config } from '../models/config';
 
 
 @Component({
@@ -63,7 +64,22 @@ export class SocketMayaComponent implements OnInit {
     })
   }
 
+
   test() {
+    var _settings:any;
+    this.service.getConfig((out) => {
+      //_settings = JSON.parse(out);
+
+      let _obj:Config = <Config>out;
+      console.log( _obj.DccPortSettings);
+      this.snackBar.open(_obj.PythonSettings.actionsPath.toString(), "close", {
+        duration: 5000
+      });
+    });
+  }
+
+
+  export() {
     var _results=[];
     var log:string = "";
     // tes export

@@ -24,4 +24,12 @@ export class MayaSocketService extends SocketService{
         });
     };
 
+
+    public actionGetConfig(callback){
+        this.socket.emit('getConfig',(out)=>{ 
+            console.log(out)
+            callback(out);
+        });
+    };
+
 }

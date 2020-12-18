@@ -1,15 +1,14 @@
 {
-    "SocketInterpreterSettings" :{
-        "Port" : 3000
+    "socketInterpreterSettings": {
+        "Port": 3000
     },
-    "DccPortSettings":{
-        "MayaPortRangeStart": 6000, 
-        "MayaPortRangeEnd": 6019,
-
-        "HoudiniPortRangeStart": 6020,
-        "HoudiniPortRangeEnd": 6039
+    "dccPortSettings": {
+        "mayaPortRangeStart": 6000,
+        "mayaPortRangeEnd": 6019,
+        "houdiniPortRangeStart": 6020,
+        "houdiniPortRangeEnd": 6039
     },
-    "py":{
-        "ActionsPath":""
+    "pythonSettings": {
+        "actionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/python/engines/actions"
     }
 }

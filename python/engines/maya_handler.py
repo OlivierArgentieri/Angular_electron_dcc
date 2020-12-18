@@ -6,6 +6,7 @@ Run this in Maya
 import logging
 import socket
 import threading
+import json 
 
 import maya.cmds as cmds
 import maya.utils as maya_utils

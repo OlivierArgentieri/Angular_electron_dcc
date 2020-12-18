@@ -51,6 +51,10 @@ export default class SocketInterpreter extends SocketServer {
                     });
               
             });
+
+            socket.on("getConfig", callback => {
+                callback(config); // callbackFn is output of this method; called in service of component;
+            });
         });
     }
 

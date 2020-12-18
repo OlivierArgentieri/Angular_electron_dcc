@@ -54,6 +54,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
                     callbackFn(JSON.stringify(result)); // callbackFn is output of this method; called in service of component;
                 });
             });
+            socket.on("getConfig", function (callback) {
+                callback(config); // callbackFn is output of this method; called in service of component;
+            });
         });
     };
     SocketInterpreter.prototype.main = function () {

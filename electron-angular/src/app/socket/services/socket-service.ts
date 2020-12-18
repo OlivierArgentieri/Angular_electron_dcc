@@ -20,12 +20,15 @@ export class SocketService{
 
     public actionSendCommand(data, callback){
         throw new Error("not Implemented")
-
     }
 
     public actionResolve(callback){
         throw new Error("not Implemented")
     };
+
+    public actionGetConfig(callback){
+        throw new Error("not Implemented")
+    }
     // end override
     
 
@@ -51,6 +54,18 @@ export class SocketService{
 
         _subject.subscribe((_callback:any) =>{
             this.actionResolve(_callback)
+        });
+        return _subject;
+    }
+
+    public getConfig():Rx.Subject<any>{
+        const _subject = new Rx.Subject();
+
+        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
+        this.socket.open();
+
+        _subject.subscribe((_callback:any) =>{
+            this.actionGetConfig(_callback)
         });
         return _subject;
     }
