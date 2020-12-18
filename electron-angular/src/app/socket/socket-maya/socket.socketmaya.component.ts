@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MayaService } from '../services/maya/maya-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { stringify } from '@angular/compiler/src/util';
+import { ViewChild } from '@angular/core';
+
+
 @Component({
   selector: 'app-socketmaya',
   templateUrl: './socket.socketmaya.component.html',
   styleUrls: ['./socket.socketmaya.component.scss']
 })
 export class SocketMayaComponent implements OnInit {
+  @ViewChild('fileInput')
+  fileInput;
   port: number = 0;
 
   message: string = "";
@@ -18,8 +22,14 @@ export class SocketMayaComponent implements OnInit {
   private snackBar: MatSnackBar = null;
 
   // attr
-  private sceneObjects:string[] = null;
-  removable = true;
+  private sceneObjects: string[] = null;
+  private removable = true;
+  private outABC: string = "";
+
+  private abc_startFrame: number = 0;
+  private abc_endFrame: number = 0;
+  private abc_out: string = "";
+
   constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
@@ -44,28 +54,35 @@ export class SocketMayaComponent implements OnInit {
   getSceneObjects() {
     const _cmd = "print(str(cmds.ls(type='mesh'))).replace('[', '').replace(']', '').replace(\"'\", '').replace(' ', '')";
     this.service.sendCommand(_cmd, (_out) => {
-      
+
       this.sceneObjects = _out.split(',');
-      
+
       for (let _i = 0; _i < this.sceneObjects.length; _i++) {
         this.sceneObjects[_i] = this.sceneObjects[_i].slice(1);
-        }
-        
+      }
     })
-    
   }
 
-  test(){
+  test() {
     var t = "";
     this.sceneObjects.forEach(o => t += o + " ")
 
-    this.snackBar.open(t, "close", {
-      duration: 5000
+    
+    // tes export
+
+    this.sceneObjects.forEach(_object => {
+      const cmd_exportAbc = "-frameRange " + this.abc_startFrame + " " + this.abc_endFrame + " -uvWrite -dataFormat ogawa -root " + _object + " -file " + this.abc_out + "/" + _object + ".abc "
+      this.service.sendCommand(`cmds.AbcExport(j  = '${cmd_exportAbc}')`, () => { });
+      this.snackBar.open(cmd_exportAbc, "close", {
+        duration: 5000
+      })
     })
+
+    
   }
 
-  remove(sceneObject: string): void {
-    if(this.sceneObjects.length == 0) return;
+  removeSceneObject(sceneObject: string): void {
+    if (this.sceneObjects.length == 0) return;
 
     const index = this.sceneObjects.indexOf(sceneObject);
 
@@ -73,5 +90,4 @@ export class SocketMayaComponent implements OnInit {
       this.sceneObjects.splice(index, 1);
     }
   }
-
 }
