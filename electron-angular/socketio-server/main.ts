@@ -1,5 +1,5 @@
 import SocketServer from "./socketServer/socketServer";
-import DccResolver from "./dccResolver/dccResolver";
+import DccResolverModule from "./modules/dccResolverModule/dccResolverModule";
 
 //const net = require('net'); // to communicate with maya
 
@@ -10,7 +10,7 @@ var config = require('./config/config.json');
 
 export default class SocketInterpreter extends SocketServer {
 
-    dccResolver = new DccResolver();
+    dccResolver = new DccResolverModule();
     client = null;
     constructor() {
         super();

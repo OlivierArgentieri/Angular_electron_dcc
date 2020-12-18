@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var socketServer_1 = require("./socketServer/socketServer");
-var dccResolver_1 = require("./dccResolver/dccResolver");
+var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
 //const net = require('net'); // to communicate with maya
 // config
 var config = require('./config/config.json');
@@ -22,7 +22,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
         var _this = _super.call(this) || this;
-        _this.dccResolver = new dccResolver_1.default();
+        _this.dccResolver = new dccResolverModule_1.default();
         _this.client = null;
         return _this;
     }

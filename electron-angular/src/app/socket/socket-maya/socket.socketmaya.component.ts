@@ -72,7 +72,8 @@ export class SocketMayaComponent implements OnInit {
 
       let _obj:Config = <Config>out;
       console.log( _obj.DccPortSettings);
-      this.snackBar.open(_obj.PythonSettings.actionsPath.toString(), "close", {
+       var a = require(_obj.PythonSettings.actionsPath.toString())
+      this.snackBar.open(a.dcc, "close", {
         duration: 5000
       });
     });

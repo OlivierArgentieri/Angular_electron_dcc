@@ -4,16 +4,11 @@ import ResolverRowData from "./models/resolverRowData";
 
 const getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
 
-class outResolve{
-    reachable:Boolean;
-    filename:String;
-}
-
 //const client = net.Socket();
-export default class DccResolver {
+export default class DccResolverModule {
 
     async resolve(_port: Number, _address: String) {
-        return new Promise<outResolve>((resolve, reject) => {
+        return new Promise<ResolverRowData>((resolve, reject) => {
             
             // create new connection
             var client = net.Socket();
@@ -24,7 +19,7 @@ export default class DccResolver {
             tcpConnection.on('error', (error) => {
                 console.log(`not found on : ${_port}`)
                 client.destroy();
-                var out = new outResolve();
+                var out = new ResolverRowData();
                 out.filename = "undefined";
                 out.reachable = false;
                 resolve(out);
@@ -36,7 +31,7 @@ export default class DccResolver {
             // so we make another request to fill this filename
             tcpConnection.write(getNameFile_Python);
             tcpConnection.on('data', (data) => {
-                var out = new outResolve();
+                var out = new ResolverRowData();
                 out.filename = data.toString()=="empty"?"Unsaved" : data.toString();
                 out.reachable = true;
                 resolve(out);

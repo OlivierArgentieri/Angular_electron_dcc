@@ -1,6 +1,6 @@
 {
     "socketInterpreterSettings": {
-        "Port": 3000
+        "port": 3000
     },
     "dccPortSettings": {
         "mayaPortRangeStart": 6000,
