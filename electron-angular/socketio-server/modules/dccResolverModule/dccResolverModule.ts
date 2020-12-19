@@ -5,7 +5,7 @@ import ResolverRowData from "./models/resolverRowData";
 const getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
 
 //const client = net.Socket();
-export default class DccResolverModule {
+export class DccResolverModule {
 
     async resolve(_port: Number, _address: String) {
         return new Promise<ResolverRowData>((resolve, reject) => {

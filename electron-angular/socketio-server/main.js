@@ -14,24 +14,29 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var socketServer_1 = require("./socketServer/socketServer");
-var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
-//const net = require('net'); // to communicate with maya
 // config
 var config = require('./config/config.json');
+// modules
+var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
+var dccActionModule_1 = require("./modules/dccActionModule/dccActionModule");
 var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
         var _this = _super.call(this) || this;
-        _this.dccResolver = new dccResolverModule_1.default();
+        // modules
+        _this.dccResolver = new dccResolverModule_1.DccResolverModule();
+        _this.dccAction = new dccActionModule_1.DccActionModule();
         _this.client = null;
         return _this;
     }
+    // API Part 
     // overriding : for create specific action per DCCs
     SocketInterpreter.prototype.setupAction = function (io) {
         var _this = this;
         io.on('connection', function (socket) {
             _this.mainSocket = socket;
             console.log('user connected');
+            // send maya command in plain python
             socket.on("mayaCommand", function (command, callback) {
                 // todo json request
                 // new promise request
@@ -44,9 +49,10 @@ var SocketInterpreter = /** @class */ (function (_super) {
                         client.destroy();
                     });
                 });
-                //console.log(command);
                 //command = 'import maya.cmds as cmds cmds.polyCube()' 
             });
+            // get all maya open server through socket
+            // rename to dcc resolve
             socket.on("mayaResolve", function (callbackFn) {
                 _this.dccResolver.main()
                     .then(function (result) {
@@ -54,8 +60,13 @@ var SocketInterpreter = /** @class */ (function (_super) {
                     callbackFn(JSON.stringify(result)); // callbackFn is output of this method; called in service of component;
                 });
             });
+            // get main config
             socket.on("getConfig", function (callback) {
                 callback(config); // callbackFn is output of this method; called in service of component;
+            });
+            // get Dcc Actions
+            socket.on("getDccActions", function (callback) {
+                callback(_this.dccAction.getAll()); // callbackFn is output of this method; called in service of component;
             });
         });
     };
