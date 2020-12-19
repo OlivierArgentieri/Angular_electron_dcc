@@ -68,7 +68,6 @@ export default class SocketInterpreter extends SocketServer {
             // get Dcc Actions
             socket.on("getDccActions", callback => {
                 this.dccAction.getAll().then((result)=>{
-
                     console.log(result)
                     callback(result);
                 })
