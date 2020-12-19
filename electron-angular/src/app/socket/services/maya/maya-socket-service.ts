@@ -32,4 +32,11 @@ export class MayaSocketService extends SocketService{
         });
     };
 
+    public actionGetDccActions(callback){
+        this.socket.emit('getDccActions',(out)=>{ 
+            console.log(out)
+            callback(out);
+        });
+    };
+
 }

@@ -66,7 +66,11 @@ var SocketInterpreter = /** @class */ (function (_super) {
             });
             // get Dcc Actions
             socket.on("getDccActions", function (callback) {
-                callback(_this.dccAction.getAll()); // callbackFn is output of this method; called in service of component;
+                _this.dccAction.getAll().then(function (result) {
+                    console.log(result);
+                    callback(result);
+                });
+                // callbackFn is output of this method; called in service of component;
             });
         });
     };

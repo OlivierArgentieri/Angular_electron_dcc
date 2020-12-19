@@ -67,7 +67,12 @@ export default class SocketInterpreter extends SocketServer {
 
             // get Dcc Actions
             socket.on("getDccActions", callback => {
-                callback(this.dccAction.getAll()); // callbackFn is output of this method; called in service of component;
+                this.dccAction.getAll().then((result)=>{
+
+                    console.log(result)
+                    callback(result);
+                })
+                // callbackFn is output of this method; called in service of component;
             });
         });
     }

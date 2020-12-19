@@ -9,6 +9,6 @@
         "houdiniPortRangeEnd": 6039
     },
     "pythonSettings": {
-        "actionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/python/engines/actions"
+        "actionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/base/modules"
     }
 }
