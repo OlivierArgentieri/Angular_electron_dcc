@@ -4,9 +4,10 @@ const config = require('../../config/config.json');
 
 class Result {
     files:Array<string>;
-
+    error:string;
     constructor(){
         this.files = [];
+        this.error= "";
     }
 }
 
@@ -17,14 +18,18 @@ export class DccActionModule{
 
         var _result:Result = new Result(); // return object
 
-        fs.readdir(config.pythonSettings.actionsPath, (err, files)=>{
-            if (err) {
-                return console.log('Unable to scan directory: ' + err);
+        fs.readdir(config.pythonSettings.actionsPath, (_err, _files)=>{
+            if (_err) {
+                console.log('Unable to scan directory: ' + _err);
+                _result.error = _err;
+                resolve(JSON.stringify(_result)) // error treated as resolve
+                return;
             } 
-            files.forEach((file) => {
-                _result.files.push(file.toString());
-                
-            });
+            for (const _file of _files) {
+                if(_file.includes(".pyc")) continue;
+                if(_file.includes("__init__")) continue;
+                _result.files.push(_file.toString().replace(".py", ""));
+            }
             resolve(JSON.stringify(_result)); // return jsonObject
         })
     })}

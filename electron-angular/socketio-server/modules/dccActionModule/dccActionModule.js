@@ -7,6 +7,7 @@ var config = require('../../config/config.json');
 var Result = /** @class */ (function () {
     function Result() {
         this.files = [];
+        this.error = "";
     }
     return Result;
 }());
@@ -15,17 +16,23 @@ var DccActionModule = /** @class */ (function () {
     }
     DccActionModule.prototype.getAll = function () {
         return new Promise(function (resolve, reject) {
-            var _result = new Result();
-            fs.readdir(config.pythonSettings.actionsPath, function (err, files) {
-                if (err) {
-                    return console.log('Unable to scan directory: ' + err);
+            var _result = new Result(); // return object
+            fs.readdir(config.pythonSettings.actionsPath, function (_err, _files) {
+                if (_err) {
+                    console.log('Unable to scan directory: ' + _err);
+                    _result.error = _err;
+                    resolve(JSON.stringify(_result)); // error treated as resolve
+                    return;
                 }
-                files.forEach(function (file) {
-                    // Do whatever you want to do with the file
-                    //console.log(file); 
-                    _result.files.push(file.toString());
-                });
-                resolve(JSON.stringify(_result)); // pls return jsonObject
+                for (var _i = 0, _files_1 = _files; _i < _files_1.length; _i++) {
+                    var _file = _files_1[_i];
+                    if (_file.includes(".pyc"))
+                        continue;
+                    if (_file.includes("__init__"))
+                        continue;
+                    _result.files.push(_file.toString().replace(".py", ""));
+                }
+                resolve(JSON.stringify(_result)); // return jsonObject
             });
         });
     };
