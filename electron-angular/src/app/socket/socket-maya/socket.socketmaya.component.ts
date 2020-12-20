@@ -44,13 +44,13 @@ export class SocketMayaComponent implements OnInit {
     this.snackBar = _snackBar;
   }
 
-  /////////////////
+  ///////////////////////////////
   // init methods
-  /////////////////
+  ///////////////////////////////
   initDccActionSelect(){
     this.service.getDccActions((out) => {
       let _obj:DccActions = JSON.parse(out);
-      this.dccActions = _obj.files;
+      this.dccActions = _obj.actions;
     });
   }
 
@@ -60,14 +60,15 @@ export class SocketMayaComponent implements OnInit {
     });
     return 0
   }
+
   ngOnInit(): void {
     this.initDccActionSelect();
     this.port = this.getPortParameter();
-    
-
-   
   }
 
+  ///////////////////////////////
+  // action methods
+  ///////////////////////////////
   sendCommand() {
     this.service.sendCommand(this.message, (out) => {
       this.snackBar.open(out, "close", {
@@ -95,7 +96,7 @@ export class SocketMayaComponent implements OnInit {
       //_settings = JSON.parse(out);
 
       let _obj:DccActions =JSON.parse(out);
-      this.dccActions = _obj.files;
+      this.dccActions = _obj.actions;
       console.log(_obj);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
       this.snackBar.open(out, "close", {

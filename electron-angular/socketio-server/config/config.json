@@ -8,7 +8,9 @@
         "houdiniPortRangeStart": 6020,
         "houdiniPortRangeEnd": 6039
     },
-    "pythonSettings": {
-        "actionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/base/modules"
+    "pipelineSettings": {
+        "commonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/common",
+        "mayaActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/maya",
+        "baseActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini"
     }
 }

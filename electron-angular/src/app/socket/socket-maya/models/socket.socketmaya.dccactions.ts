@@ -1,8 +1,8 @@
 export class DccActions {
-    files:Array<string>;
+    actions:Array<string>;
     error:string;
     constructor(){
-        this.files = [];
+        this.actions = [];
         this.error= "";
     }
 }

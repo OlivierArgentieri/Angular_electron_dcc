@@ -1,4 +1,4 @@
-from engines.actions.base.modules.export_abc import ExportAbc
+from engines.actions.common.export_abc import ExportAbc
 
 class MayaExportAbc(ExportAbc):
     def run(self):
