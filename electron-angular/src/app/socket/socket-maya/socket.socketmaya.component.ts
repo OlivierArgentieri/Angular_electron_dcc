@@ -5,6 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
 import { Config } from '../models/config';
 
+// models
+import { DccActions } from './models/socket.socketmaya.dccActions';
+
 
 @Component({
   selector: 'app-socketmaya',
@@ -70,8 +73,8 @@ export class SocketMayaComponent implements OnInit {
     this.service.getDccActions((out) => {
       //_settings = JSON.parse(out);
 
-      let _obj:Config = <Config>out;
-      console.log( out);
+      let _obj:DccActions =JSON.parse(out);
+      console.log(_obj);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
       this.snackBar.open(out, "close", {
         duration: 5000
