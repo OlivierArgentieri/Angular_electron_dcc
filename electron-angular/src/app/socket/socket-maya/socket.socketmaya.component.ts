@@ -34,17 +34,38 @@ export class SocketMayaComponent implements OnInit {
   private abc_endFrame: number = 0;
   private abc_out: string = "";
 
+  // action dcc
+  private dccActions:string[] = null;
+  private actionSelected:string   = "";
+
   constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
     this.snackBar = _snackBar;
   }
 
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.port = params['port'];
+  /////////////////
+  // init methods
+  /////////////////
+  initDccActionSelect(){
+    this.service.getDccActions((out) => {
+      let _obj:DccActions = JSON.parse(out);
+      this.dccActions = _obj.files;
     });
+  }
+
+  getPortParameter():number{
+    this.route.queryParams.subscribe(params => {
+      return params['port'];
+    });
+    return 0
+  }
+  ngOnInit(): void {
+    this.initDccActionSelect();
+    this.port = this.getPortParameter();
+    
+
+   
   }
 
   sendCommand() {
@@ -74,6 +95,7 @@ export class SocketMayaComponent implements OnInit {
       //_settings = JSON.parse(out);
 
       let _obj:DccActions =JSON.parse(out);
+      this.dccActions = _obj.files;
       console.log(_obj);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
       this.snackBar.open(out, "close", {
@@ -109,5 +131,10 @@ export class SocketMayaComponent implements OnInit {
     if (index >= 0) {
       this.sceneObjects.splice(index, 1);
     }
+  }
+
+  onChangeDccActions(value){
+    // load maya modules
+    this.actionSelected = value;
   }
 }

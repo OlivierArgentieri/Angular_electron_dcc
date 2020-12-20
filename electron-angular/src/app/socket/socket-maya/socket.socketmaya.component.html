@@ -10,6 +10,15 @@
         </mat-card-header>
         <mat-card-content>
 
+          <mat-form-field appearance="fill">
+            <mat-label>Dccs Action</mat-label>
+            <mat-select (selectionChange)="onChangeDccActions($event.value)">
+              <mat-option *ngFor="let dccAction of dccActions" [value]="dccAction">
+                {{dccAction}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>You selected: {{actionSelected}}</p>
           <mat-form-field appearance="fill" class="mr-2">
             <input matInput placeholder="Out Path (C:/)" [(ngModel)]="abc_out" required>
           </mat-form-field>
