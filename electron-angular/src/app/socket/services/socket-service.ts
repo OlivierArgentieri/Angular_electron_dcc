@@ -33,6 +33,10 @@ export class SocketService{
     public actionGetDccActions(callback){
         throw new Error("not Implemented")
     }
+
+    public actionGetDccActionByName(dccName, actionName, callback){
+        throw new Error("not Implemented")
+    }
     // end override
     
 
@@ -83,6 +87,18 @@ export class SocketService{
 
         _subject.subscribe((_callback:any) =>{
             this.actionGetDccActions(_callback)
+        });
+        return _subject;
+    }
+
+    public getDccActionByName():Rx.Subject<any>{
+        const _subject = new Rx.Subject();
+
+        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
+        this.socket.open();
+
+        _subject.subscribe((data) =>{
+            this.actionGetDccActionByName(data[0], data[1], data[2]) // dccName, actionName, callback,
         });
         return _subject;
     }

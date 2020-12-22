@@ -72,9 +72,9 @@ export class DccActionModule{
             for (const _file of _files) {
                 if(_file.includes("__init__")) continue;
                 if(_file.includes(".pyc")) continue;
-                if(!_file.includes(".py")) continue;
+                if(!_file.includes(".json")) continue;
                
-                _result.actions.push(_file.toString().replace(".py", "")); 
+                _result.actions.push(_file.toString()); 
             }
             resolve(JSON.stringify(_result)); // return jsonObject
         })

@@ -72,6 +72,14 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 });
                 // callbackFn is output of this method; called in service of component;
             });
+            // get Dcc Actions by name
+            socket.on("getDccActionByName", function (_dccName, _actionName, _callback) {
+                _this.dccAction.getByName(_actionName, _dccName).then(function (result) {
+                    console.log(result);
+                    _callback(result);
+                });
+                // callbackFn is output of this method; called in service of component;
+            });
         });
     };
     SocketInterpreter.prototype.main = function () {

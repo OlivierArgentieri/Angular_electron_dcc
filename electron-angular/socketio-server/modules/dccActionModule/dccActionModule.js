@@ -59,7 +59,7 @@ var DccActionModule = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var _result = new Result(); // return object
-            fs.readdir(_this.getActionPathPerDcc(_dccName), function (_err, _files) {
+            fs.readdir(_this.getActionPathPerDcc(_dccName) + ("/" + _actionName), function (_err, _files) {
                 if (_err) {
                     console.log('Unable to scan directory: ' + _err);
                     _result.error = _err;
@@ -72,9 +72,9 @@ var DccActionModule = /** @class */ (function () {
                         continue;
                     if (_file.includes(".pyc"))
                         continue;
-                    if (!_file.includes(".py"))
+                    if (!_file.includes(".json"))
                         continue;
-                    _result.actions.push(_file.toString().replace(".py", ""));
+                    _result.actions.push(_file.toString());
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });

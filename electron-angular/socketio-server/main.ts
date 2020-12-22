@@ -73,6 +73,15 @@ export default class SocketInterpreter extends SocketServer {
                 })
                 // callbackFn is output of this method; called in service of component;
             });
+
+            // get Dcc Actions by name
+            socket.on("getDccActionByName", (_dccName, _actionName, _callback)  => {
+                this.dccAction.getByName(_actionName, _dccName).then((result)=>{
+                    console.log(result)
+                    _callback(result);
+                })
+                // callbackFn is output of this method; called in service of component;
+            });
         });
     }
 
