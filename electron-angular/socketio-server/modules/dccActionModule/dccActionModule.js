@@ -4,16 +4,7 @@ exports.DccActionModule = void 0;
 var fs = require('fs');
 // config
 var config = require('../../config/config.json');
-//////////////////////////////////////////
-// class to serialize return data in json
-/////////////////////////////////////////
-var Result = /** @class */ (function () {
-    function Result() {
-        this.actions = [];
-        this.error = "";
-    }
-    return Result;
-}());
+var actionsResult_1 = require("./models/actionsResult");
 /////////////////////////////////////////
 // Main class
 /////////////////////////////////////////
@@ -23,16 +14,17 @@ var DccActionModule = /** @class */ (function () {
     // return corresponding action path/dccs
     DccActionModule.prototype.getActionPathPerDcc = function (_dccName) {
         switch (_dccName) {
-            default: return config.pipelineSettings.commonActionsPath;
-            case _dccName == "maya": return config.pipelineSettings.mayaActionPath;
-            case _dccName == "houdini": return config.pipelineSettings.houdiniActionPath;
+            case "maya": return config.pipelineSettings.mayaActionsPath;
+            case "houdini": return config.pipelineSettings.houdiniActionsPath;
+            default:
+                return config.pipelineSettings.commonActionsPath;
         }
     };
     // get all common action 
     DccActionModule.prototype.getAll = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var _result = new Result(); // return object
+            var _result = new actionsResult_1.ActionsResult(); // return object
             fs.readdir(_this.getActionPathPerDcc("common"), function (_err, _files) {
                 if (_err) {
                     console.log('Unable to scan directory: ' + _err);
@@ -58,8 +50,9 @@ var DccActionModule = /** @class */ (function () {
     DccActionModule.prototype.getByName = function (_actionName, _dccName) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var _result = new Result(); // return object
-            fs.readdir(_this.getActionPathPerDcc(_dccName) + ("/" + _actionName), function (_err, _files) {
+            var _result = new actionsResult_1.ActionsResult(); // return object
+            var _baseUri = _this.getActionPathPerDcc(_dccName) + ("/" + _actionName);
+            fs.readdir(_baseUri, function (_err, _files) {
                 if (_err) {
                     console.log('Unable to scan directory: ' + _err);
                     _result.error = _err;
@@ -74,7 +67,8 @@ var DccActionModule = /** @class */ (function () {
                         continue;
                     if (!_file.includes(".json"))
                         continue;
-                    _result.actions.push(_file.toString());
+                    var _json = JSON.parse(fs.readFileSync(_baseUri + ("/" + _file)));
+                    _result.actions.push(_json);
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });

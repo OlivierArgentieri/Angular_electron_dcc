@@ -92,12 +92,12 @@ export class SocketMayaComponent implements OnInit {
 
   test() {
     var _settings:any;
-    this.service.getDccActions((out) => {
+    this.service.getDccActionByName("maya",this.actionSelected, (out) => {
       //_settings = JSON.parse(out);
 
-      let _obj:DccActions =JSON.parse(out);
-      this.dccActions = _obj.actions;
-      console.log(_obj);
+      //let _obj:DccActions =JSON.parse(out);
+      //this.dccActions = _obj.actions;
+      console.log(out);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
       this.snackBar.open(out, "close", {
         duration: 5000
