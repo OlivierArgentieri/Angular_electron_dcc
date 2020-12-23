@@ -39,8 +39,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
             // send maya command in plain python
             socket.on("mayaCommand", function (command, callback) {
                 // todo json request
+                console.log("received");
                 // new promise request
-                _this.newRequest(12346, '127.0.0.1')
+                _this.newRequest(12346, '192.168.1.15')
                     .then(function (client) {
                     client.write(command);
                     client.on('data', function (data) {

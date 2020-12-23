@@ -27,7 +27,7 @@ function createWindow() {
         require('electron-reload')(__dirname, {
             electron: require(__dirname + "/node_modules/electron")
         });
-        win.loadURL('http://localhost:4200');
+        win.loadURL('http://192.168.1.15:4200');
     }
     else {
         win.loadURL(url.format({

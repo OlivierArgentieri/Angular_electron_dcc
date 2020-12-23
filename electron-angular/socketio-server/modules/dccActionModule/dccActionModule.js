@@ -70,7 +70,6 @@ var DccActionModule = /** @class */ (function () {
                         continue;
                     var _json = JSON.parse(fs.readFileSync(_baseUri + ("/" + _file)));
                     _result = _json;
-                    console.log(_result.name);
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });

@@ -72,7 +72,6 @@ export class DccActionModule{
                
                 let _json = JSON.parse(fs.readFileSync(_baseUri + `/${_file}`))
                 _result =_json as ActionResult; 
-                console.log(_result.name);
             }
             resolve(JSON.stringify(_result)); // return jsonObject
         })

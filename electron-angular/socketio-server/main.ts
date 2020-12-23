@@ -35,9 +35,9 @@ export default class SocketInterpreter extends SocketServer {
             socket.on("mayaCommand", (command, callback) => {
 
                 // todo json request
-
+                console.log("received")
                 // new promise request
-                this.newRequest(12346, '127.0.0.1')
+                this.newRequest(12346, '192.168.1.15')
                     .then((client) => {
                         client.write(command);
                         client.on('data', (data) => {
