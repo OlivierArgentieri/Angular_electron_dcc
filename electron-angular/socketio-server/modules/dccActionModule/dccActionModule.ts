@@ -3,6 +3,7 @@ const fs = require('fs');
 const config = require('../../config/config.json');
 
 import { ActionsResult } from "./models/actionsResult/actionsResult";
+import { ActionResult } from "./models/actionResult/actionResult";
 
 
 
@@ -54,7 +55,7 @@ export class DccActionModule{
     public getByName(_actionName, _dccName ):Promise<string> {
         return new Promise<string>((resolve, reject) => {
 
-        var _result:ActionsResult = new ActionsResult(); // return object
+        var _result:ActionResult = new ActionResult(); // return object
         let _baseUri = this.getActionPathPerDcc(_dccName) +`/${_actionName}`
         fs.readdir(_baseUri, (_err, _files)=>{
             if (_err) {
@@ -70,7 +71,8 @@ export class DccActionModule{
                 if(!_file.includes(".json")) continue;
                
                 let _json = JSON.parse(fs.readFileSync(_baseUri + `/${_file}`))
-                _result.actions.push(_json); 
+                _result =_json as ActionResult; 
+                console.log(_result.name);
             }
             resolve(JSON.stringify(_result)); // return jsonObject
         })

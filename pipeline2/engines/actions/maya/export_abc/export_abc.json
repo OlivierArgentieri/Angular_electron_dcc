@@ -1,11 +1,13 @@
 {
     "dcc":"maya",
+    "name":"exportABC",
     "params":[
-        {"name":"objects", "type":"array:string", "default":"", "default_script":"cmds.ls()"},
-        {"name":"outPath", "type":"string"},
-        {"name":"startFrame", "type":"int"},
-        {"name":"endFrame", "type":"int"}
+        {"name":"objects", "type":"array:string", "default":""},
+        {"name":"outPath", "type":"string", "default":""},
+        {"name":"startFrame", "type":"int", "default":0},
+        {"name":"endFrame", "type":"int", "default":0}
     ],
-    "paths": "./export_abc.py"
+    "script_path": "./export_abc.py",
+    "default_script":"cmds.ls()"
     
 }

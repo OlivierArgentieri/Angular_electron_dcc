@@ -5,6 +5,7 @@ var fs = require('fs');
 // config
 var config = require('../../config/config.json');
 var actionsResult_1 = require("./models/actionsResult/actionsResult");
+var actionResult_1 = require("./models/actionResult/actionResult");
 /////////////////////////////////////////
 // Main class
 /////////////////////////////////////////
@@ -50,7 +51,7 @@ var DccActionModule = /** @class */ (function () {
     DccActionModule.prototype.getByName = function (_actionName, _dccName) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var _result = new actionsResult_1.ActionsResult(); // return object
+            var _result = new actionResult_1.ActionResult(); // return object
             var _baseUri = _this.getActionPathPerDcc(_dccName) + ("/" + _actionName);
             fs.readdir(_baseUri, function (_err, _files) {
                 if (_err) {
@@ -68,7 +69,8 @@ var DccActionModule = /** @class */ (function () {
                     if (!_file.includes(".json"))
                         continue;
                     var _json = JSON.parse(fs.readFileSync(_baseUri + ("/" + _file)));
-                    _result.actions.push(_json);
+                    _result = _json;
+                    console.log(_result.name);
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });
