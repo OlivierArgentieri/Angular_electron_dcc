@@ -2,7 +2,7 @@ const fs = require('fs');
 // config
 const config = require('../../config/config.json');
 
-import { ActionsResult } from "./models/actionsResult";
+import { ActionsResult } from "./models/actionsResult/actionsResult";
 
 
 

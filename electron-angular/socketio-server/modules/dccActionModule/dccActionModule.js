@@ -4,7 +4,7 @@ exports.DccActionModule = void 0;
 var fs = require('fs');
 // config
 var config = require('../../config/config.json');
-var actionsResult_1 = require("./models/actionsResult");
+var actionsResult_1 = require("./models/actionsResult/actionsResult");
 /////////////////////////////////////////
 // Main class
 /////////////////////////////////////////
