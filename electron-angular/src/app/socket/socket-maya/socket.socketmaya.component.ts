@@ -51,7 +51,7 @@ export class SocketMayaComponent implements OnInit {
     this.service.getDccActions((out) => {
       let _obj:DccActions = JSON.parse(out);
       this.dccActions = _obj.actions;
-    });
+    });    
   }
 
   getPortParameter():number{
@@ -60,11 +60,18 @@ export class SocketMayaComponent implements OnInit {
     });
     return 0
   }
-
+  handleOrientation(event){
+    this.actionSelected = `${event.beta}`;
+    console.log(event)
+  }
   ngOnInit(): void {
     this.initDccActionSelect();
     this.port = this.getPortParameter();
+
+  
   }
+
+ 
 
   ///////////////////////////////
   // action methods

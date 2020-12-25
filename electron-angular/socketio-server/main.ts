@@ -30,6 +30,7 @@ export default class SocketInterpreter extends SocketServer {
 
             console.log('user connected');
 
+            
 
             // send maya command in plain python
             socket.on("mayaCommand", (command, callback) => {
@@ -42,7 +43,9 @@ export default class SocketInterpreter extends SocketServer {
                         client.write(command);
                         client.on('data', (data) => {
                             console.log(data.toString());
-                            callback(data.toString());
+                            
+                            if(callback)
+                                callback(data.toString());
                             client.destroy()
                         })
                     })

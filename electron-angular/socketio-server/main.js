@@ -46,7 +46,8 @@ var SocketInterpreter = /** @class */ (function (_super) {
                     client.write(command);
                     client.on('data', function (data) {
                         console.log(data.toString());
-                        callback(data.toString());
+                        if (callback)
+                            callback(data.toString());
                         client.destroy();
                     });
                 });
