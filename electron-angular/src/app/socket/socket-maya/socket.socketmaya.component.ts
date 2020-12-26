@@ -7,6 +7,7 @@ import { Config } from '../models/config';
 
 // models
 import { DccActions } from './models/socket.socketmaya.dccActions';
+import { DccAction } from './models/socket.socketmaya.dccAction';
 
 
 @Component({
@@ -36,8 +37,8 @@ export class SocketMayaComponent implements OnInit {
 
   // action dcc
   private dccActions:string[] = null;
-  private actionSelected:string   = "";
-
+  private actionSelected:string = "";
+  private actionData:DccAction = null;
   constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
@@ -144,5 +145,9 @@ export class SocketMayaComponent implements OnInit {
   onChangeDccActions(value){
     // load maya modules
     this.actionSelected = value;
+
+    this.service.getDccActionByName("maya",this.actionSelected, (out) => {
+    this.actionData = JSON.parse(out); // out is an DccAction object
+    });
   }
 }

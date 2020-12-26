@@ -19,6 +19,21 @@
             </mat-select>
           </mat-form-field>
           <p>You selected: {{actionSelected}}</p>
+
+          <div *ngIf="actionData != null">
+            <div *ngFor="let obj of actionData.params">
+
+              <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2">
+                <input matInput placeholder="obj.name" [(ngModel)]="obj.name" required>
+              </mat-form-field>
+
+            </div>
+          </div>
+
+
+
+
+          <!-- TODO DELETE -->
           <mat-form-field appearance="fill" class="mr-2">
             <input matInput placeholder="Out Path (C:/)" [(ngModel)]="abc_out" required>
           </mat-form-field>
@@ -85,11 +100,11 @@
     </div>
 
   </div>
-  
+
   <script>
- 
-    </script>
-  
+
+  </script>
+
   <!--
 <div class="container">
   <div class="row">
