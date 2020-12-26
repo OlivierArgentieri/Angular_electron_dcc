@@ -4,6 +4,9 @@ import { MayaService } from '../services/maya/maya-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
 import { Config } from '../models/config';
+import {MatChipInputEvent} from '@angular/material/chips';
+// keycodes for separator in chips list
+import { SPACE } from '@angular/cdk/keycodes';
 
 // models
 import { DccActions } from './models/socket.socketmaya.dccActions';
@@ -39,6 +42,9 @@ export class SocketMayaComponent implements OnInit {
   private dccActions:string[] = null;
   private actionSelected:string = "";
   private actionData:DccAction = null;
+
+  readonly separatorKeysCodes: number[] = [SPACE];
+
   constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
@@ -149,5 +155,22 @@ export class SocketMayaComponent implements OnInit {
     this.service.getDccActionByName("maya",this.actionSelected, (out) => {
     this.actionData = JSON.parse(out); // out is an DccAction object
     });
+  }
+
+  onAddChipList(event:MatChipInputEvent, list:any){
+    console.log("test");
+    //const input = event.input;
+    //const value = event.value;
+
+    /*
+    // Add our fruit
+    if ((value || '').trim()) {
+      list.push({name: value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }*/
   }
 }
