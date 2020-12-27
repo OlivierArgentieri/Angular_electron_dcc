@@ -24,17 +24,21 @@
             <div *ngFor="let obj of actionData.params">
 
               <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2">
-                <input matInput placeholder="obj.name" [(ngModel)]="obj.default" required>
+                <input matInput placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
               </mat-form-field>
 
               <mat-form-field *ngIf="obj.type == 'int'" appearance="fill" class="mr-2">
-                <input matInput type="number" placeholder="obj.name" [(ngModel)]="obj.default" required>
+                <input matInput type="number" placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
               </mat-form-field>
 
               <mat-form-field *ngIf="obj.type == 'float'" appearance="fill" class="mr-2">
-                <input matInput placeholder="obj.name" [(ngModel)]="obj.name" required>
+                <input matInput placeholder="{{obj.name}}" [(ngModel)]="obj.name" required>
               </mat-form-field>
 
+              <mat-form-field *ngIf="obj.type == 'array:string'" appearance="fill" class="mr-2">
+                <input matInput placeholder="{{obj.name}} array" [(ngModel)]="obj.default" required>
+              </mat-form-field>
+              <!--
               <mat-form-field *ngIf="obj.type == 'array:string'" [style.width.%]="50" appearance="fill" class="mr-2">
                 <mat-chip-list #chipList aria-label="Scene objects">
                   <mat-chip *ngFor="let obj of obj.default" [selectable]="selectable" [removable]="removable"
@@ -49,7 +53,7 @@
                       [matChipInputAddOnBlur]="true"
                       (matChipInputTokenEnd)="onAddChipList($event, obj.default)">
                 </mat-chip-list>
-              </mat-form-field>
+              </mat-form-field>-->
 
             </div>
           </div>

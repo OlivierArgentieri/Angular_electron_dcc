@@ -44,7 +44,7 @@ export class SocketMayaComponent implements OnInit {
   private actionData:DccAction = null;
 
   readonly separatorKeysCodes: number[] = [SPACE];
-
+  private tempChipList:string[];
   constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
@@ -106,17 +106,17 @@ export class SocketMayaComponent implements OnInit {
 
   test() {
     var _settings:any;
-    this.service.getDccActionByName("maya",this.actionSelected, (out) => {
+    //this.service.getDccActionByName("maya",this.actionSelected, (out) => {
       //_settings = JSON.parse(out);
 
       //let _obj:DccActions =JSON.parse(out);
       //this.dccActions = _obj.actions;
-      console.log(out);
+     // console.log(out);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
-      this.snackBar.open(out, "close", {
+      this.snackBar.open(this.actionData.params[0].default, "close", {
         duration: 5000
       });
-    });
+    //});
   }
 
 

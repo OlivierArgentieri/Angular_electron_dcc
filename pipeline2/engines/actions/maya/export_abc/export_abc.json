@@ -2,7 +2,7 @@
     "dcc":"maya",
     "name":"exportABC",
     "params":[
-        {"name":"objects", "type":"array:string", "default":""},
+        {"name":"objects", "type":"array:string", "default":"first second third"},
         {"name":"outPath", "type":"string", "default":""},
         {"name":"startFrame", "type":"int", "default":0},
         {"name":"endFrame", "type":"int", "default":0}
