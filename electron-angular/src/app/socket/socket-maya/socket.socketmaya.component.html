@@ -21,7 +21,7 @@
           <p>You selected: {{actionSelected}}</p>
 
           <div *ngIf="actionData != null">
-            <div *ngFor="let obj of actionData.params">
+            <ng-container *ngFor="let obj of actionData.params">
 
               <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2">
                 <input matInput placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
@@ -55,7 +55,7 @@
                 </mat-chip-list>
               </mat-form-field>-->
 
-            </div>
+            </ng-container>
           </div>
 
 
