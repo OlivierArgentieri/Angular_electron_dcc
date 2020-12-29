@@ -113,7 +113,16 @@ export class SocketMayaComponent implements OnInit {
       //this.dccActions = _obj.actions;
      // console.log(out);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
-      this.snackBar.open(this.actionData.params[0].default, "close", {
+
+      if(!this.actionData) return;
+
+      var _cmd = this.actionData.default_script;
+      for (let _i = 0; _i < this.actionData.params.length; _i++) {
+        _cmd += `${this.actionData.params[_i].default} `;
+        
+      }
+
+      this.snackBar.open(_cmd, "close", {
         duration: 5000
       });
     //});
