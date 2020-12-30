@@ -8,6 +8,6 @@
         {"name":"objects", "type":"array:string", "default":"first second third"}
     ],
     "script_path": "./export_abc.py",
-    "default_script":"cmds.ls()"
+    "default_script":"MayaExportAbc.run"
     
 }

@@ -117,11 +117,13 @@ export class SocketMayaComponent implements OnInit {
       if(!this.actionData) return;
 
       var _cmd = this.actionData.default_script;
+      _cmd += "(" 
       for (let _i = 0; _i < this.actionData.params.length; _i++) {
-        _cmd += `${this.actionData.params[_i].default} `;
+        _cmd += `${this.actionData.params[_i].default}`;
         
+        if(_i +1< this.actionData.params.length) _cmd +=', ';
       }
-
+      _cmd += ")"
       this.snackBar.open(_cmd, "close", {
         duration: 5000
       });
