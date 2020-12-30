@@ -8,5 +8,3 @@ class MayaExportAbc(ExportAbc):
         print(args[1])
 
 
- 
-MayaExportAbc.run(0, 1)

@@ -98,3 +98,16 @@ def maya_server(host=HOST, port=PORT, connections=CONNECTIONS):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     threading.Thread(target=maya_server).start()
+
+
+
+#########################
+# for include all actions 
+#########################
+#import sys        
+#sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc/pipeline2")
+#from engines.actions import *
+
+
+# test
+#MayaExportAbc.run(1,1)
