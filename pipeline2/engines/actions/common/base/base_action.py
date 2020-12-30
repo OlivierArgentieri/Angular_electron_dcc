@@ -1,3 +1,4 @@
 class BaseAction(object):
-    def run(self):
+    @staticmethod
+    def run(*args):
         pass

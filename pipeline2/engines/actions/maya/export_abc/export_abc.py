@@ -1,7 +1,12 @@
 from engines.actions.common.export_abc import ExportAbc
+import sys
 
 class MayaExportAbc(ExportAbc):
-    def run(self):
-        print("exec from maya")
+    @staticmethod
+    def run(*args):
+        print(args[0])
+        print(args[1])
 
-        
+
+ 
+MayaExportAbc.run(0, 1)
