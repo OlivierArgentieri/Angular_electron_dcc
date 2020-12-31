@@ -19,6 +19,7 @@ var config = require('./config/config.json');
 // modules
 var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
 var dccActionModule_1 = require("./modules/dccActionModule/dccActionModule");
+var dccCommandModule_1 = require("./modules/dccCommandModule/dccCommandModule");
 var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
@@ -26,6 +27,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         // modules
         _this.dccResolver = new dccResolverModule_1.DccResolverModule();
         _this.dccAction = new dccActionModule_1.DccActionModule();
+        _this.dccCommand = new dccCommandModule_1.DccCommandModule();
         _this.client = null;
         return _this;
     }
@@ -38,20 +40,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
             console.log('user connected');
             // send maya command in plain python
             socket.on("mayaCommand", function (command, callback) {
-                // todo json request
-                console.log("received");
-                // new promise request
-                _this.newRequest(12346, '192.168.1.15')
-                    .then(function (client) {
-                    client.write(command);
-                    client.on('data', function (data) {
-                        console.log(data.toString());
-                        if (callback)
-                            callback(data.toString());
-                        client.destroy();
-                    });
-                });
-                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                console.log("received " + command);
+                var _commandObject = JSON.parse(command);
+                _this.dccCommand.sendCommand(_commandObject, callback);
             });
             // get all maya open server through socket
             // rename to dcc resolve

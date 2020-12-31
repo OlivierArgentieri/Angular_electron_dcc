@@ -6,6 +6,8 @@ const config = require('./config/config.json');
 // modules
 import { DccResolverModule } from "./modules/dccResolverModule/dccResolverModule";
 import { DccActionModule } from "./modules/dccActionModule/dccActionModule";
+import { DccCommandModule } from "./modules/dccCommandModule/dccCommandModule";
+import DccCommandData from "./modules/dccCommandModule/models/commandData";
 
 
 
@@ -15,6 +17,7 @@ export default class SocketInterpreter extends SocketServer {
     // modules
     dccResolver: DccResolverModule = new DccResolverModule();
     dccAction: DccActionModule = new DccActionModule();
+    dccCommand: DccCommandModule = new DccCommandModule();
 
     client = null;
     constructor() {
@@ -35,21 +38,9 @@ export default class SocketInterpreter extends SocketServer {
             // send maya command in plain python
             socket.on("mayaCommand", (command, callback) => {
 
-                // todo json request
-                console.log("received")
-                // new promise request
-                this.newRequest(12346, '192.168.1.15')
-                    .then((client) => {
-                        client.write(command);
-                        client.on('data', (data) => {
-                            console.log(data.toString());
-                            
-                            if(callback)
-                                callback(data.toString());
-                            client.destroy()
-                        })
-                    })
-                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                console.log(`received ${command}`)
+                var _commandObject:DccCommandData = JSON.parse(command)
+                this.dccCommand.sendCommand(_commandObject, callback);
             });
 
 

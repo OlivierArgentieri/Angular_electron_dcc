@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
+var main_1 = require("./socketio-server/main");
 var path = require("path");
 var url = require("url");
 var win = null;
@@ -52,8 +53,8 @@ try {
     electron_1.app.on('ready', function () {
         setTimeout(createWindow, 400);
         // start express server
-        // var _interpreter = new SocketInterpreter();
-        // _interpreter.main();
+        var _interpreter = new main_1.default();
+        _interpreter.main();
     });
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {

@@ -11,6 +11,7 @@ import { SPACE } from '@angular/cdk/keycodes';
 // models
 import { DccActions } from './models/socket.socketmaya.dccActions';
 import { DccAction } from './models/socket.socketmaya.dccAction';
+import { DccCommandData } from './models/socket.socketmaya.dcccommand';
 
 
 @Component({
@@ -42,6 +43,10 @@ export class SocketMayaComponent implements OnInit {
   private dccActions:string[] = null;
   private actionSelected:string = "";
   private actionData:DccAction = null;
+
+  // command dcc
+  private dccCommand:DccCommandData = new DccCommandData();
+  
 
   readonly separatorKeysCodes: number[] = [SPACE];
   private tempChipList:string[];
@@ -84,7 +89,12 @@ export class SocketMayaComponent implements OnInit {
   // action methods
   ///////////////////////////////
   sendCommand() {
-    this.service.sendCommand(this.message, (out) => {
+
+    this.dccCommand.host = "192.168.1.15";
+    this.dccCommand.port = 12346;
+    this.dccCommand.command = this.message;
+
+    this.service.sendCommand(JSON.stringify(this.dccCommand), (out) => {
       this.snackBar.open(out, "close", {
         duration: 5000
       });

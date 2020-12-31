@@ -13,14 +13,14 @@ export class MayaService{
     }
 
     // sending message to socket io server
-    public sendCommand(_cmd, _callback){
+    public sendCommand(_cmdData, _callback){
        this.service = <Subject<any>>this.socketService
         .sendCommand()
         .map((_service: any):any =>{
             return _service;
         });
 
-        this.service.next([_cmd, (_out) =>
+        this.service.next([_cmdData, (_out) =>
             _callback(_out)
         ]);
     }
