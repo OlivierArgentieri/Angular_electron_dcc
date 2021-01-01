@@ -12,10 +12,11 @@ export class MayaSocketService extends SocketService{
     test(out){
         console.log(out);
     }
-    public actionSendCommand(_data, _callback){
-        this.socket.emit('mayaCommand', _data, (out)=>{_callback(out);}
-     )};   
 
+
+    public actionSendCommand(_data, _callback){
+        this.socket.emit('mayaCommand', _data, (out)=>{_callback(out);})
+    };
 
     public actionResolve(callback){
         this.socket.emit('mayaResolve',(out)=>{ 
@@ -41,6 +42,13 @@ export class MayaSocketService extends SocketService{
 
     public actionGetDccActionByName(_dccName, _actionName, _callback){
         this.socket.emit('getDccActionByName', _dccName, _actionName, (out)=>{ 
+            console.log(out)
+            _callback(out);
+        });
+    };
+
+    public actionRunDccAction(_actionData, _callback){
+        this.socket.emit('runDccAction', _actionData, (out)=>{ 
             console.log(out)
             _callback(out);
         });

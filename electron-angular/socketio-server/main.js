@@ -73,6 +73,14 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 });
                 // callbackFn is output of this method; called in service of component;
             });
+            // run action
+            socket.on("runDccAction", function (_actionData, _callback) {
+                _this.dccAction.runAction(_actionData).then(function (_command) {
+                    console.log(_command);
+                    _callback("ok");
+                });
+                // callbackFn is output of this method; called in service of component;
+            });
         });
     };
     SocketInterpreter.prototype.main = function () {

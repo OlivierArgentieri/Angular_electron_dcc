@@ -33,8 +33,8 @@ var DccActionModule = /** @class */ (function () {
                     resolve(JSON.stringify(_result)); // error treated as resolve
                     return;
                 }
-                for (var _i = 0, _files_1 = _files; _i < _files_1.length; _i++) {
-                    var _file = _files_1[_i];
+                for (var _a = 0, _files_1 = _files; _a < _files_1.length; _a++) {
+                    var _file = _files_1[_a];
                     if (_file.includes("__init__"))
                         continue;
                     if (_file.includes(".pyc"))
@@ -60,8 +60,8 @@ var DccActionModule = /** @class */ (function () {
                     resolve(JSON.stringify(_result)); // error treated as resolve
                     return;
                 }
-                for (var _i = 0, _files_2 = _files; _i < _files_2.length; _i++) {
-                    var _file = _files_2[_i];
+                for (var _a = 0, _files_2 = _files; _a < _files_2.length; _a++) {
+                    var _file = _files_2[_a];
                     if (_file.includes("__init__"))
                         continue;
                     if (_file.includes(".pyc"))
@@ -73,6 +73,24 @@ var DccActionModule = /** @class */ (function () {
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });
+        });
+    };
+    // create command with ActionReulstObject
+    // return formatted command
+    DccActionModule.prototype.runAction = function (_actionData) {
+        return new Promise(function (resolve, reject) {
+            if (!_actionData)
+                reject("null parameters");
+            console.log(_actionData);
+            var _cmd = _actionData.default_script;
+            _cmd += "(";
+            for (var _i = 0; _i < _actionData.params.length; _i++) {
+                _cmd += "" + _actionData.params[_i].default;
+                if (_i + 1 < _actionData.params.length)
+                    _cmd += ', ';
+            }
+            _cmd += ")";
+            resolve(_cmd); // return command
         });
     };
     return DccActionModule;

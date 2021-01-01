@@ -123,7 +123,7 @@ export class SocketMayaComponent implements OnInit {
       //this.dccActions = _obj.actions;
      // console.log(out);
        //var a = require(_obj.PythonSettings.actionsPath.toString())
-
+/*
       if(!this.actionData) return;
 
       var _cmd = this.actionData.default_script;
@@ -133,10 +133,14 @@ export class SocketMayaComponent implements OnInit {
         
         if(_i +1< this.actionData.params.length) _cmd +=', ';
       }
-      _cmd += ")"
-      this.snackBar.open(_cmd, "close", {
-        duration: 5000
-      });
+      _cmd += ")"*/
+
+      this.service.runDccAction(this.actionData, (out) => {
+       
+      this.snackBar.open(out, "close", {
+          duration: 5000
+        });
+      })
     //});
   }
 

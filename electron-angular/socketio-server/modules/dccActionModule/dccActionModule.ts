@@ -76,4 +76,26 @@ export class DccActionModule{
             resolve(JSON.stringify(_result)); // return jsonObject
         })
     })}
+
+
+     // create command with ActionReulstObject
+     // return formatted command
+     public runAction(_actionData): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            
+            if(!_actionData) reject("null parameters");
+            console.log(_actionData);
+            var _cmd = _actionData.default_script;
+            _cmd += "(" 
+            for (let _i = 0; _i < _actionData.params.length; _i++) {
+                _cmd += `${_actionData.params[_i].default}`;
+        
+            if(_i +1< _actionData.params.length) _cmd +=', ';
+
+            }
+            _cmd += ")"
+            
+            resolve(_cmd); // return command
+        })
+    }
 }

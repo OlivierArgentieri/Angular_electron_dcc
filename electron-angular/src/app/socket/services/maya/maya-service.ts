@@ -58,7 +58,7 @@ export class MayaService{
         this.service.next(_callback);
     }
 
-     // get all dcc actions 
+     // get dcc action by name 
      public getDccActionByName(_dccName, _actionName, _callback){
         this.service = <Subject<any>>this.socketService
         .getDccActionByName()
@@ -68,6 +68,19 @@ export class MayaService{
 
         this.service.next([_dccName, _actionName, (out)=>{
             _callback(out);               
+        }]);
+    }
+
+    // run Dcc action 
+    public runDccAction(_actionData, _callback){
+        this.service = <Subject<any>>this.socketService
+        .runDccAction()
+        .map((_service: any):any =>{
+            return _service;
+        });
+        
+        this.service.next([_actionData, (_out)=>{
+            _callback(_out)
         }]);
     }
 }
