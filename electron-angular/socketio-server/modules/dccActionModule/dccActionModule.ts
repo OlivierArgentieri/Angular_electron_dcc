@@ -91,17 +91,17 @@ export class DccActionModule extends BaseModule{
 
                 switch(_actionData.params[_i].type)
                 {
-                    case "string" : _cmd += ` '${_actionData.params[_i].default}'`; break;
+                    case "string" : _cmd += `'${_actionData.params[_i].default}'`; break;
                     case "int" : _cmd += `${_actionData.params[_i].default}`;  break;
-                    default : _cmd += ` '${_actionData.params[_i].default}'`;  break;
+                    default : _cmd += `'${_actionData.params[_i].default}'`;  break;
                 }
         
-                if(_i +1< _actionData.params.length) _cmd +=', ';
+                if(_i +1< _actionData.params.length) _cmd +=',';
 
             }
-            _cmd += ")"
+            _cmd += ")" // close method call
             
-            this.newRequest(12346, "192.168.1.15").then((client) => {
+            this.newRequest(_actionData.port, this.mainConfig.socketInterpreterSettings.host).then((client) => {
                 console.log(_cmd)
                 client.write(_cmd);
                 client.on('data', (data) => {

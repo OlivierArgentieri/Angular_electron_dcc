@@ -104,20 +104,20 @@ var DccActionModule = /** @class */ (function (_super) {
             for (var _i = 0; _i < _actionData.params.length; _i++) {
                 switch (_actionData.params[_i].type) {
                     case "string":
-                        _cmd += " '" + _actionData.params[_i].default + "'";
+                        _cmd += "'" + _actionData.params[_i].default + "'";
                         break;
                     case "int":
                         _cmd += "" + _actionData.params[_i].default;
                         break;
                     default:
-                        _cmd += " '" + _actionData.params[_i].default + "'";
+                        _cmd += "'" + _actionData.params[_i].default + "'";
                         break;
                 }
                 if (_i + 1 < _actionData.params.length)
-                    _cmd += ', ';
+                    _cmd += ',';
             }
-            _cmd += ")";
-            _this.newRequest(12346, "192.168.1.15").then(function (client) {
+            _cmd += ")"; // close method call
+            _this.newRequest(_actionData.port, _this.mainConfig.socketInterpreterSettings.host).then(function (client) {
                 console.log(_cmd);
                 client.write(_cmd);
                 client.on('data', function (data) {
