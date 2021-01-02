@@ -1,11 +1,15 @@
 const net = require('net');
 
+import { BaseModule } from "../base/baseModule";
 import ResolverRowData from "./models/resolverRowData";
 
 const getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
 
-//const client = net.Socket();
-export class DccResolverModule {
+
+/////////////////////////////////////////
+// Class to discover opened dccs throught network 
+/////////////////////////////////////////
+export class DccResolverModule extends BaseModule {
 
     async resolve(_port: Number, _address: String) {
         return new Promise<ResolverRowData>((resolve, reject) => {
@@ -43,7 +47,7 @@ export class DccResolverModule {
 
     async main(): Promise<Array<ResolverRowData>> {
 
-        const _startPort = 12345; // config
+        const _startPort = 12346; //this.mainConfig.mayaPortRangeStart; // config
         const _endPort = 12350;
 
         const _promises = []

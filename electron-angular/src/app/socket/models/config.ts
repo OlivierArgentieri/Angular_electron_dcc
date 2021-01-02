@@ -11,13 +11,15 @@ interface DccPortSettings{
     houdiniPortRangeEnd:number; 
 }
 
-interface PythonSettings{
-    actionsPath:String
+interface PipelineSettings{
+    commonActionsPath:String
+    mayaActionsPath:String
+    houdiniActionsPath:String
 }
 
 
 export class Config{
     SocketSettings:SocketInterpreterSettings;
     DccPortSettings:DccPortSettings;
-    PythonSettings:PythonSettings;
+    PipelineSettings:PipelineSettings;
 }

@@ -1,7 +1,5 @@
 import SocketServer from "./socketServer/socketServer";
 const net = require('net');
-// config
-const config = require('./config/config.json');
 
 // modules
 import { DccResolverModule } from "./modules/dccResolverModule/dccResolverModule";
@@ -56,7 +54,7 @@ export default class SocketInterpreter extends SocketServer {
 
             // get main config
             socket.on("getConfig", callback => {
-                callback(config); // callbackFn is output of this method; called in service of component;
+                callback(this.mainConfig); // callbackFn is output of this method; called in service of component;
             });
 
             // get Dcc Actions

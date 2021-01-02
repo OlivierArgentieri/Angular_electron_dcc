@@ -4,13 +4,14 @@ const config = require('../../config/config.json');
 
 import { ActionsResult } from "./models/actionsResult/actionsResult";
 import { ActionResult } from "./models/actionResult/actionResult";
+import { BaseModule } from "../base/baseModule";
 
 
 
 /////////////////////////////////////////
-// Main class
+// Class to manage all Dcc action 
 /////////////////////////////////////////
-export class DccActionModule{
+export class DccActionModule extends BaseModule{
     
     // return corresponding action path/dccs
     private getActionPathPerDcc(_dccName):string{
@@ -82,19 +83,31 @@ export class DccActionModule{
      // return formatted command
      public runAction(_actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            
-            if(!_actionData) reject("null parameters");
             console.log(_actionData);
+            if(!_actionData) reject("null parameters");
             var _cmd = _actionData.default_script;
             _cmd += "(" 
             for (let _i = 0; _i < _actionData.params.length; _i++) {
-                _cmd += `${_actionData.params[_i].default}`;
+
+                switch(_actionData.params[_i].type)
+                {
+                    case "string" : _cmd += ` '${_actionData.params[_i].default}'`; break;
+                    case "int" : _cmd += `${_actionData.params[_i].default}`;  break;
+                    default : _cmd += ` '${_actionData.params[_i].default}'`;  break;
+                }
         
-            if(_i +1< _actionData.params.length) _cmd +=', ';
+                if(_i +1< _actionData.params.length) _cmd +=', ';
 
             }
             _cmd += ")"
             
+            this.newRequest(12346, "192.168.1.15").then((client) => {
+                console.log(_cmd)
+                client.write(_cmd);
+                client.on('data', (data) => {
+                client.destroy()
+                })
+            })
             resolve(_cmd); // return command
         })
     }

@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,11 +51,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DccResolverModule = void 0;
 var net = require('net');
+var baseModule_1 = require("../base/baseModule");
 var resolverRowData_1 = require("./models/resolverRowData");
 var getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
-//const client = net.Socket();
-var DccResolverModule = /** @class */ (function () {
+/////////////////////////////////////////
+// Class to discover opened dccs throught network 
+/////////////////////////////////////////
+var DccResolverModule = /** @class */ (function (_super) {
+    __extends(DccResolverModule, _super);
     function DccResolverModule() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     DccResolverModule.prototype.resolve = function (_port, _address) {
         return __awaiter(this, void 0, void 0, function () {
@@ -81,7 +99,7 @@ var DccResolverModule = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _startPort = 12345;
+                        _startPort = 12346;
                         _endPort = 12350;
                         _promises = [];
                         _toReturn = new Array();
@@ -103,6 +121,6 @@ var DccResolverModule = /** @class */ (function () {
         });
     };
     return DccResolverModule;
-}());
+}(baseModule_1.BaseModule));
 exports.DccResolverModule = DccResolverModule;
 //# sourceMappingURL=dccResolverModule.js.map

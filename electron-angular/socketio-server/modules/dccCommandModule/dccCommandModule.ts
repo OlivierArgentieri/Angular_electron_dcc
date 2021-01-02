@@ -1,18 +1,10 @@
 import DccCommandData from "./models/commandData"
-const net = require('net');
+import { BaseModule } from "../base/baseModule";
 
-export class DccCommandModule {
-
-    client = null;
-
-    newRequest(_port:number, _host:string): Promise<any> {
-        return new Promise<any>((res, rej) => {
-            this.client = net.Socket();
-            this.client.connect(_port, _host, function () { });
-            res(this.client)
-            return this.client;
-        });
-    }
+/////////////////////////////////////////
+// Class to manage Command action
+/////////////////////////////////////////
+export class DccCommandModule extends BaseModule {
 
     sendCommand(_commandData:DccCommandData, callback = undefined) {
         if(!_commandData) return
