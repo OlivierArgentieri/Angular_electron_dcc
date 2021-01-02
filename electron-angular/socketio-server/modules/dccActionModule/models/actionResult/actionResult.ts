@@ -13,4 +13,7 @@ export class ActionResult {
 
     // out for error
     error:string;
+
+    // port for exec command
+    port:number;
 }

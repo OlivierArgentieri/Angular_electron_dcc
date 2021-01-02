@@ -80,7 +80,7 @@ export class DccActionModule{
 
      // create command with ActionReulstObject
      // return formatted command
-     public runAction(_actionData): Promise<string> {
+     public runAction(_actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             
             if(!_actionData) reject("null parameters");

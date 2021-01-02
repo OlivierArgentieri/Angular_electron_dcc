@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var socketServer_1 = require("./socketServer/socketServer");
+var net = require('net');
 // config
 var config = require('./config/config.json');
 // modules
@@ -75,7 +76,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
             });
             // run action
             socket.on("runDccAction", function (_actionData, _callback) {
-                _this.dccAction.runAction(_actionData).then(function (_command) {
+                console.log(_actionData);
+                var _actionObject = JSON.parse(_actionData);
+                _this.dccAction.runAction(_actionObject).then(function (_command) {
                     console.log(_command);
                     _callback("ok");
                 });

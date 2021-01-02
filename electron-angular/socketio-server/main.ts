@@ -1,5 +1,5 @@
 import SocketServer from "./socketServer/socketServer";
-
+const net = require('net');
 // config
 const config = require('./config/config.json');
 
@@ -8,7 +8,7 @@ import { DccResolverModule } from "./modules/dccResolverModule/dccResolverModule
 import { DccActionModule } from "./modules/dccActionModule/dccActionModule";
 import { DccCommandModule } from "./modules/dccCommandModule/dccCommandModule";
 import DccCommandData from "./modules/dccCommandModule/models/commandData";
-
+import { ActionResult } from "./modules/dccActionModule/models/actionResult/actionResult";
 
 
 
@@ -79,7 +79,9 @@ export default class SocketInterpreter extends SocketServer {
 
             // run action
             socket.on("runDccAction", (_actionData, _callback)  => {
-                this.dccAction.runAction(_actionData).then((_command)=>{
+                var _actionObject:ActionResult = JSON.parse(_actionData)
+
+                this.dccAction.runAction(_actionObject).then((_command)=>{
                     console.log(_command)
                     _callback("ok");
                 })

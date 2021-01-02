@@ -13,4 +13,7 @@ export class DccAction {
 
     // out for error
     error:string;
+
+    // port for exec
+    port:number
 }

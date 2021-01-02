@@ -26,7 +26,7 @@ export class SocketMayaComponent implements OnInit {
 
   message: string = "";
 
-  private route: ActivatedRoute = null;
+  private route: ActivatedRoute;
   private service: MayaService = null;
   private snackBar: MatSnackBar = null;
 
@@ -67,10 +67,11 @@ export class SocketMayaComponent implements OnInit {
   }
 
   getPortParameter():number{
-    this.route.queryParams.subscribe(params => {
-      return params['port'];
+    let _port =0;
+    this.route.params.subscribe(params => {
+      _port  = params['port']
     });
-    return 0
+    return _port
   }
   handleOrientation(event){
     this.actionSelected = `${event.beta}`;
@@ -79,8 +80,8 @@ export class SocketMayaComponent implements OnInit {
   ngOnInit(): void {
     this.initDccActionSelect();
     this.port = this.getPortParameter();
-
-  
+    //console.log(this.getPortParameter())
+    //console.log(this.port)
   }
 
  
@@ -115,33 +116,14 @@ export class SocketMayaComponent implements OnInit {
 
 
   test() {
-    var _settings:any;
-    //this.service.getDccActionByName("maya",this.actionSelected, (out) => {
-      //_settings = JSON.parse(out);
+      this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
 
-      //let _obj:DccActions =JSON.parse(out);
-      //this.dccActions = _obj.actions;
-     // console.log(out);
-       //var a = require(_obj.PythonSettings.actionsPath.toString())
-/*
-      if(!this.actionData) return;
-
-      var _cmd = this.actionData.default_script;
-      _cmd += "(" 
-      for (let _i = 0; _i < this.actionData.params.length; _i++) {
-        _cmd += `${this.actionData.params[_i].default}`;
-        
-        if(_i +1< this.actionData.params.length) _cmd +=', ';
-      }
-      _cmd += ")"*/
-
-      this.service.runDccAction(this.actionData, (out) => {
-       
+      this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
+      
       this.snackBar.open(out, "close", {
           duration: 5000
         });
       })
-    //});
   }
 
 
