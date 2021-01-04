@@ -68,7 +68,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         // create new connection
                         var client = net.Socket();
-                        var tcpConnection = client.connect(_port, '127.0.0.1', function () {
+                        var tcpConnection = client.connect(_port, '192.168.1.15', function () {
                         });
                         tcpConnection.on('error', function (error) {
                             console.log("not found on : " + _port);

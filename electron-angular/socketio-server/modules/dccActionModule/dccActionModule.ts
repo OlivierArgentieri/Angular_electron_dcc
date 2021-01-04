@@ -83,7 +83,7 @@ export class DccActionModule extends BaseModule{
      // return formatted command
      public runAction(_actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            console.log(_actionData);
+            
             if(!_actionData) reject("null parameters");
             var _cmd = _actionData.default_script;
             _cmd += "(" 
@@ -102,7 +102,7 @@ export class DccActionModule extends BaseModule{
             _cmd += ")" // close method call
             
             this.newRequest(_actionData.port, this.mainConfig.socketInterpreterSettings.host).then((client) => {
-                console.log(_cmd)
+                
                 client.write(_cmd);
                 client.on('data', (data) => {
                 client.destroy()

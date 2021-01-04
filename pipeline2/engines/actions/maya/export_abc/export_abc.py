@@ -13,6 +13,6 @@ class MayaExportAbc(ExportAbc):
         rootObjects = args[3].split(" ") #a b c d 
 
         for rootObject in rootObjects:
-            command = "-frameRange " + frameStart + " " + frameEnd +" -uvWrite -dataFormat ogawa -root " + rootObject + " -file " + exportFileName +"/"+rootObject+".abc "
+            command = "-frameRange " + str(frameStart) + " " + str(frameEnd) +" -uvWrite -dataFormat ogawa -root " + rootObject + " -file " + exportFileName +"/"+rootObject+".abc "
             cmds.AbcExport ( j = command )
         print("done")

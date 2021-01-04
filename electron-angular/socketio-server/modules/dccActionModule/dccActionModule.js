@@ -96,7 +96,6 @@ var DccActionModule = /** @class */ (function (_super) {
     DccActionModule.prototype.runAction = function (_actionData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log(_actionData);
             if (!_actionData)
                 reject("null parameters");
             var _cmd = _actionData.default_script;
@@ -118,7 +117,6 @@ var DccActionModule = /** @class */ (function (_super) {
             }
             _cmd += ")"; // close method call
             _this.newRequest(_actionData.port, _this.mainConfig.socketInterpreterSettings.host).then(function (client) {
-                console.log(_cmd);
                 client.write(_cmd);
                 client.on('data', function (data) {
                     client.destroy();

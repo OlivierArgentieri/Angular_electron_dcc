@@ -16,7 +16,7 @@ export class DccResolverModule extends BaseModule {
             
             // create new connection
             var client = net.Socket();
-            var tcpConnection = client.connect(_port, '127.0.0.1', function () {
+            var tcpConnection = client.connect(_port, '192.168.1.15', function () {
                 
             });
 
