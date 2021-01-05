@@ -81,10 +81,9 @@ var DccResolverModule = /** @class */ (function (_super) {
                         });
                         // result doesn't contains name of file
                         // so we make another request to fill this filename
-                        tcpConnection.write(getNameFile_Python);
+                        tcpConnection.write("#Identify#");
                         tcpConnection.on('data', function (data) {
                             var out = new resolverRowData_1.default();
-                            console.log(data.toString());
                             out.filename = data.toString() == "empty" ? "Unsaved" : data.toString();
                             out.reachable = true;
                             resolve(out);

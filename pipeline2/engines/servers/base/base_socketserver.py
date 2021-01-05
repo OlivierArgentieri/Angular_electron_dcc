@@ -4,18 +4,42 @@ import logging
 import socket
 import threading
 import json
- 
-class SocketServer(object):
 
+"""
+Default value  
+"""
+HOST = "192.168.1.15"
+PORT = 12346
+CONNECTIONS = 1
+
+
+class BaseSocketServer(object):
+
+   
     def __init__(self):
+        self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
-        threading.Thread(target=main_server).start()
+        # TODO : Need to find available port by dccs type
 
-
+        
+    #======================
+    # --- Override Part ---
+    #======================
     def function_to_process(self, data, client):
-        pass
+        logging.error("function_to_process not implemented")
+        
     def process_update(self, data, client):
-        pass
+        logging.error("process_update not implemented")
+
+    def on_shutdown(self):
+        self.serverRunning = False
+
+    def on_identify_dcc(self, client):
+        client.send("Idendity not implemented")
+    #===========================
+    # --- End Override Part ---
+    #===========================
+
 
     def main_server(self, host=HOST, port=PORT, connections=CONNECTIONS):
         """
@@ -30,26 +54,29 @@ class SocketServer(object):
         try:
             sock.bind((host, port))
         except Exception, socket_error:
-            msg = "Maya Server, Failed to open port: {}".format(socket_error)
+            msg = "Socket Server, Failed to open port: {}".format(socket_error)
             logging.error(msg)
-            cmds.error(msg)
             return
 
         sock.listen(connections)
-        logging.info("Starting Maya Server: {}".format(port))
-        while True:
+        logging.info("Starting Server: {}".format(port))
+
+        while self.serverRunning:
             client, address = sock.accept()
             data = client.recv(1024)
             if data:
                 if data == "#Shutdown#":
-                    break
+                    self.on_shutdown(self)
+
+                if data == "#Identify#":
+                    self.on_identify_dcc(client)
+
                 else:
                     logging.info("Socket Server, Data Received: {}".format(data))
-                    process_update(data, client)
+                    self.process_update(data, client)
 
             try:
                 client.close()
-                print("close client")
             except Exception, client_error:
                 logging.info("Socket Server, Error Closing Client Socket: {}".format(client_error))
 

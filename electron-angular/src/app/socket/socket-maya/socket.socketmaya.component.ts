@@ -92,7 +92,7 @@ export class SocketMayaComponent implements OnInit {
   sendCommand() {
 
     this.dccCommand.host = "192.168.1.15";
-    this.dccCommand.port = 12346;
+    this.dccCommand.port = this.port;
     this.dccCommand.command = this.message;
 
     this.service.sendCommand(JSON.stringify(this.dccCommand), (out) => {

@@ -33,7 +33,7 @@ export class DccResolverModule extends BaseModule {
 
             // result doesn't contains name of file
             // so we make another request to fill this filename
-            tcpConnection.write(getNameFile_Python);
+            tcpConnection.write("#Identify#");
             tcpConnection.on('data', (data) => {
                 var out = new ResolverRowData();
                 out.filename = data.toString()=="empty"?"Unsaved" : data.toString();

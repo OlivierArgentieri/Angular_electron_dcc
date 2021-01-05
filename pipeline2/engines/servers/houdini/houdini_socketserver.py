@@ -1,7 +1,6 @@
 from engines.servers.base.base_socketserver import BaseSocketServer
 
-import maya.cmds as cmds
-import maya.utils as maya_utils
+
 
 import logging
 import socket
@@ -9,16 +8,16 @@ import threading
 import json
 
 HOST = "192.168.1.15"
-PORT = 12346
+PORT = 12348
 CONNECTIONS = 1
 
-
-class MayaSocketServer(BaseSocketServer):
+class HoudiniSocketServer(BaseSocketServer):
 
     def __init__(self):
-        super(MayaSocketServer, self).__init__()
+        super(HoudiniSocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
-        threading.Thread(target=self.main_server).start()
+        threading.Thread(target=self.main_server, args=(HOST, PORT, CONNECTIONS)).start()
+
 
     def function_to_process(self, data, client):
         """
@@ -34,7 +33,6 @@ class MayaSocketServer(BaseSocketServer):
             data = data.replace("print", "out = str")
 
         try:
-            cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
             exec(data)
             client.send(out)
         except Exception, exec_error:
@@ -46,12 +44,14 @@ class MayaSocketServer(BaseSocketServer):
         :param data:
         :return:
         """
-
+        
         try:
-            maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+            self.function_to_process(data, client)
         except Exception, e:
-            cmds.error("Maya Server, Exception processing Function: {}".format(e))
-    
+            logging.error("Maya Server, Exception processing Function: {}".format(e))
+
+
     def on_identify_dcc(self, client):
-        data = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)"
-        maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+        client.send("houdiniFile")
+
+    
