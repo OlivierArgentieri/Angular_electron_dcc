@@ -16,7 +16,7 @@ def do():
         if 'WS_PIPELINE\pipeline' in value: # doesn't work because it clears itself.
             sys.modules.pop(key, None)
         """
-        if key.startswith('pipeline.'):
+        if key.startswith('pipeline2.'):
             sys.modules.pop(key, None)
         if key.startswith('spil.'):
             sys.modules.pop(key, None)

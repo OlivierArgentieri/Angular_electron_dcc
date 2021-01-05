@@ -103,13 +103,13 @@ var DccActionModule = /** @class */ (function (_super) {
             for (var _i = 0; _i < _actionData.params.length; _i++) {
                 switch (_actionData.params[_i].type) {
                     case "string":
-                        _cmd += "'" + _actionData.params[_i].default + "'";
+                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
                         break;
                     case "int":
-                        _cmd += "" + _actionData.params[_i].default;
+                        _cmd += _actionData.params[_i].name + " = " + _actionData.params[_i].default;
                         break;
                     default:
-                        _cmd += "'" + _actionData.params[_i].default + "'";
+                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
                         break;
                 }
                 if (_i + 1 < _actionData.params.length)

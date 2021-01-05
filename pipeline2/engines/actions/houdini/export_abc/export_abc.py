@@ -1,11 +1,11 @@
 from engines.actions.common.export_abc import ExportAbc
-import sys
-import maya.cmds as cmds
 
-class MayaExportAbc(ExportAbc):
+class HoudiniExportAbc(ExportAbc):
     @staticmethod
     def run(*args, **kwargs):
 
+        print('test')
+        return
         # from parameters
         exportFileName = kwargs.get('outPath', '')
         frameStart =  kwargs.get('startFrame',0)
@@ -14,5 +14,5 @@ class MayaExportAbc(ExportAbc):
 
         for rootObject in rootObjects:
             command = "-frameRange " + str(frameStart) + " " + str(frameEnd) +" -uvWrite -dataFormat ogawa -root " + rootObject + " -file " + exportFileName +"/"+rootObject+".abc "
-            cmds.AbcExport ( j = command )
+            
         print("done")

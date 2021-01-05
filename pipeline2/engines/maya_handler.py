@@ -106,8 +106,9 @@ if __name__ == "__main__":
 #########################
 #import sys        
 #sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc/pipeline2")
-#from engines.actions import *
+
+#from engines.actions.maya import *
 
 
 # test
-#MayaExportAbc.run(1,1)
+#MayaExportAbc.run(...)

@@ -9,4 +9,5 @@
     ],
     "script_path": "./export_abc.py",
     "default_script":"MayaExportAbc.run"
+    
 }
