@@ -53,7 +53,6 @@ exports.DccResolverModule = void 0;
 var net = require('net');
 var baseModule_1 = require("../base/baseModule");
 var resolverRowData_1 = require("./models/resolverRowData");
-var getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
 /////////////////////////////////////////
 // Class to discover opened dccs throught network 
 /////////////////////////////////////////

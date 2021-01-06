@@ -11,15 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomeModule } from './home/home.module';
-import { DetailModule } from './detail/detail.module';
-import { SocketMayaModule } from './socket/socket-maya/socket.socketmaya.module';
-import { SocketModule } from './socket/socket.socket.module';
+import { HomeModule } from './components/home/home.module';
+import { SocketMayaModule } from './components/socket/socket-maya/socket.socketmaya.module';
+import { SocketModule } from './components/socket/socket.socket.module';
 
 // Providers
-import { MayaSocketService } from './socket/services/maya/maya-socket-service';
-import { MayaService } from './socket/services/maya/maya-service';
-import { SocketService } from './socket/services/socket-service';
+import { MayaSocketService } from './components/socket/services/maya/maya-socket-service';
+import { MayaService } from './components/socket/services/maya/maya-service';
+import { SocketService } from './components/socket/services/socket-service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -46,7 +45,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    DetailModule,
     SocketMayaModule,
     SocketModule,
     AppRoutingModule,

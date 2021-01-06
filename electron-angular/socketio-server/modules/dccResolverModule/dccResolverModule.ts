@@ -3,9 +3,6 @@ const net = require('net');
 import { BaseModule } from "../base/baseModule";
 import ResolverRowData from "./models/resolverRowData";
 
-const getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
-
-
 /////////////////////////////////////////
 // Class to discover opened dccs throught network 
 /////////////////////////////////////////

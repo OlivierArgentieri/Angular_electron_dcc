@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { io } from 'socket.io-client';
 import * as Rx from "rxjs/Rx";
 
-import { AppConfig } from '../../../environments/environment';
+import { AppConfig } from '../../../../environments/environment';
 
 @Injectable()
 export class SocketService{
