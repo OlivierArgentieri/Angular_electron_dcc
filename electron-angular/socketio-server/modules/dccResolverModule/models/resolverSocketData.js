@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ResolverSocketData = exports.ResolverSocketRow = void 0;
 var ResolverSocketRow = /** @class */ (function () {
     function ResolverSocketRow(_port, _reachable, _filename) {
         if (_port === void 0) { _port = 0; }
@@ -11,5 +12,11 @@ var ResolverSocketRow = /** @class */ (function () {
     }
     return ResolverSocketRow;
 }());
-exports.default = ResolverSocketRow;
-//# sourceMappingURL=resolverRowData.js.map
+exports.ResolverSocketRow = ResolverSocketRow;
+var ResolverSocketData = /** @class */ (function () {
+    function ResolverSocketData() {
+    }
+    return ResolverSocketData;
+}());
+exports.ResolverSocketData = ResolverSocketData;
+//# sourceMappingURL=resolverSocketData.js.map

@@ -126,7 +126,7 @@ class BaseSocketServer(object):
             return
 
         sock.listen(connections)
-        logging.info("Starting Server: {}".format(port))
+        logging.info("Starting Server: {}:{}".format(host, port))
 
         while self.serverRunning:
             client, address = sock.accept()

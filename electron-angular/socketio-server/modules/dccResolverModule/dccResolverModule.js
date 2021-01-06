@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DccResolverModule = void 0;
 var net = require('net');
 var baseModule_1 = require("../base/baseModule");
-var resolverRowData_1 = require("./models/resolverRowData");
+var resolverSocketData_1 = require("./models/resolverSocketData");
 /////////////////////////////////////////
 // Class to discover opened dccs throught network 
 /////////////////////////////////////////
@@ -61,18 +61,18 @@ var DccResolverModule = /** @class */ (function (_super) {
     function DccResolverModule() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    DccResolverModule.prototype.resolve = function (_port, _address) {
+    DccResolverModule.prototype.resolve = function (_host, _port) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         // create new connection
                         var client = net.Socket();
-                        var tcpConnection = client.connect(_port, '192.168.1.15', function () {
+                        var tcpConnection = client.connect(_port, "192.168.1.15", function () {
                         });
                         tcpConnection.on('error', function (error) {
-                            console.log("not found on : " + _port);
+                            console.log("not found on : " + _port + " error " + error);
                             client.destroy();
-                            var out = new resolverRowData_1.default();
+                            var out = new resolverSocketData_1.ResolverSocketRow();
                             out.filename = "undefined";
                             out.reachable = false;
                             resolve(out);
@@ -82,7 +82,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                         // so we make another request to fill this filename
                         tcpConnection.write("#Identify#");
                         tcpConnection.on('data', function (data) {
-                            var out = new resolverRowData_1.default();
+                            var out = new resolverSocketData_1.ResolverSocketRow();
                             out.filename = data.toString() == "empty" ? "Unsaved" : data.toString();
                             out.reachable = true;
                             resolve(out);
@@ -92,29 +92,56 @@ var DccResolverModule = /** @class */ (function (_super) {
             });
         });
     };
-    DccResolverModule.prototype.main = function () {
+    DccResolverModule.prototype.resolveOnRange = function (_host, _startPort, _endPort) {
         return __awaiter(this, void 0, void 0, function () {
-            var _startPort, _endPort, _promises, _toReturn, _i;
+            var _toReturn, _promises, _i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _startPort = 12346;
-                        _endPort = 12350;
-                        _promises = [];
                         _toReturn = new Array();
-                        for (_i = _startPort; _i < _endPort; _i++) {
-                            _promises.push(this.resolve(_i, "localhost")
+                        _promises = [];
+                        for (_i = _startPort; _i <= _endPort; _i++) {
+                            _promises.push(this.resolve(_host, _i)
                                 .catch(function (e) { }));
                         }
                         return [4 /*yield*/, Promise.all(_promises)
                                 .then(function (results) {
-                                for (var _i = 0; _i < _endPort - _startPort; _i++) {
-                                    _toReturn.push(new resolverRowData_1.default(_startPort + _i, results[_i].reachable, results[_i].filename));
+                                for (var _i = 0; _i <= _endPort - _startPort; _i++) {
+                                    _toReturn.push(new resolverSocketData_1.ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].filename));
                                 }
                             })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, _toReturn];
+                }
+            });
+        });
+    };
+    DccResolverModule.prototype.main = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _promises, _host, _resolverSocketData, _portStart, _portEnd;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _promises = [];
+                        _host = this.mainConfig.socketInterpreterSettings.port;
+                        _resolverSocketData = new resolverSocketData_1.ResolverSocketData();
+                        _portStart = this.mainConfig.dccPortSettings.mayaPortRangeStart;
+                        _portEnd = this.mainConfig.dccPortSettings.mayaPortRangeEnd;
+                        _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
+                        // houdini
+                        _portStart = this.mainConfig.dccPortSettings.houdiniPortRangeStart;
+                        _portEnd = this.mainConfig.dccPortSettings.houdiniPortRangeEnd;
+                        _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
+                        return [4 /*yield*/, Promise.all(_promises).then(function (_results) {
+                                _resolverSocketData.mayaData = _results[0];
+                                _resolverSocketData.houdiniData = _results[1];
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, new Promise(function (resolve, reject) {
+                                resolve(_resolverSocketData);
+                            })];
                 }
             });
         });

@@ -37,4 +37,5 @@ class Utils:
     @staticmethod
     def get_current_host():
         import socket
+        return "192.168.1.15" # TODO : BYPASS WSL INTERFACE
         return socket.gethostbyname(socket.gethostname())

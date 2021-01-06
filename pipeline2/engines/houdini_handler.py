@@ -10,4 +10,3 @@ from pipeline2.engines.actions.houdini import *
 from pipeline2.engines.servers.houdini import HoudiniSocketServer 
 
 server = HoudiniSocketServer()
-server = HoudiniSocketServer()

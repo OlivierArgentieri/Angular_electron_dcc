@@ -5,9 +5,9 @@
     },
     "dccPortSettings": {
         "mayaPortRangeStart": 6000,
-        "mayaPortRangeEnd": 6019,
-        "houdiniPortRangeStart": 6020,
-        "houdiniPortRangeEnd": 6039
+        "mayaPortRangeEnd": 6005,
+        "houdiniPortRangeStart": 6006,
+        "houdiniPortRangeEnd": 6011
     },
     "pipelineSettings": {
         "commonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/common",
