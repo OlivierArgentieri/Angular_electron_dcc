@@ -105,10 +105,22 @@ if __name__ == "__main__":
 # for include all actions 
 #########################
 #import sys        
-#sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc/pipeline2")
+#sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc")
 
 #from engines.actions.maya import *
 
+
+#tmp_modules = sys.modules.copy()
+#for key, value in tmp_modules.iteritems():
+#    if key.startswith('pipeline2.'):
+#        sys.modules.pop(key, None)
+
+#from pipeline2.engines.servers.maya import MayaSocketServer
+
+#server = MayaSocketServer()
+
+#from engines.actions.houdini import *
+#from engines.servers.houdini import HoudiniSocketServer
 
 # test
 #MayaExportAbc.run(...)

@@ -1,4 +1,4 @@
-from engines.servers.base.base_socketserver import BaseSocketServer
+from pipeline2.engines.servers.base.base_socketserver import BaseSocketServer
 
 import maya.cmds as cmds
 import maya.utils as maya_utils

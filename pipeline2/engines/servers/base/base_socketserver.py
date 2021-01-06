@@ -5,8 +5,10 @@ import socket
 import threading
 import json
 
+from pipeline2.utils.utils import Utils
+
 # Config path
-CONFIG_PATH = "D:/Projet\PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json"
+CONFIG_PATH = "D:\Projet\PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json"
 
 # default value
 HOST = "192.168.1.15"
@@ -23,6 +25,16 @@ class BaseSocketServer(object):
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
 
+    
+    def get_unused_ports(self, host, start_port, end_port):
+        available_ports = []
+        ports = range(start_port, end_port)
+        
+        for i in ports:
+            if(Utils.is_port_is_use(host, i)):
+                available_ports.append(i)
+
+        return available_ports
 
     # --- Override Part ---
     
@@ -32,19 +44,21 @@ class BaseSocketServer(object):
         :param:
         :return list of available ports:
         """
+        available_ports = []
 
         # Read json file, get port range
         with open(CONFIG_PATH) as config:
             data = json.load(config)
         
         port_settings= data['dccPortSettings']
-        port_start['mayaPortRangeStart']
-        port_end['mayaPortRangeEnd']
-        
-        # make list of port available
-        # return list port available.
+        port_start = port_settings['mayaPortRangeStart']
+        port_end = port_settings['mayaPortRangeEnd']
 
-        return data
+        available_ports = Utils.get_unused_ports(HOST, port_start, port_end)
+        print(available_ports)
+
+
+        return available_ports
 
     def function_to_process(self, data, client):
         """
@@ -99,7 +113,7 @@ class BaseSocketServer(object):
         :param connections: Integer Number of connections to handle
         :return:
         """
-        #available_ports = self.get_available_ports()
+        #self.get_available_ports()
         #if(len(available_ports) == 0): # No port available
         #return
 

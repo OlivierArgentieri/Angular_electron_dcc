@@ -1,1 +1,1 @@
-from engines.servers.maya.maya_socketserver import MayaSocketServer
+from pipeline2.engines.servers.maya.maya_socketserver import MayaSocketServer
