@@ -1,0 +1,17 @@
+{
+    "socketInterpreterSettings": {
+        "port": 3000,
+        "host": "192.168.1.15"
+    },
+    "dccPortSettings": {
+        "mayaPortRangeStart": 6000,
+        "mayaPortRangeEnd": 6019,
+        "houdiniPortRangeStart": 6020,
+        "houdiniPortRangeEnd": 6039
+    },
+    "pipelineSettings": {
+        "commonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/common",
+        "mayaActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/maya",
+        "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini"
+    }
+}

@@ -32,7 +32,6 @@ def function_to_process(data, client):
     try:
         cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
         
-        print("ssss")
         exec(data)
         client.send(out)
     except Exception, exec_error:
@@ -98,7 +97,7 @@ def maya_server(host=HOST, port=PORT, connections=CONNECTIONS):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     threading.Thread(target=maya_server).start()
-
+ 
 
 
 #########################

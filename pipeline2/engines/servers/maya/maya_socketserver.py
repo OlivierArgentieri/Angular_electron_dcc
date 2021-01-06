@@ -8,17 +8,22 @@ import socket
 import threading
 import json
 
-HOST = "192.168.1.15"
-PORT = 12350
-CONNECTIONS = 1
-
 
 class MayaSocketServer(BaseSocketServer):
 
     def __init__(self):
         super(MayaSocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
-        threading.Thread(target=self.main_server, args=(HOST, PORT, CONNECTIONS)).start()
+        
+        self.start_with_config()
+    
+    def start_with_config(self):
+        config = self.get_config()
+        dcc_port_settings = config['dccPortSettings']
+        port_start = dcc_port_settings['mayaPortRangeStart']
+        port_end = dcc_port_settings['mayaPortRangeEnd']
+
+        self.start_server(port_start, port_end, self.CONNECTIONS)
 
     def function_to_process(self, data, client):
         """

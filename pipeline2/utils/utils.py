@@ -1,6 +1,12 @@
 class Utils:
     @staticmethod
     def is_port_is_use(host, port):
+        """
+        Is Port Is Use
+        :param host:
+        :pram port:
+        :return boolean: true if port is in use, else if not 
+        """
         import socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -11,13 +17,25 @@ class Utils:
             return False
 
     @staticmethod
-    def get_unused_ports(host, start_port, end_port):
+    def get_unused_ports(host, port_start, port_end):
+        """
+        Get Unused Ports
+        :param host: host
+        :param port_start: start range port
+        :param port_end: end range port
+        :return list: list of unused ports
+        """
         available_ports = []
-        ports = range(start_port, end_port)
-        
+        ports = range(port_start, port_end)
+        print(ports)
         for i in ports:
             if(Utils.is_port_is_use(host, i)):
                 available_ports.append(i)
 
         available_ports.sort()
         return available_ports
+    
+    @staticmethod
+    def get_current_host():
+        import socket
+        return socket.gethostbyname(socket.gethostname())
