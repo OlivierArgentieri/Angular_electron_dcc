@@ -27,7 +27,6 @@ class Utils:
         """
         available_ports = []
         ports = range(port_start, port_end)
-        print(ports)
         for i in ports:
             if(Utils.is_port_is_use(host, i)):
                 available_ports.append(i)

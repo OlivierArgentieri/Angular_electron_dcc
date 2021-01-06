@@ -26,13 +26,12 @@ class BaseSocketServer(object):
     def get_available_ports(self, host, port_start, port_end):
         """
         Get Available Ports
-        :param host: host
+        :param host: host/
         :param port_start: start port of range
         :param port_end: end port of range (included)
         :return list: list of port available
         """
         available_ports = Utils.get_unused_ports(host, port_start, port_end+1)
-        print(available_ports)
         return available_ports
 
     def start_server(self, port_start, port_end, connections=CONNECTIONS):

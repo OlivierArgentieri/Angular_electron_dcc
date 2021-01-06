@@ -6,7 +6,8 @@ for key, value in tmp_modules.iteritems():
     if key.startswith('pipeline2.'):
         sys.modules.pop(key, None)
 
-from pipeline2.engines.actions.maya import *
-from pipeline2.engines.servers.maya import MayaSocketServer 
+from pipeline2.engines.actions.houdini import *
+from pipeline2.engines.servers.houdini import HoudiniSocketServer 
 
-server = MayaSocketServer()
+server = HoudiniSocketServer()
+server = HoudiniSocketServer()
