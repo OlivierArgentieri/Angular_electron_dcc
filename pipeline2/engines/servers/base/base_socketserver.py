@@ -5,42 +5,92 @@ import socket
 import threading
 import json
 
-"""
-Default value  
-"""
+# Config path
+CONFIG_PATH = "D:/Projet\PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json"
+
+# default value
 HOST = "192.168.1.15"
 PORT = 12346
 CONNECTIONS = 1
 
-
+########################################
+# Base class for all dccs socket server
+########################################
 class BaseSocketServer(object):
 
    
     def __init__(self):
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
-        # TODO : Need to find available port by dccs type
 
-        
-    #======================
+
     # --- Override Part ---
-    #======================
+    
+    def get_available_ports(self):
+        """
+        Get Available (unused) Port
+        :param:
+        :return list of available ports:
+        """
+
+        # Read json file, get port range
+        with open(CONFIG_PATH) as config:
+            data = json.load(config)
+        
+        port_settings= data['dccPortSettings']
+        port_start['mayaPortRangeStart']
+        port_end['mayaPortRangeEnd']
+        
+        # make list of port available
+        # return list port available.
+
+        return data
+
     def function_to_process(self, data, client):
+        """
+        Function to execute
+        received command (callback)
+        :param data: Received Data
+        :param client: Client Connection
+        :return:
+        """
         logging.error("function_to_process not implemented")
         
+    
     def process_update(self, data, client):
+        """
+        Process Update
+        to redirect execution of data received (onMainThread for maya, fo exemple)
+        :param data: Received Data
+        :param client: Client Connection
+        :return:
+        """
         logging.error("process_update not implemented")
 
+    # route action
     def on_shutdown(self):
+        """
+        On Shutdown Action
+        :param:
+        :return:
+        """
         self.serverRunning = False
 
+    # route action
     def on_identify_dcc(self, client):
+        """
+        On Identify Dcc Action
+        :param client: Client Connection
+        :return:
+        """
         client.send("Idendity not implemented")
-    #===========================
+
     # --- End Override Part ---
-    #===========================
+   
 
 
+
+    # Generic method to start all server in python 2
     def main_server(self, host=HOST, port=PORT, connections=CONNECTIONS):
         """
         Main server
@@ -49,6 +99,9 @@ class BaseSocketServer(object):
         :param connections: Integer Number of connections to handle
         :return:
         """
+        #available_ports = self.get_available_ports()
+        #if(len(available_ports) == 0): # No port available
+        #return
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:

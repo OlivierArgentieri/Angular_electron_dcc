@@ -9,7 +9,7 @@ import threading
 import json
 
 HOST = "192.168.1.15"
-PORT = 12346
+PORT = 12350
 CONNECTIONS = 1
 
 
@@ -18,7 +18,7 @@ class MayaSocketServer(BaseSocketServer):
     def __init__(self):
         super(MayaSocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
-        threading.Thread(target=self.main_server).start()
+        threading.Thread(target=self.main_server, args=(HOST, PORT, CONNECTIONS)).start()
 
     def function_to_process(self, data, client):
         """
