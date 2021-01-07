@@ -44,6 +44,7 @@ export class SocketComponent implements OnInit, OnDestroy {
   }
 
   resolve(){
+    this.objects = null;
     this.service.resolve((_outdata) => {
       this.objects = JSON.parse(_outdata);
 
