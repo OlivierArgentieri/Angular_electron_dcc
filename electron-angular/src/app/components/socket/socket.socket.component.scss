@@ -1,22 +1,29 @@
-$darkLight-color : #33ac79;
-$disable-color : #424242;
-$primary-color : #37464f;
-$light-color : #31363b;
-$dark-color : #101f27;
-$text-color : #ffffff;
+$dark-color : #161718;
+$darkLight-color : #181a1b;
+$primary-color : #16814f; 
+$text-color : #8e9081;
+$text-white : #ffffff;
 
-.bg-darklight,
-.bg-enable{
-    background: $darkLight-color
+.bg-darklight{
+    background: $darkLight-color;
 }
-
-.bg-disable{
-    background: $disable-color
+.bg-dark{
+    background: $dark-color !important;
 }
-
 .bg-primary{
     background: $primary-color;
 }
+.text-color{
+    color: $text-color;
+}
+
+.text-white{
+    color: $text-white !important;
+}
+
+
+
+
 
 .row,
 .row > .column {

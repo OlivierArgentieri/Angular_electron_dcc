@@ -67,10 +67,10 @@ var DccResolverModule = /** @class */ (function (_super) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         // create new connection
                         var client = net.Socket();
-                        var tcpConnection = client.connect(_port, "192.168.1.15", function () {
+                        var tcpConnection = client.connect(_port, _host, function () {
                         });
                         tcpConnection.on('error', function (error) {
-                            console.log("not found on : " + _port + " error " + error);
+                            console.log("not found on : " + _port);
                             client.destroy();
                             var out = new resolverSocketData_1.ResolverSocketRow();
                             out.filename = "undefined";
@@ -124,7 +124,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _promises = [];
-                        _host = this.mainConfig.socketInterpreterSettings.port;
+                        _host = this.mainConfig.socketInterpreterSettings.host;
                         _resolverSocketData = new resolverSocketData_1.ResolverSocketData();
                         _portStart = this.mainConfig.dccPortSettings.mayaPortRangeStart;
                         _portEnd = this.mainConfig.dccPortSettings.mayaPortRangeEnd;
@@ -134,8 +134,8 @@ var DccResolverModule = /** @class */ (function (_super) {
                         _portEnd = this.mainConfig.dccPortSettings.houdiniPortRangeEnd;
                         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
                         return [4 /*yield*/, Promise.all(_promises).then(function (_results) {
-                                _resolverSocketData.mayaData = _results[0];
-                                _resolverSocketData.houdiniData = _results[1];
+                                _resolverSocketData.mayaDatas = _results[0];
+                                _resolverSocketData.houdiniDatas = _results[1];
                             })];
                     case 1:
                         _a.sent();

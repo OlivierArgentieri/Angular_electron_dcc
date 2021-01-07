@@ -11,7 +11,7 @@ export class ResolverSocketRow {
 }
 
 export  class ResolverSocketData {
-   mayaData:Array<ResolverSocketRow>
-   houdiniData:Array<ResolverSocketRow>
-   nukeData:Array<ResolverSocketRow>
+   mayaDatas:Array<ResolverSocketRow>
+   houdiniDatas:Array<ResolverSocketRow>
+   nukeDatas:Array<ResolverSocketRow>
 } 

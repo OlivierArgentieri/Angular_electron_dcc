@@ -13,12 +13,12 @@ export class DccResolverModule extends BaseModule {
             
             // create new connection
             var client = net.Socket();
-            var tcpConnection = client.connect(_port, "192.168.1.15", function () {
+            var tcpConnection = client.connect(_port, _host, function () {
                 
             });
 
             tcpConnection.on('error', (error) => {
-                console.log(`not found on : ${_port} error ${error}`)
+                console.log(`not found on : ${_port}`)
                 client.destroy();
                 var out = new ResolverSocketRow();
                 out.filename = "undefined";
@@ -63,7 +63,7 @@ export class DccResolverModule extends BaseModule {
 
         const _promises = []
         // format data for dccs
-        const _host =  this.mainConfig.socketInterpreterSettings.port;
+        const _host =  this.mainConfig.socketInterpreterSettings.host;
 
         const _resolverSocketData:ResolverSocketData = new ResolverSocketData();
         
@@ -81,8 +81,8 @@ export class DccResolverModule extends BaseModule {
         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd))
 
         await Promise.all(_promises).then((_results)=>{
-            _resolverSocketData.mayaData = _results[0]
-            _resolverSocketData.houdiniData = _results[1]
+            _resolverSocketData.mayaDatas = _results[0]
+            _resolverSocketData.houdiniDatas = _results[1]
             
         })
         

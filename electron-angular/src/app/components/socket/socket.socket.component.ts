@@ -1,18 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MayaService } from './services/maya/maya-service';
 import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-// SocketIoModule
-//import { Socket } from 'ngx-socket-io';
-//import { Injectable } from '@angular/core';
 
-//
-//const socket = io("ws://localhost:1234/");
 interface ResolverSocketRow {
   port:Number;
   reachable:Boolean;
   fileName:String;
   
+}
+ class ResolverSocketData {
+ mayaDatas:Array<ResolverSocketRow>
+ houdiniDatas:Array<ResolverSocketRow>
+ nukeDatas:Array<ResolverSocketRow>
 } 
+
 @Component({
   selector: 'app-sockethome',
   templateUrl: './socket.socket.component.html',
@@ -21,9 +22,10 @@ interface ResolverSocketRow {
 export class SocketComponent implements OnInit, OnDestroy {
   faTerminal = faTerminal;
   faSignInAlt = faSignInAlt;
+  displayedColumns: string[] = ['fileName', 'port', 'reachable', 'actions'];
   constructor(private service: MayaService){  }
 
-  objects:ResolverSocketRow[];
+  objects:ResolverSocketData = null;
   ngOnInit(): void {
     this.resolve();
   }
@@ -44,14 +46,14 @@ export class SocketComponent implements OnInit, OnDestroy {
   resolve(){
     this.service.resolve((_outdata) => {
       this.objects = JSON.parse(_outdata);
+
+      this.objects.mayaDatas = this.objects.mayaDatas.filter(obj => obj.reachable);
+      this.objects.houdiniDatas = this.objects.houdiniDatas.filter(obj => obj.reachable);
+      this.objects.nukeDatas = this.objects.nukeDatas.filter(obj => obj.reachable);
       });
 
   }
 
   getData() {
-    
-    if(this.objects.length > 0)
-      return this.objects[0].port;
-    return "NULL"
   }
 }

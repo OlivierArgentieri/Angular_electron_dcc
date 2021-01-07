@@ -1,17 +1,120 @@
-<section class="bg-dark text-white" id="main">
+<section class="bg-darklight text-white" id="main">
   <div class="container">
     <div class="row">
-     <div class="mx-auto text-center">
-      
+      <div class="mx-auto text-center">
         <button class="bg-primary center col-lg-12 mb-5" mat-button (click)="resolve()">Refresh</button>
       </div>
+      <mat-progress-bar *ngIf="!objects;" mode="indeterminate"></mat-progress-bar>
     </div>
   </div>
+  
   <div class="container">
     <div class="row">
-        <div class="col-lg-4"  *ngFor="let obj of objects let i = index">
-          
-           <!-- if reachable block -->
+      
+      <div *ngIf="objects;" class="col-lg-12 col-md-12">
+        <mat-card  class=" text-white mb-4 bg-dark">
+          <mat-card-header>
+            <img mat-card-avatar src="../../../assets/socket/dccs_logo/Maya_Logo_45x45.png" />
+            <mat-card-title>Maya</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="col-lg-12  mb-3 mt-3">
+            <table mat-table [dataSource]="objects.mayaDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
+              <ng-container matColumnDef="fileName">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> fileName </th>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="port">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> port </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.port}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reachable">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.reachable}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <td mat-cell *matCellDef="let obj"> 
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open">
+                    <mat-icon>open_in_new</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div *ngIf="objects;" class="col-lg-12 col-md-12">
+        <mat-card  class=" text-white mb-4 bg-dark">
+          <mat-card-header>
+            <img mat-card-avatar src="../../../assets/socket/dccs_logo/Houdini_Logo_45x45.png" />
+            <mat-card-title>Houdini</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="col-lg-12  mb-3 mt-3">
+            <table mat-table [dataSource]="objects.houdiniDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
+              <ng-container matColumnDef="fileName">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> fileName </th>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="port">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> port </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.port}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reachable">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.reachable}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <td mat-cell *matCellDef="let obj"> 
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open">
+                    <mat-icon>open_in_new</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+<!--
+      <div *ngIf="objects;" class="col-lg-12 col-md-12 text-center ">
+        <mat-card  class="bg-enable text-white mb-4">
+          <mat-card-header>
+            <img mat-card-avatar src="https://olivierargentieri.github.io/assets/portfolio/img/softs/Houdini_Logo_45x45.png" />
+            <mat-card-title>Houdini</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ng-container class="col-lg-1 col-md-2 col-4 mr-2 text-center mb-3 mt-3" *ngFor="let obj of objects.houdiniDatas let i = index">
+                <button class="col-lg-1 col-md-2 col-4 mr-2 text-center mb-3 mt-3" *ngIf="obj.reachable;" mat-raised-button color="primary">{{ obj.filename}}</button>
+            </ng-container>
+          </mat-card-content>
+
+        </mat-card>
+      </div>
+      
+        <div class="col-lg-4" *ngFor="let obj of objects.mayaDatas let i = index">
+         if reachable block 
           <mat-card *ngIf="obj.reachable; else elseBlock "class="bg-enable text-white mb-4">
             <mat-card-header>
               <div mat-card-avatar class=""><fa-icon [icon]="faTerminal"></fa-icon></div>
@@ -26,56 +129,8 @@
               <button mat-button [routerLink]="['/socket/maya', obj.port]" class="bg-dark">Open</button>
             </mat-card-actions>
           </mat-card>
+        </div>-->
 
-          <!-- else block -->
-          <ng-template #elseBlock>
-          <mat-card  class="bg-disable text-white mb-4">
-            <mat-card-header>
-              <div mat-card-avatar class=""><fa-icon [icon]="faTerminal"></fa-icon></div>
-              <mat-card-title>{{ obj.port }}</mat-card-title>
-              <mat-card-subtitle>unavailable</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <p> TODO content</p>
-            </mat-card-content>
-
-            <mat-card-actions>
-              <button mat-button (click)="Open"class="bg-dark">Open</button>
-            </mat-card-actions>
-
-          </mat-card>
-        </ng-template>
-        </div>
-
-
-        <!--
-        <mat-card class="bg-darklight mt-5 mb-4 text-white">
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Client Socket Home</mat-card-title>
-            <mat-card-subtitle>test</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-form-field appearance="fill" class="mr-2">
-              <input matInput placeholder="@" [(ngModel)]="host" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="mr-2">
-              <input matInput type="number" placeholder="8000" [(ngModel)]="port" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Maya command</mat-label>
-              <textarea matInput placeholder="import maya" [(ngModel)]="message"></textarea>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button (click)="Resolve()">Resolve</button>
-            <button mat-button (click)="sendMessage()">Exec</button>
-            <p>{{getData()}} aaa </p>
-          </mat-card-actions>
-        </mat-card>-->
-      </div>
 
   </div>
 </section>
