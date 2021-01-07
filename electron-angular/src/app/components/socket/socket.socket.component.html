@@ -2,15 +2,17 @@
   <div class="container">
     <div class="row">
       <div class="mx-auto text-center">
-        <button class="bg-primary center col-lg-12 mb-5" mat-button (click)="resolve()">Refresh</button>
+        <button mat-icon-button color="primary" (click)="resolve()" aria-label="Refresh" matTooltip="Refresh">
+          <mat-icon>sync</mat-icon>
+        </button>
       </div>
-      <mat-progress-bar *ngIf="!objects;" mode="indeterminate"></mat-progress-bar>
+     
     </div>
   </div>
   
   <div class="container">
     <div class="row">
-      
+      <mat-progress-bar *ngIf="!objects;" mode="indeterminate"></mat-progress-bar>
       <div *ngIf="objects;" class="col-lg-12 col-md-12">
         <mat-card  class=" text-white mb-4 bg-dark">
           <mat-card-header>
@@ -21,24 +23,27 @@
             <div class="col-lg-12  mb-3 mt-3">
             <table mat-table [dataSource]="objects.mayaDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
               <ng-container matColumnDef="fileName">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> fileName </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Filename </th>
                 <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
               </ng-container>
 
               <ng-container matColumnDef="port">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> port </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Port </th>
                 <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.port}} </td>
               </ng-container>
 
               <ng-container matColumnDef="reachable">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
-                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.reachable}} </td>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Reachable </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> 
+                  <span *ngIf="obj.reachable;" class="badge bg-success anim-online">Online</span>
+                  <span *ngIf="!obj.reachable;" class="badge bg-anger">Offline</span>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Actions </th>
                 <td mat-cell *matCellDef="let obj"> 
-                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open">
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open" matTooltip="Open">
                     <mat-icon>open_in_new</mat-icon>
                   </button>
                 </td>
@@ -65,24 +70,27 @@
             <div class="col-lg-12  mb-3 mt-3">
             <table mat-table [dataSource]="objects.houdiniDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
               <ng-container matColumnDef="fileName">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> fileName </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Filename </th>
                 <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
               </ng-container>
 
               <ng-container matColumnDef="port">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> port </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Port </th>
                 <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.port}} </td>
               </ng-container>
 
               <ng-container matColumnDef="reachable">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
-                <td mat-cell *matCellDef="let obj" class="text-white"> {{obj.reachable}} </td>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Reachable </th>
+                <td mat-cell *matCellDef="let obj" class="text-white"> 
+                  <span *ngIf="obj.reachable;" class="badge bg-success anim-online">Online</span>
+                  <span *ngIf="!obj.reachable;" class="badge bg-anger">Offline</span>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef class="text-color"> actions </th>
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Actions </th>
                 <td mat-cell *matCellDef="let obj"> 
-                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open">
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open" matTooltip="Open">
                     <mat-icon>open_in_new</mat-icon>
                   </button>
                 </td>
