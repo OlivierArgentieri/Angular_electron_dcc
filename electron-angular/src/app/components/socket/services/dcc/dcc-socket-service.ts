@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable()
-export class MayaSocketService extends SocketService{
+export class DccSocketService extends SocketService{
 
     constructor() {
         super();

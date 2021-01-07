@@ -12,12 +12,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { HomeModule } from './components/home/home.module';
-import { SocketMayaModule } from './components/socket/socket-maya/socket.socketmaya.module';
+import { SocketDccModule } from './components/socket/socket-dcc/socket.socketdcc.module';
 import { SocketModule } from './components/socket/socket.socket.module';
 
 // Providers
-import { MayaSocketService } from './components/socket/services/maya/maya-socket-service';
-import { MayaService } from './components/socket/services/maya/maya-service';
+import { DccSocketService } from './components/socket/services/dcc/dcc-socket-service';
+import { DccService } from './components/socket/services/dcc/dcc-service';
 import { SocketService } from './components/socket/services/socket-service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,7 +45,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    SocketMayaModule,
+    SocketDccModule,
     SocketModule,
     AppRoutingModule,
     MaterialModule,
@@ -59,8 +59,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     })
   ],
   providers: [
-    MayaService,
-    MayaSocketService,
+    DccService,
+    DccSocketService,
     SocketService,
   ],
   bootstrap: [AppComponent]

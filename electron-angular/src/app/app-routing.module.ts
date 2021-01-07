@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 
 import { HomeRoutingModule } from './components/home/home-routing.module';
-import { SocketMayaRoutingModule } from './components/socket/socket-maya/socket.socketmaya-routing.module';
+import { SocketDccRoutingModule } from './components/socket/socket-dcc/socket.socketdcc-routing.module';
 import { SocketRoutingModule } from './components/socket/socket.socket-routing.module';
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     HomeRoutingModule,
-    SocketMayaRoutingModule,
+    SocketDccRoutingModule,
     SocketRoutingModule
   ],
   exports: [RouterModule]

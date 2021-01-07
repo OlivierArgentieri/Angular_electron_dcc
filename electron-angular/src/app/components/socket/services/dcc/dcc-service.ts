@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { SocketService }  from '../socket-service';
 import { Observable, Subject } from 'rxjs/Rx';
-import { MayaSocketService } from './maya-socket-service';
+import { DccSocketService } from './dcc-socket-service';
 
 @Injectable()
-export class MayaService{
+export class DccService{
     
     service:Subject<any>;
 
-    constructor(private socketService:MayaSocketService){
+    constructor(private socketService:DccSocketService){
      
     }
 

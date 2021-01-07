@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SocketMayaRoutingModule } from './socket.socketmaya-routing.module';
+import { SocketDccRoutingModule } from './socket.socketdcc-routing.module';
 
-import { SocketMayaComponent } from './socket.socketmaya.component';
+import { SocketDccComponent } from './socket.socketdcc.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../material.module';
 @NgModule({
-  declarations: [SocketMayaComponent],
+  declarations: [SocketDccComponent],
   imports: 
   [
     CommonModule,
     SharedModule,
-    SocketMayaRoutingModule,
+    SocketDccRoutingModule,
     MaterialModule
     ]
 })
-export class SocketMayaModule {}
+export class SocketDccModule {}

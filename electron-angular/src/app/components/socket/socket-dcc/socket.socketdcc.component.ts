@@ -1,33 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MayaService } from '../services/maya/maya-service';
+import { DccService } from '../services/dcc/dcc-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
-import { Config } from '../models/config';
 import {MatChipInputEvent} from '@angular/material/chips';
 // keycodes for separator in chips list
 import { SPACE } from '@angular/cdk/keycodes';
 
 // models
-import { DccActions } from './models/socket.socketmaya.dccActions';
-import { DccAction } from './models/socket.socketmaya.dccAction';
-import { DccCommandData } from './models/socket.socketmaya.dcccommand';
+import { DccActions } from './models/socket.socketdcc.dccActions';
+import { DccAction } from './models/socket.socketdcc.dccAction';
+import { DccCommandData } from './models/socket.socketdcc.dcccommand';
 
 
 @Component({
-  selector: 'app-socketmaya',
-  templateUrl: './socket.socketmaya.component.html',
-  styleUrls: ['./socket.socketmaya.component.scss']
+  selector: 'app-socketdcc',
+  templateUrl: './socket.socketdcc.component.html',
+  styleUrls: ['./socket.socketdcc.component.scss']
 })
-export class SocketMayaComponent implements OnInit {
+
+export class SocketDccComponent implements OnInit {
   @ViewChild('fileInput')
-  fileInput;
+  fileInput: any;
   port: number = 0;
 
   message: string = "";
 
   private route: ActivatedRoute;
-  private service: MayaService = null;
+  private service: DccService = null;
   private snackBar: MatSnackBar = null;
 
   // attr
@@ -50,7 +50,7 @@ export class SocketMayaComponent implements OnInit {
 
   readonly separatorKeysCodes: number[] = [SPACE];
   private tempChipList:string[];
-  constructor(private _route: ActivatedRoute, private _service: MayaService, private _snackBar: MatSnackBar) {
+  constructor(private _route: ActivatedRoute, private _service: DccService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
     this.snackBar = _snackBar;
@@ -166,18 +166,6 @@ export class SocketMayaComponent implements OnInit {
 
   onAddChipList(event:MatChipInputEvent, list:any){
     console.log("test");
-    //const input = event.input;
-    //const value = event.value;
-
-    /*
-    // Add our fruit
-    if ((value || '').trim()) {
-      list.push({name: value.trim()});
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }*/
+  
   }
 }

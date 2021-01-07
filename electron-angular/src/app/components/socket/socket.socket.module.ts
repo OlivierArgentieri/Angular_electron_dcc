@@ -20,7 +20,7 @@ import { fas, faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
     SocketRoutingModule,
     MaterialModule,
     FontAwesomeModule
-    ]
+  ]
 })
 export class SocketModule {
   constructor(){

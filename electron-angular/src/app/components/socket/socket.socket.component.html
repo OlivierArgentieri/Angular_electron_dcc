@@ -43,7 +43,7 @@
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef class="text-color"> Actions </th>
                 <td mat-cell *matCellDef="let obj"> 
-                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open" matTooltip="Open">
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/dcc', obj.port, 'maya']" aria-label="Open" matTooltip="Open">
                     <mat-icon>open_in_new</mat-icon>
                   </button>
                 </td>
@@ -67,8 +67,11 @@
             <mat-card-title>Houdini</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="col-lg-12  mb-3 mt-3">
-            <table mat-table [dataSource]="objects.houdiniDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
+            <div *ngIf="objects.houdiniDatas.length==0;" class="col-md-12 text-center text-white">
+              <h5> No connections found :( </h5>
+            </div>
+            <div *ngIf="objects.houdiniDatas.length>0;" class="col-lg-12  mb-3 mt-3">
+            <table  mat-table [dataSource]="objects.houdiniDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
               <ng-container matColumnDef="fileName">
                 <th mat-header-cell *matHeaderCellDef class="text-color"> Filename </th>
                 <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
@@ -90,7 +93,7 @@
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef class="text-color"> Actions </th>
                 <td mat-cell *matCellDef="let obj"> 
-                  <button mat-icon-button color="primary" [routerLink]="['/socket/maya', obj.port]" aria-label="Open" matTooltip="Open">
+                  <button mat-icon-button color="primary" [routerLink]="['/socket/dcc', obj.port, 'houdini']" aria-label="Open" matTooltip="Open">
                     <mat-icon>open_in_new</mat-icon>
                   </button>
                 </td>
@@ -104,41 +107,5 @@
         </mat-card>
       </div>
     </div>
-
-<!--
-      <div *ngIf="objects;" class="col-lg-12 col-md-12 text-center ">
-        <mat-card  class="bg-enable text-white mb-4">
-          <mat-card-header>
-            <img mat-card-avatar src="https://olivierargentieri.github.io/assets/portfolio/img/softs/Houdini_Logo_45x45.png" />
-            <mat-card-title>Houdini</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <ng-container class="col-lg-1 col-md-2 col-4 mr-2 text-center mb-3 mt-3" *ngFor="let obj of objects.houdiniDatas let i = index">
-                <button class="col-lg-1 col-md-2 col-4 mr-2 text-center mb-3 mt-3" *ngIf="obj.reachable;" mat-raised-button color="primary">{{ obj.filename}}</button>
-            </ng-container>
-          </mat-card-content>
-
-        </mat-card>
-      </div>
-      
-        <div class="col-lg-4" *ngFor="let obj of objects.mayaDatas let i = index">
-         if reachable block 
-          <mat-card *ngIf="obj.reachable; else elseBlock "class="bg-enable text-white mb-4">
-            <mat-card-header>
-              <div mat-card-avatar class=""><fa-icon [icon]="faTerminal"></fa-icon></div>
-              <mat-card-title>{{ obj.filename }}</mat-card-title>
-              <mat-card-subtitle>{{ obj.reachable }}</mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-content>
-              <p> TODO content</p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button [routerLink]="['/socket/maya', obj.port]" class="bg-dark">Open</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>-->
-
-
   </div>
 </section>

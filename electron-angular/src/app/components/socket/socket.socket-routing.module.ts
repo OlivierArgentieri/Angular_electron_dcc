@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { SocketComponent } from './socket.socket.component';
-import { SocketMayaComponent } from './socket-maya/socket.socketmaya.component';
+import { SocketDccComponent } from './socket-dcc/socket.socketdcc.component';
 
 const routes: Routes = [
   {
@@ -10,8 +10,8 @@ const routes: Routes = [
     component: SocketComponent
   },
   {
-    path: 'socket/maya/:port',
-    component: SocketMayaComponent
+    path: 'socket/dcc/:port/:dcc',
+    component: SocketDccComponent
   }
 ];
 

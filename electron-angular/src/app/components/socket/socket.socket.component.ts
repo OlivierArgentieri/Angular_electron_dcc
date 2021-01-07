@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MayaService } from './services/maya/maya-service';
+import { DccService } from './services/dcc/dcc-service';
 import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface ResolverSocketRow {
   port:Number;
   reachable:Boolean;
   fileName:String;
-  
 }
+
  class ResolverSocketData {
  mayaDatas:Array<ResolverSocketRow>
  houdiniDatas:Array<ResolverSocketRow>
@@ -23,7 +23,7 @@ export class SocketComponent implements OnInit, OnDestroy {
   faTerminal = faTerminal;
   faSignInAlt = faSignInAlt;
   displayedColumns: string[] = ['fileName', 'port', 'reachable', 'actions'];
-  constructor(private service: MayaService){  }
+  constructor(private service: DccService){  }
 
   objects:ResolverSocketData = null;
   ngOnInit(): void {
@@ -34,27 +34,23 @@ export class SocketComponent implements OnInit, OnDestroy {
 
   }
 
-  sendMessage() {
-    this.service.sendCommand("import maya.cmds as cmds\ncmds.polyCube()", (out)=>{console.log(out)});
-  }
-
-  ewmit() {
-    // if(this.socket != null) return;
-    //this.setupSocketConnection(); 
-  }
-
   resolve(){
     this.objects = null;
     this.service.resolve((_outdata) => {
       this.objects = JSON.parse(_outdata);
 
-      this.objects.mayaDatas = this.objects.mayaDatas.filter(obj => obj.reachable);
-      this.objects.houdiniDatas = this.objects.houdiniDatas.filter(obj => obj.reachable);
-      this.objects.nukeDatas = this.objects.nukeDatas.filter(obj => obj.reachable);
+      if(!this.objects)return;
+
+      if(this.objects.mayaDatas)
+        this.objects.mayaDatas = this.objects.mayaDatas.filter(obj => obj.reachable);
+
+      if(this.objects.houdiniDatas)
+        this.objects.houdiniDatas = this.objects.houdiniDatas.filter(obj => obj.reachable);
+
+      if(this.objects.nukeDatas)
+        this.objects.nukeDatas = this.objects.nukeDatas.filter(obj => obj.reachable);
+
       });
-
   }
 
-  getData() {
-  }
 }

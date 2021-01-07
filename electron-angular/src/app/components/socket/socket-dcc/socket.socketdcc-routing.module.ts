@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { SocketMayaComponent } from './socket.socketmaya.component';
+import { SocketDccComponent } from './socket.socketdcc.component';
 
 const routes: Routes = [
   {
-    path: 'socket/socketmaya',
-    component: SocketMayaComponent
+    path: 'socket/socketdcc',
+    component: SocketDccComponent
   }
 ];
 
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [CommonModule, RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SocketMayaRoutingModule {}
+export class SocketDccRoutingModule {}
