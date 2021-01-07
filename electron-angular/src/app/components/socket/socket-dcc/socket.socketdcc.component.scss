@@ -1,6 +1,67 @@
-$darkLight-color : #6e8296;
+$dark-color : #161718;
+$darkLight-color : #222425;
+$primary-color : #16814f; 
+$success-color: #009221;
+$danger-color: #ad0000;
+$text-color : #d0d0d049;
+$text-white : #d0d0d0;
 
 
 .bg-darklight{
-    background: $darkLight-color
+    background: $darkLight-color;
+}
+
+.bg-dark{
+    background: $dark-color !important;
+}
+
+.bg-primary{
+    background: $primary-color;
+}
+
+.bg-success{
+    background: $success-color !important;
+}
+
+.bg-danger{
+    background: $danger-color !important;
+}
+
+.text-color{
+    color: $text-color;
+}
+
+.text-white{
+    color: $text-white !important;
+}
+
+::ng-deep .mat-form-field-placeholder{
+
+    color:$text-color !important;
+}
+  
+::ng-deep .mat-focused .mat-form-field-placeholder{
+  
+    color:$text-color !important;
+}
+
+
+::placeholder {
+    color: $text-color;
+  }
+  
+::ng-deep .mat-select-panel{
+    background: $darkLight-color;
+}
+
+::ng-deep .mat-option-text{
+    color:$text-white;
+}
+
+::ng-deep .mat-select-value-text{
+    color:$text-white;
+}
+
+::ng-deep .mat-select-arrow{
+    color:$text-white;
 }

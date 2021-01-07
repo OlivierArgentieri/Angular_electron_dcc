@@ -1,17 +1,15 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-lg-12 text-center ">
-      <mat-card class="bg-darklight mt-5  text-white">
+    <div class="col-lg-12 text-center">
+      <mat-card class="bg-darklight mt-5 text-white">
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>Action socket {{dccName}} </mat-card-title>
-          <mat-card-subtitle>test</mat-card-subtitle>
+          <mat-card-title>Action socket on {{dccName}} </mat-card-title>
         </mat-card-header>
         <mat-card-content>
 
           <mat-form-field appearance="fill">
-            <mat-label>Dccs Action</mat-label>
+            <mat-label class="text-white">Dccs Action</mat-label>
             <mat-select (selectionChange)="onChangeDccActions($event.value)">
               <mat-option *ngFor="let dccAction of dccActions" [value]="dccAction">
                 {{dccAction}}
@@ -20,7 +18,7 @@
           </mat-form-field>
           <p>You selected: {{actionSelected}}</p>
 
-          <div *ngIf="actionData != null">
+          <div *ngIf="actionData != null" class="text-white">
             <ng-container *ngFor="let obj of actionData.params">
 
               <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2">
@@ -38,23 +36,6 @@
               <mat-form-field *ngIf="obj.type == 'array:string'" appearance="fill" class="mr-2">
                 <input matInput placeholder="{{obj.name}} array" [(ngModel)]="obj.default" required>
               </mat-form-field>
-              <!--
-              <mat-form-field *ngIf="obj.type == 'array:string'" [style.width.%]="50" appearance="fill" class="mr-2">
-                <mat-chip-list #chipList aria-label="Scene objects">
-                  <mat-chip *ngFor="let obj of obj.default" [selectable]="selectable" [removable]="removable"
-                    (removed)="removeSceneObject(obj)">
-                    {{obj}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                    
-                  </mat-chip>
-                  <input placeholder="Array input..."
-                      [matChipInputFor]="tempChipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      [matChipInputAddOnBlur]="true"
-                      (matChipInputTokenEnd)="onAddChipList($event, obj.default)">
-                </mat-chip-list>
-              </mat-form-field>-->
-
             </ng-container>
           </div>
 
@@ -63,7 +44,7 @@
 
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button (click)="test()">test</button>
+          <button mat-button (click)="run()" class="bg-dark text-white">Run</button>
         </mat-card-actions>
 
 
@@ -75,46 +56,21 @@
 
     <div class="row">
       <div class="col-lg-12 text-center ">
-        <mat-card class="bg-darklight mt-5  text-white">
+        <mat-card class="bg-darklight mt-5 text-white">
           <mat-card-header>
             <div mat-card-avatar class="header-image"></div>
             <mat-card-title>Plain command </mat-card-title>
-            <mat-card-subtitle>test</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <mat-form-field appearance="fill" class="mr-2">
-              <input matInput placeholder="@" [(ngModel)]="host" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="mr-2">
-              <input matInput type="number" placeholder="8000" [(ngModel)]="port" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Maya command</mat-label>
-              <textarea matInput placeholder="import maya" [(ngModel)]="message"></textarea>
+            <mat-form-field appearance="fill" style="width:100%">
+              <mat-label class="text-white">Python Command</mat-label>
+              <textarea matInput placeholder="print('test')" [(ngModel)]="message" ></textarea>
             </mat-form-field>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="sendCommand()">SendCommand</button>
+            <button mat-button (click)="sendCommand()" class="bg-dark text-white">SendCommand</button>
           </mat-card-actions>
         </mat-card>
       </div>
     </div>
-
   </div>
-
-  <script>
-
-  </script>
-
-  <!--
-<div class="container">
-  <div class="row">
-    <canvas id="canvas" width="1024" height="720">
-
-    </canvas>
-  </div>
-</div>
-
--->

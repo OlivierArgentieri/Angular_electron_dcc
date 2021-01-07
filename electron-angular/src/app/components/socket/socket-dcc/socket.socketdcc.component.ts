@@ -100,7 +100,7 @@ export class SocketDccComponent implements OnInit {
     });
   }
 
-  test() {
+  run() {
       this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
 
       this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
