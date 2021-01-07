@@ -23,21 +23,13 @@ export class SocketDccComponent implements OnInit {
   @ViewChild('fileInput')
   fileInput: any;
   port: number = 0;
+  dccName:string = "";
 
   message: string = "";
 
   private route: ActivatedRoute;
   private service: DccService = null;
   private snackBar: MatSnackBar = null;
-
-  // attr
-  private sceneObjects: string[] = null;
-  private removable = true;
-  private outABC: string = "";
-
-  private abc_startFrame: number = 0;
-  private abc_endFrame: number = 0;
-  private abc_out: string = "";
 
   // action dcc
   private dccActions:string[] = null;
@@ -49,7 +41,7 @@ export class SocketDccComponent implements OnInit {
   
 
   readonly separatorKeysCodes: number[] = [SPACE];
-  private tempChipList:string[];
+
   constructor(private _route: ActivatedRoute, private _service: DccService, private _snackBar: MatSnackBar) {
     this.route = _route;
     this.service = _service;
@@ -73,6 +65,13 @@ export class SocketDccComponent implements OnInit {
     });
     return _port
   }
+  getDccParameter():string{
+    let _dcc:string ='';
+    this.route.params.subscribe(params => {
+      _dcc  = params['dcc']
+    });
+    return _dcc
+  }
   handleOrientation(event){
     this.actionSelected = `${event.beta}`;
     console.log(event)
@@ -80,8 +79,7 @@ export class SocketDccComponent implements OnInit {
   ngOnInit(): void {
     this.initDccActionSelect();
     this.port = this.getPortParameter();
-    //console.log(this.getPortParameter())
-    //console.log(this.port)
+    this.dccName = this.getDccParameter();
   }
 
  
@@ -102,19 +100,6 @@ export class SocketDccComponent implements OnInit {
     });
   }
 
-  getSceneObjects() {
-    const _cmd = "print(str(cmds.ls(type='mesh'))).replace('[', '').replace(']', '').replace(\"'\", '').replace(' ', '')";
-    this.service.sendCommand(_cmd, (_out) => {
-
-      this.sceneObjects = _out.split(',');
-
-      for (let _i = 0; _i < this.sceneObjects.length; _i++) {
-        this.sceneObjects[_i] = this.sceneObjects[_i].slice(1);
-      }
-    })
-  }
-
-
   test() {
       this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
 
@@ -126,46 +111,20 @@ export class SocketDccComponent implements OnInit {
       })
   }
 
+  onChangeDccActions(_value){
+    // load modules
+    this.actionSelected = _value;
 
-  export() {
-    var _results=[];
-    var log:string = "";
-    // tes export
+    if(this.dccName.length == 0) return;
 
-    this.sceneObjects.forEach(_object => {
-     
-      const cmd_exportAbc = "-frameRange " + this.abc_startFrame + " " + this.abc_endFrame + " -uvWrite -dataFormat ogawa -root " + _object + " -file " + this.abc_out + "/" + _object + ".abc "
-      
-      this.service.sendCommand(`cmds.AbcExport(j  = '${cmd_exportAbc}')`, (_out) => { console.log(log);});
-      
-    })
-    console.log(log)
-    this.snackBar.open(log, "close", {
-      duration: 5000
-    })    
-  }
+    this.service.getDccActionByName(this.dccName,this.actionSelected, (_out) => {
+      var _outJson = JSON.parse(_out);
+      if(_outJson.error){
+        this.snackBar.open(_outJson.error, "close", {duration: 5000});
+        return;
+      }
 
-  removeSceneObject(sceneObject: string): void {
-    if (this.sceneObjects.length == 0) return;
-
-    const index = this.sceneObjects.indexOf(sceneObject);
-
-    if (index >= 0) {
-      this.sceneObjects.splice(index, 1);
-    }
-  }
-
-  onChangeDccActions(value){
-    // load maya modules
-    this.actionSelected = value;
-
-    this.service.getDccActionByName("maya",this.actionSelected, (out) => {
-    this.actionData = JSON.parse(out); // out is an DccAction object
+    this.actionData = JSON.parse(_out); // out is an DccAction object
     });
-  }
-
-  onAddChipList(event:MatChipInputEvent, list:any){
-    console.log("test");
-  
   }
 }

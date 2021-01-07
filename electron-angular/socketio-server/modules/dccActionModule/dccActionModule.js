@@ -31,10 +31,11 @@ var DccActionModule = /** @class */ (function (_super) {
     // return corresponding action path/dccs
     DccActionModule.prototype.getActionPathPerDcc = function (_dccName) {
         switch (_dccName) {
+            case "common": return config.pipelineSettings.commonActionsPath;
             case "maya": return config.pipelineSettings.mayaActionsPath;
             case "houdini": return config.pipelineSettings.houdiniActionsPath;
             default:
-                return config.pipelineSettings.commonActionsPath;
+                return "NotFound";
         }
     };
     // get all common action 
@@ -68,11 +69,18 @@ var DccActionModule = /** @class */ (function (_super) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var _result = new actionResult_1.ActionResult(); // return object
-            var _baseUri = _this.getActionPathPerDcc(_dccName) + ("/" + _actionName);
+            var _baseUri = _this.getActionPathPerDcc(_dccName);
+            if (_baseUri == "NotFound") // not found -> dcc name invalid
+             {
+                _result.error = "Dcc Not Found / name invalid as '" + _dccName + "'";
+                resolve(JSON.stringify(_result));
+                return;
+            }
+            _baseUri += "/" + _actionName;
             fs.readdir(_baseUri, function (_err, _files) {
                 if (_err) {
                     console.log('Unable to scan directory: ' + _err);
-                    _result.error = _err;
+                    _result.error = "actionName not found on : " + _err.path;
                     resolve(JSON.stringify(_result)); // error treated as resolve
                     return;
                 }

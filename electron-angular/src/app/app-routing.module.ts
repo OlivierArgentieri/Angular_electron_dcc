@@ -9,7 +9,7 @@ import { SocketRoutingModule } from './components/socket/socket.socket-routing.m
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'socket/socketmaya',
+    redirectTo: 'socket',
     pathMatch: 'full'
   },
   {
