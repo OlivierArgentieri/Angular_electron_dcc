@@ -3,10 +3,9 @@ from pipeline2.utils.utils import Utils
 
 import logging
 import socket
-import threading
+import threading    
 import json
-
-
+import time
 
 ########################################
 # Base class for all dccs socket server
@@ -21,25 +20,25 @@ class BaseSocketServer(object):
     def __init__(self):
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
-
     
     def get_available_ports(self, host, port_start, port_end):
-        """
-        Get Available Ports
-        :param host: host/
-        :param port_start: start port of range
-        :param port_end: end port of range (included)
-        :return list: list of port available
+        """!
+        Get Available Ports 
+        @param host String: host addr
+        @param port_start Int: start port of range
+        @param port_end Int: end port of range (included)
+        @return Return list of port available.
         """
         available_ports = Utils.get_unused_ports(host, port_start, port_end+1)
         return available_ports
 
     def start_server(self, port_start, port_end, connections=CONNECTIONS):
-        """
+        """!
         Start Server just before start
-        :port_start: start range of port
-        :port_end: end range onf port
-        :return:
+        @param port_start Int: start range of port
+        @param port_end Int: end range onf port
+        @param connections Int: Max numbers of connections (default 1)
+        @return void:
         """
 
         # The server need to find where he CAN run, on wich port
@@ -51,11 +50,16 @@ class BaseSocketServer(object):
         # else, take the first or array
         threading.Thread(target=self.main_server, args=(host, available_ports[0], connections)).start()
 
-    def get_config(self):
+    def start_with_config(self):
+        """!
+        To configure server before call startServer, depend on which dcc used
         """
-        Get Config
-        :param:
-        :return json data: return config file as data
+        pass
+
+    def get_config(self):
+        """!
+        Get Config from node server
+        @return config file as data json
         """
         # Read json file
         with open(self.CONFIG_PATH) as config:
@@ -65,41 +69,41 @@ class BaseSocketServer(object):
     # --- Override Part ---
 
     def function_to_process(self, data, client):
-        """
-        Function to execute
-        received command (callback)
-        :param data: Received Data
-        :param client: Client Connection
-        :return:
+        """!
+        Function to execute, received command (callback)
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
         logging.error("function_to_process not implemented")
         
     
     def process_update(self, data, client):
-        """
-        Process Update
-        to redirect execution of data received (onMainThread for maya, fo exemple)
-        :param data: Received Data
-        :param client: Client Connection
-        :return:
+        """!
+        Redirect execution of data received (onMainThread for maya, for example)
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
         logging.error("process_update not implemented")
 
-    # route action
+    
     def on_shutdown(self):
-        """
+        """!
         On Shutdown Action
-        :param:
-        :return:
         """
         self.serverRunning = False
 
-    # route action
-    def on_identify_dcc(self, client):
+    def on_restart(self):
+        """!
+        Route, to restart Server
         """
-        On Identify Dcc Action
-        :param client: Client Connection
-        :return:
+        time.sleep(.300)
+        self.start_with_config()
+        
+    
+    def on_identify_dcc(self, client):
+        """!
+        On Identify Dcc Action [Need to be override per dcc]
+        @param client SocketClient: Client Connection
         """
         client.send("Idendity not implemented")
 
@@ -110,12 +114,11 @@ class BaseSocketServer(object):
 
     # Generic method to start all server in python 2
     def main_server(self, host, port, connections):
-        """
-        Main server
-        :param host: Host IP or localhost
-        :param port: Integer
-        :param connections: Integer Number of connections to handle
-        :return:
+        """!
+        Main server entry point
+        @param host String: Host ip running server
+        @param port Number: Port running server
+        @param connections Int: Number of connections to handle
         """
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -127,16 +130,20 @@ class BaseSocketServer(object):
 
         sock.listen(connections)
         logging.info("Starting Server: {}:{}".format(host, port))
-
+        
+        self.serverRunning = True
         while self.serverRunning:
             client, address = sock.accept()
             data = client.recv(1024)
             if data:
                 if data == "#Shutdown#":
-                    self.on_shutdown(self)
+                    self.on_shutdown()
 
                 if data == "#Identify#":
                     self.on_identify_dcc(client)
+
+                if data == "#Restart#":
+                    self.on_shutdown()
 
                 else:
                     logging.info("Socket Server, Data Received: {}".format(data))
@@ -148,7 +155,11 @@ class BaseSocketServer(object):
                 logging.info("Socket Server, Error Closing Client Socket: {}".format(client_error))
 
         logging.info("Socket Server, Shutting Down.")
+
         try:
             sock.close()
         except Exception, close_error:
             logging.info("Socket Server, Error Closing Socket: {}".format(close_error))
+
+        if data == "#Restart#":
+            self.on_restart()

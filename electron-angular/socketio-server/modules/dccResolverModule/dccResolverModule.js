@@ -83,7 +83,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                         tcpConnection.write("#Identify#");
                         tcpConnection.on('data', function (data) {
                             var out = new resolverSocketData_1.ResolverSocketRow();
-                            out.filename = data.toString() == "empty" ? "Unsaved" : data.toString();
+                            out.filename = data.toString();
                             out.reachable = true;
                             resolve(out);
                             return out;

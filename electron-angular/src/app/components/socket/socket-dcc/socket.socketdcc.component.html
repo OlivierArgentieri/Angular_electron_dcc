@@ -8,7 +8,7 @@
         </mat-card-header>
         <mat-card-content>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" autocomplete="off">
             <mat-label class="text-white">Dccs Action</mat-label>
             <mat-select (selectionChange)="onChangeDccActions($event.value)">
               <mat-option *ngFor="let dccAction of dccActions" [value]="dccAction">
@@ -21,15 +21,15 @@
           <div *ngIf="actionData != null" class="text-white">
             <ng-container *ngFor="let obj of actionData.params">
 
-              <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2">
-                <input matInput placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
+              <mat-form-field *ngIf="obj.type == 'string'" appearance="fill" class="mr-2" autocomplete="off">
+                <input  matInput placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
               </mat-form-field>
 
-              <mat-form-field *ngIf="obj.type == 'int'" appearance="fill" class="mr-2">
+              <mat-form-field *ngIf="obj.type == 'int'" appearance="fill" class="mr-2" autocomplete="off">
                 <input matInput type="number" placeholder="{{obj.name}}" [(ngModel)]="obj.default" required>
               </mat-form-field>
 
-              <mat-form-field *ngIf="obj.type == 'float'" appearance="fill" class="mr-2">
+              <mat-form-field *ngIf="obj.type == 'float'" appearance="fill" class="mr-2" autocomplete="off">
                 <input matInput placeholder="{{obj.name}}" [(ngModel)]="obj.name" required>
               </mat-form-field>
 

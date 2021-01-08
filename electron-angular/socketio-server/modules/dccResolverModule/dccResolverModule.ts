@@ -33,7 +33,7 @@ export class DccResolverModule extends BaseModule {
             tcpConnection.write("#Identify#");
             tcpConnection.on('data', (data) => {
                 var out = new ResolverSocketRow();
-                out.filename = data.toString()=="empty"?"Unsaved" : data.toString();
+                out.filename = data.toString();
                 out.reachable = true;
                 resolve(out);
                 return out;

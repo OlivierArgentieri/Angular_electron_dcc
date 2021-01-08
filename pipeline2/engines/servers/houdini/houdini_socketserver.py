@@ -1,6 +1,6 @@
 from pipeline2.engines.servers.base.base_socketserver import BaseSocketServer
 
-
+import hou
 
 import logging
 import socket
@@ -23,6 +23,7 @@ class HoudiniSocketServer(BaseSocketServer):
         port_end = dcc_port_settings['houdiniPortRangeEnd']
 
         self.start_server(port_start, port_end, self.CONNECTIONS)
+
 
     def function_to_process(self, data, client):
         """
@@ -57,6 +58,7 @@ class HoudiniSocketServer(BaseSocketServer):
 
 
     def on_identify_dcc(self, client):
-        client.send("houdiniFile")
+        name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
+        client.send(name)
 
     
