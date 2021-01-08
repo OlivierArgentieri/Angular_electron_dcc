@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DccService } from './services/dcc/dcc-service';
 import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { DccCommandData } from './socket-dcc/models/socket.socketdcc.dcccommand';
+import { Config } from './models/config'
 
 interface ResolverSocketRow {
   port:Number;
@@ -56,12 +57,18 @@ export class SocketComponent implements OnInit, OnDestroy {
 
   restartDccServer(_port){
     var _dccCommand: DccCommandData = new DccCommandData()
-    _dccCommand.host = "192.168.1.15";
-    _dccCommand.port = _port;
-    _dccCommand.command = '#Restart#';
 
+    
+    this.service.getConfig((_config) => {
+      var _configObject:Config = _config;
 
-    this.service.sendCommand(JSON.stringify(_dccCommand), ()=>{});
+      _dccCommand.host = _configObject.socketInterpreterSettings.host.toString();
+      _dccCommand.port = _port;
+      _dccCommand.command = '#Restart#';
+
+      this.service.sendCommand(JSON.stringify(_dccCommand), ()=>{});
+    })
+    
 
     this.resolve()
   }

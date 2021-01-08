@@ -1,5 +1,6 @@
 interface SocketInterpreterSettings{
     port:number; 
+    host:string;
 }
 
 interface DccPortSettings{
@@ -19,7 +20,7 @@ interface PipelineSettings{
 
 
 export class Config{
-    SocketSettings:SocketInterpreterSettings;
-    DccPortSettings:DccPortSettings;
-    PipelineSettings:PipelineSettings;
+    socketInterpreterSettings:SocketInterpreterSettings;
+    dccPortSettings:DccPortSettings;
+    pipelineSettings:PipelineSettings;
 }

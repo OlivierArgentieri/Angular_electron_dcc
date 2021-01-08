@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DccService } from '../services/dcc/dcc-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 // keycodes for separator in chips list
 import { SPACE } from '@angular/cdk/keycodes';
 
@@ -11,7 +11,7 @@ import { SPACE } from '@angular/cdk/keycodes';
 import { DccActions } from './models/socket.socketdcc.dccActions';
 import { DccAction } from './models/socket.socketdcc.dccAction';
 import { DccCommandData } from './models/socket.socketdcc.dcccommand';
-
+import { Config } from '../models/config'
 
 @Component({
   selector: 'app-socketdcc',
@@ -23,7 +23,7 @@ export class SocketDccComponent implements OnInit {
   @ViewChild('fileInput')
   fileInput: any;
   port: number = 0;
-  dccName:string = "";
+  dccName: string = "";
 
   message: string = "";
 
@@ -32,13 +32,13 @@ export class SocketDccComponent implements OnInit {
   private snackBar: MatSnackBar = null;
 
   // action dcc
-  private dccActions:string[] = null;
-  private actionSelected:string = "";
-  private actionData:DccAction = null;
+  private dccActions: string[] = null;
+  private actionSelected: string = "";
+  private actionData: DccAction = null;
 
   // command dcc
-  private dccCommand:DccCommandData = new DccCommandData();
-  
+  private dccCommand: DccCommandData = new DccCommandData();
+
 
   readonly separatorKeysCodes: number[] = [SPACE];
 
@@ -51,28 +51,28 @@ export class SocketDccComponent implements OnInit {
   ///////////////////////////////
   // init methods
   ///////////////////////////////
-  initDccActionSelect(){
+  initDccActionSelect() {
     this.service.getDccActions((out) => {
-      let _obj:DccActions = JSON.parse(out);
+      let _obj: DccActions = JSON.parse(out);
       this.dccActions = _obj.actions;
-    });    
+    });
   }
 
-  getPortParameter():number{
-    let _port =0;
+  getPortParameter(): number {
+    let _port = 0;
     this.route.params.subscribe(params => {
-      _port  = params['port']
+      _port = params['port']
     });
     return _port
   }
-  getDccParameter():string{
-    let _dcc:string ='';
+  getDccParameter(): string {
+    let _dcc: string = '';
     this.route.params.subscribe(params => {
-      _dcc  = params['dcc']
+      _dcc = params['dcc']
     });
     return _dcc
   }
-  handleOrientation(event){
+  handleOrientation(event) {
     this.actionSelected = `${event.beta}`;
     console.log(event)
   }
@@ -82,49 +82,53 @@ export class SocketDccComponent implements OnInit {
     this.dccName = this.getDccParameter();
   }
 
- 
+
 
   ///////////////////////////////
   // action methods
   ///////////////////////////////
   sendCommand() {
+    this.service.getConfig((_config) => {
 
-    this.dccCommand.host = "192.168.1.15";
-    this.dccCommand.port = this.port;
-    this.dccCommand.command = this.message;
+      var _configObject: Config = _config;
 
-    this.service.sendCommand(JSON.stringify(this.dccCommand), (out) => {
-      this.snackBar.open(out, "close", {
-        duration: 5000
+      this.dccCommand.host = _configObject.socketInterpreterSettings.host;
+      this.dccCommand.port = this.port;
+      this.dccCommand.command = this.message;
+
+      this.service.sendCommand(JSON.stringify(this.dccCommand), (out) => {
+        this.snackBar.open(out, "close", {
+          duration: 5000
+        });
       });
-    });
+    })
   }
 
   run() {
-      this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
+    this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
 
-      this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
-      
+    this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
+
       this.snackBar.open(out, "close", {
-          duration: 5000
-        });
-      })
+        duration: 5000
+      });
+    })
   }
 
-  onChangeDccActions(_value){
+  onChangeDccActions(_value) {
     // load modules
     this.actionSelected = _value;
 
-    if(this.dccName.length == 0) return;
+    if (this.dccName.length == 0) return;
 
-    this.service.getDccActionByName(this.dccName,this.actionSelected, (_out) => {
+    this.service.getDccActionByName(this.dccName, this.actionSelected, (_out) => {
       var _outJson = JSON.parse(_out);
-      if(_outJson.error){
-        this.snackBar.open(_outJson.error, "close", {duration: 5000});
+      if (_outJson.error) {
+        this.snackBar.open(_outJson.error, "close", { duration: 5000 });
         return;
       }
 
-    this.actionData = JSON.parse(_out); // out is an DccAction object
+      this.actionData = JSON.parse(_out); // out is an DccAction object
     });
   }
 }

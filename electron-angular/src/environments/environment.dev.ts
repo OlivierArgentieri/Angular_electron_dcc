@@ -1,5 +1,5 @@
 export const AppConfig = {
   production: false,
   environment: 'DEV',
-  interpreter_url: 'http://192.168.1.15:3000'
+  interpreter_url: 'http://127.0.0.1:3000'
 };
