@@ -52,7 +52,8 @@ export class SocketDccComponent implements OnInit {
   // init methods
   ///////////////////////////////
   initDccActionSelect() {
-    this.service.getDccActions((out) => {
+    this.service.getDccActions(this.dccName, (out) => {
+      console.log(out)
       let _obj: DccActions = JSON.parse(out);
       this.dccActions = _obj.actions;
     });
@@ -65,6 +66,7 @@ export class SocketDccComponent implements OnInit {
     });
     return _port
   }
+
   getDccParameter(): string {
     let _dcc: string = '';
     this.route.params.subscribe(params => {
@@ -72,14 +74,16 @@ export class SocketDccComponent implements OnInit {
     });
     return _dcc
   }
+
   handleOrientation(event) {
     this.actionSelected = `${event.beta}`;
     console.log(event)
   }
+  
   ngOnInit(): void {
-    this.initDccActionSelect();
     this.port = this.getPortParameter();
     this.dccName = this.getDccParameter();
+    this.initDccActionSelect();
   }
 
 
@@ -107,7 +111,7 @@ export class SocketDccComponent implements OnInit {
   run() {
     this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
 
-    this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
+    this.service.runDccAction(this.actionSelected, JSON.stringify(this.actionData), (out) => {
 
       this.snackBar.open(out, "close", {
         duration: 5000

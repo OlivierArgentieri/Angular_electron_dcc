@@ -48,14 +48,14 @@ export class DccService{
     }
 
     // get all dcc actions 
-    public getDccActions(_callback){
+    public getDccActions(_dccName, _callback){
         this.service = <Subject<any>>this.socketService
         .getDccActions()
         .map((_service: any):any =>{
             return _service;
         });
 
-        this.service.next(_callback);
+        this.service.next([_dccName, _callback]);
     }
 
      // get dcc action by name 
@@ -72,14 +72,14 @@ export class DccService{
     }
 
     // run Dcc action 
-    public runDccAction(_actionData, _callback){
+    public runDccAction(_actionName, _actionData, _callback){
         this.service = <Subject<any>>this.socketService
         .runDccAction()
         .map((_service: any):any =>{
             return _service;
         });
         
-        this.service.next([_actionData, (_out)=>{
+        this.service.next([_actionName,_actionData, (_out)=>{
             _callback(_out)
         }]);
     }

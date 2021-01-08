@@ -33,10 +33,10 @@ export class DccSocketService extends SocketService{
         });
     };
 
-    public actionGetDccActions(callback){
-        this.socket.emit('getDccActions',(out)=>{ 
+    public actionGetDccActions(_dccName, _callback){
+        this.socket.emit('getDccActions', _dccName, (out)=>{ 
             console.log(out)
-            callback(out);
+            _callback(out);
         });
     };
 
@@ -47,8 +47,8 @@ export class DccSocketService extends SocketService{
         });
     };
 
-    public actionRunDccAction(_actionData, _callback){
-        this.socket.emit('runDccAction', _actionData, (out)=>{ 
+    public actionRunDccAction(_actionName, _actionData, _callback){
+        this.socket.emit('runDccAction', _actionName, _actionData, (out)=>{ 
             console.log(out)
             _callback(out);
         });

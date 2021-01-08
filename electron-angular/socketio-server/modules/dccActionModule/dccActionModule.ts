@@ -16,7 +16,6 @@ export class DccActionModule extends BaseModule{
     // return corresponding action path/dccs
     private getActionPathPerDcc(_dccName):string{
         switch(_dccName){
-            case "common":return config.pipelineSettings.commonActionsPath;
             case "maya": return config.pipelineSettings.mayaActionsPath;
             case "houdini": return config.pipelineSettings.houdiniActionsPath;
 
@@ -27,12 +26,12 @@ export class DccActionModule extends BaseModule{
     }
 
     // get all common action 
-    public getAll():Promise<string> {
+    public getAll(_dccName):Promise<string> {
         return new Promise<string>((resolve, reject) => {
 
         var _result:ActionsResult = new ActionsResult(); // return object
-
-        fs.readdir(this.getActionPathPerDcc("common"), (_err, _files)=>{
+            
+        fs.readdir(this.getActionPathPerDcc(_dccName), (_err, _files)=>{
             if (_err) {
                 console.log('Unable to scan directory: ' + _err);
                 _result.error = _err;
@@ -43,9 +42,8 @@ export class DccActionModule extends BaseModule{
             for (const _file of _files) {
                 if(_file.includes("__init__")) continue;
                 if(_file.includes(".pyc")) continue;
-                if(!_file.includes(".py")) continue;
-               
-                _result.actions.push(_file.toString().replace(".py", "")); 
+                //if(!_file.includes(".py")) continue
+                _result.actions.push(_file.toString()); 
             }
             resolve(JSON.stringify(_result)); // return jsonObject
         })
@@ -90,11 +88,13 @@ export class DccActionModule extends BaseModule{
 
      // create command with ActionReulstObject
      // return formatted command
-     public runAction(_actionData:ActionResult): Promise<string> {
+     public runAction(_actionName:string, _actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             
             if(!_actionData) reject("null parameters");
-            var _cmd = _actionData.default_script;
+            
+            var _cmd = `from ${_actionName}.${_actionName} import ${_actionData.entry_point};`; // add corresponding import
+            _cmd += _actionData.entry_point;
             _cmd += "(" 
 
             for (let _i = 0; _i < _actionData.params.length; _i++) {

@@ -31,7 +31,6 @@ var DccActionModule = /** @class */ (function (_super) {
     // return corresponding action path/dccs
     DccActionModule.prototype.getActionPathPerDcc = function (_dccName) {
         switch (_dccName) {
-            case "common": return config.pipelineSettings.commonActionsPath;
             case "maya": return config.pipelineSettings.mayaActionsPath;
             case "houdini": return config.pipelineSettings.houdiniActionsPath;
             default:
@@ -39,11 +38,11 @@ var DccActionModule = /** @class */ (function (_super) {
         }
     };
     // get all common action 
-    DccActionModule.prototype.getAll = function () {
+    DccActionModule.prototype.getAll = function (_dccName) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var _result = new actionsResult_1.ActionsResult(); // return object
-            fs.readdir(_this.getActionPathPerDcc("common"), function (_err, _files) {
+            fs.readdir(_this.getActionPathPerDcc(_dccName), function (_err, _files) {
                 if (_err) {
                     console.log('Unable to scan directory: ' + _err);
                     _result.error = _err;
@@ -56,9 +55,8 @@ var DccActionModule = /** @class */ (function (_super) {
                         continue;
                     if (_file.includes(".pyc"))
                         continue;
-                    if (!_file.includes(".py"))
-                        continue;
-                    _result.actions.push(_file.toString().replace(".py", ""));
+                    //if(!_file.includes(".py")) continue
+                    _result.actions.push(_file.toString());
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
             });
@@ -101,12 +99,13 @@ var DccActionModule = /** @class */ (function (_super) {
     };
     // create command with ActionReulstObject
     // return formatted command
-    DccActionModule.prototype.runAction = function (_actionData) {
+    DccActionModule.prototype.runAction = function (_actionName, _actionData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (!_actionData)
                 reject("null parameters");
-            var _cmd = _actionData.default_script;
+            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";";
+            _cmd += _actionData.entry_point;
             _cmd += "(";
             for (var _i = 0; _i < _actionData.params.length; _i++) {
                 switch (_actionData.params[_i].type) {

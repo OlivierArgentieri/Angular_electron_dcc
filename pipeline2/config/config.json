@@ -1,7 +1,7 @@
 {
     "socketInterpreterSettings": {
         "port": 3000,
-        "host": "192.168.1.15"
+        "host": "127.0.0.1"
     },
     "dccPortSettings": {
         "mayaPortRangeStart": 6000,

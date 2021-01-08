@@ -57,10 +57,10 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 callback(_this.mainConfig); // callbackFn is output of this method; called in service of component;
             });
             // get Dcc Actions
-            socket.on("getDccActions", function (callback) {
-                _this.dccAction.getAll().then(function (result) {
+            socket.on("getDccActions", function (_dccName, _callback) {
+                _this.dccAction.getAll(_dccName).then(function (result) {
                     console.log(result);
-                    callback(result);
+                    _callback(result);
                 });
                 // callbackFn is output of this method; called in service of component;
             });
@@ -73,14 +73,25 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 // callbackFn is output of this method; called in service of component;
             });
             // run action
-            socket.on("runDccAction", function (_actionData, _callback) {
+            socket.on("runDccAction", function (_actionName, _actionData, _callback) {
                 var _actionObject = JSON.parse(_actionData);
-                _this.dccAction.runAction(_actionObject).then(function (_command) {
+                _this.dccAction.runAction(_actionName, _actionObject).then(function (_command) {
                     console.log(_command);
-                    _callback("ok");
+                    _callback("ok"); // TODO get back info of exec action
                 });
                 // callbackFn is output of this method; called in service of component;
             });
+            /*
+            // run action
+            socket.on("launchDcc", (_dccName, _callback)  => {
+                var _actionObject:ActionResult = JSON.parse(_actionData)
+
+                this.dccAction.runAction(_actionObject).then((_command)=>{
+                    console.log(_command)
+                    _callback("ok");
+                })
+                // callbackFn is output of this method; called in service of component;
+            });*/
         });
     };
     SocketInterpreter.prototype.main = function () {

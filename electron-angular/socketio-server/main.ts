@@ -56,10 +56,10 @@ export default class SocketInterpreter extends SocketServer {
             });
 
             // get Dcc Actions
-            socket.on("getDccActions", callback => {
-                this.dccAction.getAll().then((result)=>{
+            socket.on("getDccActions", (_dccName, _callback) => {
+                this.dccAction.getAll(_dccName).then((result)=>{
                     console.log(result)
-                    callback(result);
+                    _callback(result);
                 })
                 // callbackFn is output of this method; called in service of component;
             });
@@ -74,7 +74,19 @@ export default class SocketInterpreter extends SocketServer {
             });
 
             // run action
-            socket.on("runDccAction", (_actionData, _callback)  => {
+            socket.on("runDccAction", (_actionName, _actionData, _callback)  => {
+                var _actionObject:ActionResult = JSON.parse(_actionData)
+
+                this.dccAction.runAction(_actionName, _actionObject).then((_command)=>{
+                    console.log(_command)
+                    _callback("ok"); // TODO get back info of exec action
+                })
+                // callbackFn is output of this method; called in service of component;
+            });
+
+            /*
+            // run action
+            socket.on("launchDcc", (_dccName, _callback)  => {
                 var _actionObject:ActionResult = JSON.parse(_actionData)
 
                 this.dccAction.runAction(_actionObject).then((_command)=>{
@@ -82,7 +94,7 @@ export default class SocketInterpreter extends SocketServer {
                     _callback("ok");
                 })
                 // callbackFn is output of this method; called in service of component;
-            });
+            });*/
         });
     }
 

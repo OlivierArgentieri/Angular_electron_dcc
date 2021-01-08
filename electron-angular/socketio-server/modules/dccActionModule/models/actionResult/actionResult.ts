@@ -9,7 +9,7 @@ export class ActionResult {
     name:string;
     params:Array<Param>;
     script_path:string;
-    default_script:string;
+    entry_point:string;
 
     // out for error
     error:string;

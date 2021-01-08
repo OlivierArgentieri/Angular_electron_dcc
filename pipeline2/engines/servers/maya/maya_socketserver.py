@@ -3,6 +3,7 @@ from pipeline2.engines.servers.base.base_socketserver import BaseSocketServer
 import maya.cmds as cmds
 import maya.utils as maya_utils
 
+import sys
 import logging
 import socket
 import threading
@@ -19,10 +20,11 @@ class MayaSocketServer(BaseSocketServer):
     
     def start_with_config(self):
         config = self.get_config()
-        dcc_port_settings = config['dccPortSettings']
-        port_start = dcc_port_settings['mayaPortRangeStart']
-        port_end = dcc_port_settings['mayaPortRangeEnd']
 
+        port_start = config.get('dccPortSettings', {}).get('mayaPortRangeStart', 0)
+        port_end = config.get('dccPortSettings', {}).get('mayaPortRangeEnd', 0)
+        
+        sys.path.append(config.get('pipelineSettings', {}).get('mayaActionsPath', 0)) # add houdini action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
     def function_to_process(self, data, client):

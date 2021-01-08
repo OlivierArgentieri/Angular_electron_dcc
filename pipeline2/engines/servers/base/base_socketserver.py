@@ -42,7 +42,9 @@ class BaseSocketServer(object):
         """
 
         # The server need to find where he CAN run, on wich port
-        host = Utils.get_current_host() # get localhost
+        config = self.get_config()
+        socketInterpreterSettings = config["socketInterpreterSettings"]
+        host = socketInterpreterSettings["host"]
         available_ports = self.get_available_ports(host, port_start, port_end)
         
         if(len(available_ports) < 1) : return # if no port available

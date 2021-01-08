@@ -1,6 +1,7 @@
 from pipeline2.engines.servers.base.base_socketserver import BaseSocketServer
 
 import hou
+import sys
 
 import logging
 import socket
@@ -18,10 +19,11 @@ class HoudiniSocketServer(BaseSocketServer):
 
     def start_with_config(self):    
         config = self.get_config()
-        dcc_port_settings = config['dccPortSettings']
-        port_start = dcc_port_settings['houdiniPortRangeStart']
-        port_end = dcc_port_settings['houdiniPortRangeEnd']
 
+        port_start = config.get('dccPortSettings', {}).get('houdiniPortRangeStart', 0)
+        port_end = config.get('dccPortSettings', {}).get('houdiniPortRangeEnd', 0)
+
+        sys.path.append(config.get('pipelineSettings', {}).get('houdiniActionsPath', 0)) # add houdini action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
 
@@ -41,8 +43,11 @@ class HoudiniSocketServer(BaseSocketServer):
         try:
             exec(data)
             client.send(out)
-        except Exception, exec_error:
-            client.send(str(exec_error))
+
+        except hou.Error as e:
+            client.send(str(e))
+        except Exception as e:
+            client.send(str(e))
 
     def process_update(self, data, client):
         """
@@ -52,8 +57,11 @@ class HoudiniSocketServer(BaseSocketServer):
         """
         
         try:
+           
+            #hdefereval.executeInMainThreadWithResult(self.function_to_process, data, client)
             self.function_to_process(data, client) # on main thread
-        except Exception, e:
+        except Exception as e:
+            client.send(e)
             logging.error("Houdini Server, Exception processing Function: {}".format(e))
 
 
