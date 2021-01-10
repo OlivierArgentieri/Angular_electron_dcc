@@ -7,6 +7,7 @@ import { DccActionModule } from "./modules/dccActionModule/dccActionModule";
 import { DccCommandModule } from "./modules/dccCommandModule/dccCommandModule";
 import DccCommandData from "./modules/dccCommandModule/models/commandData";
 import { ActionResult } from "./modules/dccActionModule/models/actionResult/actionResult";
+import { LaunchDccModule } from "./modules/launchDccModule/launchDccModule";
 
 
 
@@ -16,6 +17,7 @@ export default class SocketInterpreter extends SocketServer {
     dccResolver: DccResolverModule = new DccResolverModule();
     dccAction: DccActionModule = new DccActionModule();
     dccCommand: DccCommandModule = new DccCommandModule();
+    runDcc: LaunchDccModule = new LaunchDccModule();
 
     client = null;
     constructor() {
@@ -84,17 +86,17 @@ export default class SocketInterpreter extends SocketServer {
                 // callbackFn is output of this method; called in service of component;
             });
 
-            /*
+            /**/
             // run action
             socket.on("launchDcc", (_dccName, _callback)  => {
-                var _actionObject:ActionResult = JSON.parse(_actionData)
-
-                this.dccAction.runAction(_actionObject).then((_command)=>{
+                
+                /*
+                this.runDcc.Launch(_actionObject).then((_command)=>{
                     console.log(_command)
                     _callback("ok");
-                })
+                })*/
                 // callbackFn is output of this method; called in service of component;
-            });*/
+            });
         });
     }
 
