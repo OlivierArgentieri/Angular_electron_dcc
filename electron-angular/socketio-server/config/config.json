@@ -15,6 +15,7 @@
     },
 
     "dccsBatch":{
-        "maya": "D:/Program_Files/Maya2019.2/bin"
+        "maya": "D:/Program_Files/Maya2019.2/bin",
+        "houdini": "F:/Program_Files/Houdini_18.0.499/bin" 
     }
 }

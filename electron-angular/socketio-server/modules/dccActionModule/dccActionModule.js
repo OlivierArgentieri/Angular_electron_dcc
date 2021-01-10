@@ -104,7 +104,7 @@ var DccActionModule = /** @class */ (function (_super) {
         return new Promise(function (resolve, reject) {
             if (!_actionData)
                 reject("null parameters");
-            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";";
+            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";"; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(";
             for (var _i = 0; _i < _actionData.params.length; _i++) {
