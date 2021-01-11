@@ -1,25 +1,26 @@
 const net = require('net');
 
-import ResolverRowData from "./models/resolverRowData";
+import { BaseModule } from "../base/baseModule";
+import { ResolverSocketData, ResolverSocketRow } from "./models/resolverSocketData";
 
-const getNameFile_Python = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'empty'\nprint(name)";
+/////////////////////////////////////////
+// Class to discover opened dccs throught network 
+/////////////////////////////////////////
+export class DccResolverModule extends BaseModule {
 
-//const client = net.Socket();
-export class DccResolverModule {
-
-    async resolve(_port: Number, _address: String) {
-        return new Promise<ResolverRowData>((resolve, reject) => {
+    async resolve(_host:string, _port: number) {
+        return new Promise<ResolverSocketRow>((resolve, reject) => {
             
             // create new connection
             var client = net.Socket();
-            var tcpConnection = client.connect(_port, '127.0.0.1', function () {
+            var tcpConnection = client.connect(_port, _host, function () {
                 
             });
 
             tcpConnection.on('error', (error) => {
                 console.log(`not found on : ${_port}`)
                 client.destroy();
-                var out = new ResolverRowData();
+                var out = new ResolverSocketRow();
                 out.filename = "undefined";
                 out.reachable = false;
                 resolve(out);
@@ -29,10 +30,10 @@ export class DccResolverModule {
 
             // result doesn't contains name of file
             // so we make another request to fill this filename
-            tcpConnection.write(getNameFile_Python);
+            tcpConnection.write("#Identify#");
             tcpConnection.on('data', (data) => {
-                var out = new ResolverRowData();
-                out.filename = data.toString()=="empty"?"Unsaved" : data.toString();
+                var out = new ResolverSocketRow();
+                out.filename = data.toString();
                 out.reachable = true;
                 resolve(out);
                 return out;
@@ -40,27 +41,55 @@ export class DccResolverModule {
         });
     }
 
-
-    async main(): Promise<Array<ResolverRowData>> {
-
-        const _startPort = 12345; // config
-        const _endPort = 12350;
-
+    async resolveOnRange(_host:string, _startPort:number, _endPort:number): Promise<Array<ResolverSocketRow>> {
+        const _toReturn = new Array<ResolverSocketRow>();
         const _promises = []
-        const _toReturn = new Array<ResolverRowData>();
-
-        for (var _i = _startPort; _i < _endPort; _i++) {
-            _promises.push(this.resolve(_i, "localhost")
+        for (var _i = _startPort; _i <= _endPort; _i++) {
+            _promises.push(this.resolve(_host, _i)
                 .catch((e) => { }))
         }
 
         await Promise.all(_promises)
             .then((results) => {
-                for (var _i = 0; _i < _endPort - _startPort; _i++) {
-                    _toReturn.push(new ResolverRowData(_startPort + _i, results[_i].reachable, results[_i].filename))
+                for (var _i = 0; _i <= _endPort - _startPort; _i++) {
+                    _toReturn.push(new ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].filename))
                 }
             });
 
         return _toReturn;
+    }
+
+    async main() : Promise<ResolverSocketData>{
+
+        const _promises = []
+        // format data for dccs
+        const _host =  this.mainConfig.socketInterpreterSettings.host;
+
+        const _resolverSocketData:ResolverSocketData = new ResolverSocketData();
+        
+        // maya
+        var _portStart = this.mainConfig.dccPortSettings.mayaPortRangeStart;
+        var _portEnd = this.mainConfig.dccPortSettings.mayaPortRangeEnd;
+        
+        _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
+
+        
+        // houdini
+        _portStart = this.mainConfig.dccPortSettings.houdiniPortRangeStart;
+        _portEnd = this.mainConfig.dccPortSettings.houdiniPortRangeEnd;
+        
+        _promises.push(this.resolveOnRange(_host, _portStart, _portEnd))
+
+        await Promise.all(_promises).then((_results)=>{
+            _resolverSocketData.mayaDatas = _results[0]
+            _resolverSocketData.houdiniDatas = _results[1]
+            
+        })
+        
+       
+        return new Promise<ResolverSocketData>((resolve, reject) => {
+            resolve(_resolverSocketData)
+           
+        });
     }
 }

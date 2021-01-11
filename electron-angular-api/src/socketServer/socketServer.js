@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+const config = require('../config/config.json');
 const net = require('net');
 class SocketServer {
     constructor() {
         this.mainSocket = io;
         this.client = null;
+        this.mainConfig = config;
     }
     startServer() {
         app.get('/', (req, res) => {
@@ -15,8 +17,8 @@ class SocketServer {
         });
         // setup socket action
         this.setupAction(io);
-        http.listen(3000, () => {
-            console.log('listening on *:3000');
+        http.listen(config.socketInterpreterSettings.port, () => {
+            console.log(`listening on *: ${config.socketInterpreterSettings.port}`);
         });
     }
     stopServer() {

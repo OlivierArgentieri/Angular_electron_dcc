@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ResolverSocketData = exports.ResolverSocketRow = void 0;
 class ResolverSocketRow {
     constructor(_port = 0, _reachable = false, _filename = "") {
         this.port = _port;
@@ -7,5 +8,8 @@ class ResolverSocketRow {
         this.filename = _filename;
     }
 }
-exports.default = ResolverSocketRow;
-//# sourceMappingURL=resolverRowData.js.map
+exports.ResolverSocketRow = ResolverSocketRow;
+class ResolverSocketData {
+}
+exports.ResolverSocketData = ResolverSocketData;
+//# sourceMappingURL=resolverSocketData.js.map

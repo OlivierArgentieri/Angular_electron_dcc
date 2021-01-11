@@ -1,17 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const socketServer_1 = require("./socketServer/socketServer");
-// config
-const config = require('./config/config.json');
+const net = require('net');
 // modules
 const dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
 const dccActionModule_1 = require("./modules/dccActionModule/dccActionModule");
+const dccCommandModule_1 = require("./modules/dccCommandModule/dccCommandModule");
+const launchDccModule_1 = require("./modules/launchDccModule/launchDccModule");
 class SocketInterpreter extends socketServer_1.default {
     constructor() {
         super();
         // modules
         this.dccResolver = new dccResolverModule_1.DccResolverModule();
         this.dccAction = new dccActionModule_1.DccActionModule();
+        this.dccCommand = new dccCommandModule_1.DccCommandModule();
+        this.runDcc = new launchDccModule_1.LaunchDccModule();
         this.client = null;
     }
     // API Part 
@@ -22,20 +25,9 @@ class SocketInterpreter extends socketServer_1.default {
             console.log('user connected');
             // send maya command in plain python
             socket.on("mayaCommand", (command, callback) => {
-                // todo json request
-                console.log("received");
-                // new promise request
-                this.newRequest(12346, '192.168.1.15')
-                    .then((client) => {
-                    client.write(command);
-                    client.on('data', (data) => {
-                        console.log(data.toString());
-                        if (callback)
-                            callback(data.toString());
-                        client.destroy();
-                    });
-                });
-                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                console.log(`received ${command}`);
+                var _commandObject = JSON.parse(command);
+                this.dccCommand.sendCommand(_commandObject, callback);
             });
             // get all maya open server through socket
             // rename to dcc resolve
@@ -48,13 +40,13 @@ class SocketInterpreter extends socketServer_1.default {
             });
             // get main config
             socket.on("getConfig", callback => {
-                callback(config); // callbackFn is output of this method; called in service of component;
+                callback(this.mainConfig); // callbackFn is output of this method; called in service of component;
             });
             // get Dcc Actions
-            socket.on("getDccActions", callback => {
-                this.dccAction.getAll().then((result) => {
+            socket.on("getDccActions", (_dccName, _callback) => {
+                this.dccAction.getAll(_dccName).then((result) => {
                     console.log(result);
-                    callback(result);
+                    _callback(result);
                 });
                 // callbackFn is output of this method; called in service of component;
             });
@@ -66,6 +58,25 @@ class SocketInterpreter extends socketServer_1.default {
                 });
                 // callbackFn is output of this method; called in service of component;
             });
+            // run action
+            socket.on("runDccAction", (_actionName, _actionData, _callback) => {
+                var _actionObject = JSON.parse(_actionData);
+                this.dccAction.runAction(_actionName, _actionObject).then((_command) => {
+                    console.log(_command);
+                    _callback("ok"); // TODO get back info of exec action
+                });
+                // callbackFn is output of this method; called in service of component;
+            });
+            /**/
+            // run action
+            socket.on("launchDcc", (_dccName, _callback) => {
+                /*
+                this.runDcc.Launch(_actionObject).then((_command)=>{
+                    console.log(_command)
+                    _callback("ok");
+                })*/
+                // callbackFn is output of this method; called in service of component;
+            });
         });
     }
     main() {
@@ -74,6 +85,4 @@ class SocketInterpreter extends socketServer_1.default {
     }
 }
 exports.default = SocketInterpreter;
-var _interpreter = new SocketInterpreter();
-_interpreter.main();
 //# sourceMappingURL=main.js.map

@@ -1,12 +1,13 @@
 import SocketServer from "./socketServer/socketServer";
-
-// config
-const config = require('./config/config.json');
+const net = require('net');
 
 // modules
 import { DccResolverModule } from "./modules/dccResolverModule/dccResolverModule";
 import { DccActionModule } from "./modules/dccActionModule/dccActionModule";
-
+import { DccCommandModule } from "./modules/dccCommandModule/dccCommandModule";
+import DccCommandData from "./modules/dccCommandModule/models/commandData";
+import { ActionResult } from "./modules/dccActionModule/models/actionResult/actionResult";
+import { LaunchDccModule } from "./modules/launchDccModule/launchDccModule";
 
 
 
@@ -15,6 +16,8 @@ export default class SocketInterpreter extends SocketServer {
     // modules
     dccResolver: DccResolverModule = new DccResolverModule();
     dccAction: DccActionModule = new DccActionModule();
+    dccCommand: DccCommandModule = new DccCommandModule();
+    runDcc: LaunchDccModule = new LaunchDccModule();
 
     client = null;
     constructor() {
@@ -30,26 +33,12 @@ export default class SocketInterpreter extends SocketServer {
 
             console.log('user connected');
 
-            
-
             // send maya command in plain python
             socket.on("mayaCommand", (command, callback) => {
 
-                // todo json request
-                console.log("received")
-                // new promise request
-                this.newRequest(12346, '192.168.1.15')
-                    .then((client) => {
-                        client.write(command);
-                        client.on('data', (data) => {
-                            console.log(data.toString());
-                            
-                            if(callback)
-                                callback(data.toString());
-                            client.destroy()
-                        })
-                    })
-                //command = 'import maya.cmds as cmds cmds.polyCube()' 
+                console.log(`received ${command}`)
+                var _commandObject:DccCommandData = JSON.parse(command)
+                this.dccCommand.sendCommand(_commandObject, callback);
             });
 
 
@@ -65,14 +54,14 @@ export default class SocketInterpreter extends SocketServer {
 
             // get main config
             socket.on("getConfig", callback => {
-                callback(config); // callbackFn is output of this method; called in service of component;
+                callback(this.mainConfig); // callbackFn is output of this method; called in service of component;
             });
 
             // get Dcc Actions
-            socket.on("getDccActions", callback => {
-                this.dccAction.getAll().then((result)=>{
+            socket.on("getDccActions", (_dccName, _callback) => {
+                this.dccAction.getAll(_dccName).then((result)=>{
                     console.log(result)
-                    callback(result);
+                    _callback(result);
                 })
                 // callbackFn is output of this method; called in service of component;
             });
@@ -85,6 +74,29 @@ export default class SocketInterpreter extends SocketServer {
                 })
                 // callbackFn is output of this method; called in service of component;
             });
+
+            // run action
+            socket.on("runDccAction", (_actionName, _actionData, _callback)  => {
+                var _actionObject:ActionResult = JSON.parse(_actionData)
+
+                this.dccAction.runAction(_actionName, _actionObject).then((_command)=>{
+                    console.log(_command)
+                    _callback("ok"); // TODO get back info of exec action
+                })
+                // callbackFn is output of this method; called in service of component;
+            });
+
+            /**/
+            // run action
+            socket.on("launchDcc", (_dccName, _callback)  => {
+                
+                /*
+                this.runDcc.Launch(_actionObject).then((_command)=>{
+                    console.log(_command)
+                    _callback("ok");
+                })*/
+                // callbackFn is output of this method; called in service of component;
+            });
         });
     }
 
@@ -93,6 +105,5 @@ export default class SocketInterpreter extends SocketServer {
         this.startServer();
     }
 }
-
 var _interpreter = new SocketInterpreter();
 _interpreter.main();
