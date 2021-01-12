@@ -73,4 +73,9 @@ export class SocketComponent implements OnInit, OnDestroy {
     this.resolve()
   }
 
+  launchNewDcc(_dccName){
+    this.service.launchDccAction(_dccName);
+
+    this.resolve()
+  }
 }

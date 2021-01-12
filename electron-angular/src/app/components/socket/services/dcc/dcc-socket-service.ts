@@ -54,4 +54,7 @@ export class DccSocketService extends SocketService{
         });
     };
 
+    public actionLaunchDccAction(_dccName){
+        this.socket.emit('launchDcc', _dccName);
+    };
 }

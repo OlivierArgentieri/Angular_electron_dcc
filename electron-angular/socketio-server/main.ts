@@ -89,7 +89,7 @@ export default class SocketInterpreter extends SocketServer {
             /**/
             // run action
             socket.on("launchDcc", (_dccName, _callback)  => {
-                
+                this.runDcc.launchDcc(_dccName);
                 /*
                 this.runDcc.Launch(_actionObject).then((_command)=>{
                     console.log(_command)

@@ -83,4 +83,15 @@ export class DccService{
             _callback(_out)
         }]);
     }
+
+    // instance Dcc action 
+    public launchDccAction(_dccName){
+        this.service = <Subject<any>>this.socketService
+        .launchDccAction()
+        .map((_service: any):any =>{
+            return _service;
+        });
+        
+        this.service.next(_dccName);
+    }
 }

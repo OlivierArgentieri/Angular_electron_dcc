@@ -19,6 +19,7 @@ var net = require('net');
 var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule");
 var dccActionModule_1 = require("./modules/dccActionModule/dccActionModule");
 var dccCommandModule_1 = require("./modules/dccCommandModule/dccCommandModule");
+var launchDccModule_1 = require("./modules/launchDccModule/launchDccModule");
 var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
@@ -27,6 +28,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         _this.dccResolver = new dccResolverModule_1.DccResolverModule();
         _this.dccAction = new dccActionModule_1.DccActionModule();
         _this.dccCommand = new dccCommandModule_1.DccCommandModule();
+        _this.runDcc = new launchDccModule_1.LaunchDccModule();
         _this.client = null;
         return _this;
     }
@@ -81,17 +83,17 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 });
                 // callbackFn is output of this method; called in service of component;
             });
-            /*
+            /**/
             // run action
-            socket.on("launchDcc", (_dccName, _callback)  => {
-                var _actionObject:ActionResult = JSON.parse(_actionData)
-
-                this.dccAction.runAction(_actionObject).then((_command)=>{
+            socket.on("launchDcc", function (_dccName, _callback) {
+                _this.runDcc.launchDcc(_dccName);
+                /*
+                this.runDcc.Launch(_actionObject).then((_command)=>{
                     console.log(_command)
                     _callback("ok");
-                })
+                })*/
                 // callbackFn is output of this method; called in service of component;
-            });*/
+            });
         });
     };
     SocketInterpreter.prototype.main = function () {
