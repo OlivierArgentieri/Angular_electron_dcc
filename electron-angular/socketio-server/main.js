@@ -77,7 +77,14 @@ var SocketInterpreter = /** @class */ (function (_super) {
             // run action
             socket.on("runDccAction", function (_actionName, _actionData, _callback) {
                 var _actionObject = JSON.parse(_actionData);
-                _this.dccAction.runAction(_actionName, _actionObject).then(function (_command) {
+                if (_actionData.port > -1) {
+                    _this.dccAction.runActionThroughtSocket(_actionName, _actionObject).then(function (_command) {
+                        console.log(_command);
+                        _callback("ok"); // TODO get back info of exec action
+                    });
+                    return;
+                }
+                _this.dccAction.runActionThroughtPython(_actionName, _actionObject).then(function (_command) {
                     console.log(_command);
                     _callback("ok"); // TODO get back info of exec action
                 });

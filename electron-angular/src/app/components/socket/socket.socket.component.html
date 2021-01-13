@@ -116,7 +116,8 @@
           </div>
           </mat-card-content>
           <mat-car-action>
-            <button mat-button (click)="launchNewDcc('houdini')" class="bg-darklight text-white">Start New </button>
+            <button mat-button (click)="launchNewDcc('hython')" class="bg-darklight text-white">New</button>
+            <button mat-button [routerLink]="['/socket/dcc', -1, 'hython']" class="bg-darklight text-white">hython</button>
           </mat-car-action>
         </mat-card>
       </div>

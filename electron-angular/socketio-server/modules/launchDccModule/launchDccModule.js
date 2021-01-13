@@ -23,7 +23,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
     }
     LaunchDccModule.prototype.launchDcc = function (_dccName) {
         console.log("test");
-        var cmd = spawn(this.mainConfig.dccsBatch.houdini, [], { 'shell': true, detached: true });
+        var cmd = spawn(this.mainConfig.dccsBatch.houdini, ["C:/Users/olivi/Desktop/test.py"], { 'shell': true, detached: true });
         cmd.stdout.on('data', function (data) {
             console.log("stdout: " + data);
         });

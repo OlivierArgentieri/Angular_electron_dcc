@@ -11,9 +11,10 @@
     },
     "pipelineSettings": {
         "mayaActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/maya",
-        "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini"
+        "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini",
+        "hythonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/hython"
     },
-
+    "tempFolder": "D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/temp",
     "dccsBatch":{
         "maya": "D:/Program_Files/Maya2019.2/bin/mayabatch.exe",
         "houdini": "F:/Program_Files/Houdini_18.0.499/bin/hython.exe" 

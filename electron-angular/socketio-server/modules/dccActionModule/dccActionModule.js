@@ -16,7 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DccActionModule = void 0;
 var fs = require('fs');
 // config
-var config = require('../../config/config.json');
+var spawn = require('child_process').spawn;
 var actionsResult_1 = require("./models/actionsResult/actionsResult");
 var actionResult_1 = require("./models/actionResult/actionResult");
 var baseModule_1 = require("../base/baseModule");
@@ -31,8 +31,9 @@ var DccActionModule = /** @class */ (function (_super) {
     // return corresponding action path/dccs
     DccActionModule.prototype.getActionPathPerDcc = function (_dccName) {
         switch (_dccName) {
-            case "maya": return config.pipelineSettings.mayaActionsPath;
-            case "houdini": return config.pipelineSettings.houdiniActionsPath;
+            case "maya": return this.mainConfig.pipelineSettings.mayaActionsPath;
+            case "houdini": return this.mainConfig.pipelineSettings.houdiniActionsPath;
+            case "hython": return this.mainConfig.pipelineSettings.hythonActionsPath;
             default:
                 return "NotFound";
         }
@@ -99,7 +100,7 @@ var DccActionModule = /** @class */ (function (_super) {
     };
     // create command with ActionReulstObject
     // return formatted command
-    DccActionModule.prototype.runAction = function (_actionName, _actionData) {
+    DccActionModule.prototype.runActionThroughtSocket = function (_actionName, _actionData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (!_actionData)
@@ -131,6 +132,79 @@ var DccActionModule = /** @class */ (function (_super) {
             });
             resolve(_cmd); // return command
         });
+    };
+    DccActionModule.prototype.runActionThroughtPython = function (_actionName, _actionData) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (!_actionData)
+                reject("null parameters");
+            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";"; // add corresponding import
+            _cmd += _actionData.entry_point;
+            _cmd += "(";
+            for (var _i = 0; _i < _actionData.params.length; _i++) {
+                switch (_actionData.params[_i].type) {
+                    case "string":
+                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
+                        break;
+                    case "int":
+                        _cmd += _actionData.params[_i].name + " = " + _actionData.params[_i].default;
+                        break;
+                    default:
+                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
+                        break;
+                }
+                if (_i + 1 < _actionData.params.length)
+                    _cmd += ',';
+            }
+            _cmd += ")"; // close method call
+            // Write cmd to temporary python file and send this file to cmd
+            // same thing for maya ?
+            // make method to switch pass python file for each dcc type ?? 
+            var _fileName = "" + _this.mainConfig.tempFolder + '/temp_cmd_python.py';
+            fs.writeFile(_fileName, _cmd, function (err) {
+                if (err) {
+                    reject("{'error': 'cant write to file " + this.mainConfig.tempFolder + "'}");
+                    return;
+                }
+                console.log('File successfully writed');
+            });
+            var _success = _this.SendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
+            if (_success)
+                resolve("ok start with .py"); // return command
+            else
+                reject("error");
+        });
+    };
+    /*
+    *   Send command on dcc throught terminal (for mayabatchs, hython ...)
+    *   return: success
+    */
+    DccActionModule.prototype.SendCommandToDccBatch = function (_dccName, _pythonFilePath) {
+        var _dccBatchPath = "";
+        switch (_dccName) {
+            case "mayabatch":
+                _dccBatchPath = this.mainConfig.dccsBatch.maya;
+                break;
+            case "hython":
+                _dccBatchPath = this.mainConfig.dccsBatch.houdini;
+                break;
+            default:
+                console.log("dcc Batch NotFound ! ");
+                return false;
+        }
+        console.log("batch path : " + _dccBatchPath);
+        console.log("py file path : " + _pythonFilePath);
+        var _batchDcc = spawn(_dccBatchPath, [_pythonFilePath], { 'shell': true, detached: true });
+        _batchDcc.stdout.on('data', function (data) {
+            console.log("stdout: " + data);
+        });
+        _batchDcc.on('close', function (code) {
+            console.log("child process close all stdio with code " + code);
+        });
+        _batchDcc.on('exit', function (code) {
+            console.log("child process exited with code " + code);
+        });
+        return true;
     };
     return DccActionModule;
 }(baseModule_1.BaseModule));

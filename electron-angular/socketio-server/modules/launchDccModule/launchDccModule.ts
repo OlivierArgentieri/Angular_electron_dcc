@@ -5,7 +5,7 @@ export class LaunchDccModule extends BaseModule {
     launchDcc(_dccName){
         console.log("test")
 
-        const cmd = spawn(this.mainConfig.dccsBatch.houdini, [], {'shell': true, detached: true})
+        const cmd = spawn(this.mainConfig.dccsBatch.houdini, ["C:/Users/olivi/Desktop/test.py"], {'shell': true, detached:true})
 
         cmd.stdout.on('data', (data) => {
             console.log(`stdout: ${data}`);

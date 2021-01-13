@@ -1,0 +1,1 @@
+from abc_to_hip.abc_to_hip import run;run(outPath = 'aaaaa',startFrame = 0,endFrame = 0,objects = 'first second third')

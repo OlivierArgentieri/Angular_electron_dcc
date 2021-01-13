@@ -24,6 +24,7 @@ class HoudiniSocketServer(BaseSocketServer):
         port_end = config.get('dccPortSettings', {}).get('houdiniPortRangeEnd', 0)
 
         sys.path.append(config.get('pipelineSettings', {}).get('houdiniActionsPath', 0)) # add houdini action in sys path 
+        sys.path.append(config.get('pipelineSettings', {}).get('hythonActionsPath', 0)) # add hython action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
 
@@ -67,6 +68,10 @@ class HoudiniSocketServer(BaseSocketServer):
 
     def on_identify_dcc(self, client):
         name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
-        client.send(name)
+        exec_name = sys.executable
+        
+        data = json.dumps({'filename': name, 'exec_name': exec_name}, sort_keys=True, indent=4)
+        
+        client.send(data)
 
     

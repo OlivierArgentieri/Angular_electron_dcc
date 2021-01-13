@@ -1,7 +1,6 @@
 const fs = require('fs');
 // config
-const config = require('../../config/config.json');
-
+const { spawn } = require('child_process');
 import { ActionsResult } from "./models/actionsResult/actionsResult";
 import { ActionResult } from "./models/actionResult/actionResult";
 import { BaseModule } from "../base/baseModule";
@@ -16,8 +15,9 @@ export class DccActionModule extends BaseModule{
     // return corresponding action path/dccs
     private getActionPathPerDcc(_dccName):string{
         switch(_dccName){
-            case "maya": return config.pipelineSettings.mayaActionsPath;
-            case "houdini": return config.pipelineSettings.houdiniActionsPath;
+            case "maya": return this.mainConfig.pipelineSettings.mayaActionsPath;
+            case "houdini": return this.mainConfig.pipelineSettings.houdiniActionsPath;
+            case "hython": return this.mainConfig.pipelineSettings.hythonActionsPath;
 
             default: 
                 return "NotFound";
@@ -88,7 +88,7 @@ export class DccActionModule extends BaseModule{
 
      // create command with ActionReulstObject
      // return formatted command
-     public runAction(_actionName:string, _actionData:ActionResult): Promise<string> {
+     public runActionThroughtSocket(_actionName:string, _actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             
             if(!_actionData) reject("null parameters");
@@ -120,5 +120,85 @@ export class DccActionModule extends BaseModule{
             })
             resolve(_cmd); // return command
         })
+    }
+
+    public runActionThroughtPython(_actionName:string, _actionData:ActionResult): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            
+            if(!_actionData) reject("null parameters");
+            
+            var _cmd = `from ${_actionName}.${_actionName} import ${_actionData.entry_point};`; // add corresponding import
+            _cmd += _actionData.entry_point;
+            _cmd += "(" 
+
+            for (let _i = 0; _i < _actionData.params.length; _i++) {
+
+                switch(_actionData.params[_i].type)
+                {
+                    case "string" : _cmd += `${_actionData.params[_i].name} = '${_actionData.params[_i].default}'`; break;
+                    case "int" : _cmd += `${_actionData.params[_i].name} = ${_actionData.params[_i].default}`;  break;
+                    default : _cmd += `${_actionData.params[_i].name} = '${_actionData.params[_i].default}'`;  break;
+                }
+        
+                if(_i +1< _actionData.params.length) _cmd +=',';
+
+            }
+            _cmd += ")" // close method call
+            
+            // Write cmd to temporary python file and send this file to cmd
+            // same thing for maya ?
+            // make method to switch pass python file for each dcc type ?? 
+            const _fileName = `${this.mainConfig.tempFolder}`+'/temp_cmd_python.py';
+            fs.writeFile(_fileName, _cmd, function (err) {
+            if (err){
+                reject(`{'error': 'cant write to file ${this.mainConfig.tempFolder}'}`)
+                return;
+            }
+
+                console.log('File successfully writed');
+            });
+            var _success = this.SendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
+
+            if(_success)
+                resolve("ok start with .py"); // return command
+            else
+                reject("error")
+        })
+    }
+
+
+    /*
+    *   Send command on dcc throught terminal (for mayabatchs, hython ...)
+    *   return: success
+    */
+    private SendCommandToDccBatch(_dccName, _pythonFilePath) : boolean{
+        var _dccBatchPath = "";
+        switch(_dccName){
+            case "mayabatch": _dccBatchPath = this.mainConfig.dccsBatch.maya;break;
+            case "hython": _dccBatchPath = this.mainConfig.dccsBatch.houdini;break;
+
+            default:
+                console.log("dcc Batch NotFound ! ") 
+                return false;
+        
+        }
+
+        console.log(`batch path : ${_dccBatchPath}`)
+        console.log(`py file path : ${_pythonFilePath}`)
+        const _batchDcc = spawn(_dccBatchPath, [_pythonFilePath], {'shell': true, detached:true})
+
+        _batchDcc.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+          
+          _batchDcc.on('close', (code) => {
+            console.log(`child process close all stdio with code ${code}`);
+          });
+          
+          _batchDcc.on('exit', (code) => {
+            console.log(`child process exited with code ${code}`);
+          });
+
+          return true;
     }
 }

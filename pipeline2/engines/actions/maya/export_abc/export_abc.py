@@ -1,4 +1,3 @@
-from pipeline2.engines.actions.common.export_abc import ExportAbc
 import sys
 import maya.cmds as cmds
 
