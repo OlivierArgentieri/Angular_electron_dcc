@@ -2,20 +2,28 @@ import { BaseModule } from "../base/baseModule";
 const { spawn } = require('child_process');
 export class LaunchDccModule extends BaseModule {
 
-    launchDcc(_dccName){
-        console.log("test")
+    launchDcc(_dccName){ // todo promise ?? 
+        var _dcc = ""
+        switch(_dccName){
+            case "maya": _dcc = this.mainConfig.dccsBatch.maya;break;
+            case "houdini": _dcc = this.mainConfig.dccsBatch.houdini;break;
 
-        const cmd = spawn(this.mainConfig.dccsBatch.houdini, ["C:/Users/olivi/Desktop/test.py"], {'shell': true, detached:true})
+            default:
+                console.log("dcc NotFound ! ") 
+                return false;
+        
+        }
+        const _dccOBject = spawn(_dcc, [], {'shell': true, detached:true})
 
-        cmd.stdout.on('data', (data) => {
+        _dccOBject.stdout.on('data', (data) => {
             console.log(`stdout: ${data}`);
           });
           
-        cmd.on('close', (code) => {
+        _dccOBject.on('close', (code) => {
             console.log(`child process close all stdio with code ${code}`);
           });
           
-        cmd.on('exit', (code) => {
+        _dccOBject.on('exit', (code) => {
             console.log(`child process exited with code ${code}`);
           });
     }

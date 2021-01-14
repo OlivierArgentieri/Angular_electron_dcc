@@ -110,8 +110,8 @@ export class SocketDccComponent implements OnInit {
 
   run() {
     this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
-
-    this.service.runDccAction(this.actionSelected, JSON.stringify(this.actionData), (out) => {
+    this.actionData.name = this.actionSelected;
+    this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
 
       this.snackBar.open(out, "close", {
         duration: 5000

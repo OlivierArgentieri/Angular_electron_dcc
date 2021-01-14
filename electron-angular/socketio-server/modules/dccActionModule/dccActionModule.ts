@@ -88,12 +88,15 @@ export class DccActionModule extends BaseModule{
 
      // create command with ActionReulstObject
      // return formatted command
-     public runActionThroughtSocket(_actionName:string, _actionData:ActionResult): Promise<string> {
+     public runActionThroughtSocket(_actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            
+
             if(!_actionData) reject("null parameters");
             
-            var _cmd = `from ${_actionName}.${_actionName} import ${_actionData.entry_point};`; // add corresponding import
+            // get name of action with directory name, to avoid user to put an error in file name
+
+
+            var _cmd = `from ${_actionData.name}.${_actionData.name} import ${_actionData.entry_point};`; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(" 
 
@@ -122,12 +125,12 @@ export class DccActionModule extends BaseModule{
         })
     }
 
-    public runActionThroughtPython(_actionName:string, _actionData:ActionResult): Promise<string> {
+    public runActionThroughtPython(_actionData:ActionResult): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             
             if(!_actionData) reject("null parameters");
             
-            var _cmd = `from ${_actionName}.${_actionName} import ${_actionData.entry_point};`; // add corresponding import
+            var _cmd = `from ${_actionData.name}.${_actionData.name} import ${_actionData.entry_point};`; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(" 
 
@@ -174,8 +177,8 @@ export class DccActionModule extends BaseModule{
     private SendCommandToDccBatch(_dccName, _pythonFilePath) : boolean{
         var _dccBatchPath = "";
         switch(_dccName){
-            case "mayabatch": _dccBatchPath = this.mainConfig.dccsBatch.maya;break;
-            case "hython": _dccBatchPath = this.mainConfig.dccsBatch.houdini;break;
+            case "mayabatch": _dccBatchPath = this.mainConfig.dccsBatch.maya; break;
+            case "hython": _dccBatchPath = this.mainConfig.dccsBatch.houdini; break;
 
             default:
                 console.log("dcc Batch NotFound ! ") 

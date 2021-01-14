@@ -47,8 +47,8 @@ export class DccSocketService extends SocketService{
         });
     };
 
-    public actionRunDccAction(_actionName, _actionData, _callback){
-        this.socket.emit('runDccAction', _actionName, _actionData, (out)=>{ 
+    public actionRunDccAction(_actionData, _callback){
+        this.socket.emit('runDccAction', _actionData, (out)=>{ 
             console.log(out)
             _callback(out);
         });

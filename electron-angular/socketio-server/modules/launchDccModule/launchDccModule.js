@@ -22,15 +22,26 @@ var LaunchDccModule = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LaunchDccModule.prototype.launchDcc = function (_dccName) {
-        console.log("test");
-        var cmd = spawn(this.mainConfig.dccsBatch.houdini, ["C:/Users/olivi/Desktop/test.py"], { 'shell': true, detached: true });
-        cmd.stdout.on('data', function (data) {
+        var _dcc = "";
+        switch (_dccName) {
+            case "maya":
+                _dcc = this.mainConfig.dccsBatch.maya;
+                break;
+            case "houdini":
+                _dcc = this.mainConfig.dccsBatch.houdini;
+                break;
+            default:
+                console.log("dcc NotFound ! ");
+                return false;
+        }
+        var _dccOBject = spawn(_dcc, [], { 'shell': true, detached: true });
+        _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);
         });
-        cmd.on('close', function (code) {
+        _dccOBject.on('close', function (code) {
             console.log("child process close all stdio with code " + code);
         });
-        cmd.on('exit', function (code) {
+        _dccOBject.on('exit', function (code) {
             console.log("child process exited with code " + code);
         });
     };

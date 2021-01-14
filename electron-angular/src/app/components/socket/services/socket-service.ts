@@ -38,7 +38,7 @@ export class SocketService{
         throw new Error("not Implemented")
     }
 
-    public actionRunDccAction(actionName, actionData, callback){
+    public actionRunDccAction(actionData, callback){
         throw new Error("not Implemented")
     }
 
@@ -118,7 +118,7 @@ export class SocketService{
         this.socket.open();
 
         _subject.subscribe((data) =>{
-            this.actionRunDccAction(data[0], data[1], data[2]) // actionName, actionData, callback,
+            this.actionRunDccAction(data[0], data[1]) // actionName, actionData, callback,
         });
         return _subject;
     }

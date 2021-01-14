@@ -75,16 +75,16 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 // callbackFn is output of this method; called in service of component;
             });
             // run action
-            socket.on("runDccAction", function (_actionName, _actionData, _callback) {
+            socket.on("runDccAction", function (_actionData, _callback) {
                 var _actionObject = JSON.parse(_actionData);
-                if (_actionData.port > -1) {
-                    _this.dccAction.runActionThroughtSocket(_actionName, _actionObject).then(function (_command) {
+                if (_actionObject.port > -1) {
+                    _this.dccAction.runActionThroughtSocket(_actionObject).then(function (_command) {
                         console.log(_command);
                         _callback("ok"); // TODO get back info of exec action
                     });
                     return;
                 }
-                _this.dccAction.runActionThroughtPython(_actionName, _actionObject).then(function (_command) {
+                _this.dccAction.runActionThroughtPython(_actionObject).then(function (_command) {
                     console.log(_command);
                     _callback("ok"); // TODO get back info of exec action
                 });

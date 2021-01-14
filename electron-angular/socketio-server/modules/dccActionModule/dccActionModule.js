@@ -100,12 +100,13 @@ var DccActionModule = /** @class */ (function (_super) {
     };
     // create command with ActionReulstObject
     // return formatted command
-    DccActionModule.prototype.runActionThroughtSocket = function (_actionName, _actionData) {
+    DccActionModule.prototype.runActionThroughtSocket = function (_actionData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (!_actionData)
                 reject("null parameters");
-            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";"; // add corresponding import
+            // get name of action with directory name, to avoid user to put an error in file name
+            var _cmd = "from " + _actionData.name + "." + _actionData.name + " import " + _actionData.entry_point + ";"; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(";
             for (var _i = 0; _i < _actionData.params.length; _i++) {
@@ -133,12 +134,12 @@ var DccActionModule = /** @class */ (function (_super) {
             resolve(_cmd); // return command
         });
     };
-    DccActionModule.prototype.runActionThroughtPython = function (_actionName, _actionData) {
+    DccActionModule.prototype.runActionThroughtPython = function (_actionData) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (!_actionData)
                 reject("null parameters");
-            var _cmd = "from " + _actionName + "." + _actionName + " import " + _actionData.entry_point + ";"; // add corresponding import
+            var _cmd = "from " + _actionData.name + "." + _actionData.name + " import " + _actionData.entry_point + ";"; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(";
             for (var _i = 0; _i < _actionData.params.length; _i++) {
