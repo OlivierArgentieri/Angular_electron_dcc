@@ -20,6 +20,7 @@ var spawn = require('child_process').spawn;
 var actionsResult_1 = require("./models/actionsResult/actionsResult");
 var actionResult_1 = require("./models/actionResult/actionResult");
 var baseModule_1 = require("../base/baseModule");
+var genericReturn_1 = require("./models/genericReturn/genericReturn");
 /////////////////////////////////////////
 // Class to manage all Dcc action 
 /////////////////////////////////////////
@@ -56,7 +57,6 @@ var DccActionModule = /** @class */ (function (_super) {
                         continue;
                     if (_file.includes(".pyc"))
                         continue;
-                    //if(!_file.includes(".py")) continue
                     _result.actions.push(_file.toString());
                 }
                 resolve(JSON.stringify(_result)); // return jsonObject
@@ -85,10 +85,6 @@ var DccActionModule = /** @class */ (function (_super) {
                 }
                 for (var _a = 0, _files_2 = _files; _a < _files_2.length; _a++) {
                     var _file = _files_2[_a];
-                    if (_file.includes("__init__"))
-                        continue;
-                    if (_file.includes(".pyc"))
-                        continue;
                     if (!_file.includes(".json"))
                         continue;
                     var _json = JSON.parse(fs.readFileSync(_baseUri + ("/" + _file)));
@@ -106,7 +102,9 @@ var DccActionModule = /** @class */ (function (_super) {
             if (!_actionData)
                 reject("null parameters");
             // get name of action with directory name, to avoid user to put an error in file name
-            var _cmd = "from " + _actionData.name + "." + _actionData.name + " import " + _actionData.entry_point + ";"; // add corresponding import
+            var _actionPath = _this.getActionPathPerDcc(_actionData.dcc);
+            var _realActionName = _this.GetActionNameByFolderActionName(_actionPath, _actionData.name);
+            var _cmd = "from " + _actionData.name + "." + _realActionName.value + " import " + _actionData.entry_point + ";"; // add corresponding import
             _cmd += _actionData.entry_point;
             _cmd += "(";
             for (var _i = 0; _i < _actionData.params.length; _i++) {
@@ -169,32 +167,55 @@ var DccActionModule = /** @class */ (function (_super) {
                 }
                 console.log('File successfully writed');
             });
-            var _success = _this.SendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
-            if (_success)
-                resolve("ok start with .py"); // return command
+            var _result = _this.SendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
+            if (_result.error == "")
+                resolve("ok start with .py"); // return sucess
             else
-                reject("error");
+                reject(_result.error);
         });
+    };
+    /*
+    *   GetActionNameByFolderActionName : to avoid folderActionName == ActionName, if user put different name
+    */
+    DccActionModule.prototype.GetActionNameByFolderActionName = function (_baseActionPath, _folderActionName) {
+        var _toReturn = new genericReturn_1.GenericReturn();
+        fs.readdir(_baseActionPath, function (_err, _files) {
+            if (_err) {
+                console.log('Unable to scan directory: ' + _err);
+                _toReturn.error = "Unable to scan directory";
+            }
+            for (var _a = 0, _files_3 = _files; _a < _files_3.length; _a++) {
+                var _file = _files_3[_a];
+                if (_file.includes("__init__"))
+                    continue;
+                if (_file.includes(".pyc"))
+                    continue;
+                // get the first .py file
+                _toReturn.value = _file.toString();
+            }
+            // return jsonObject
+        });
+        return _toReturn;
     };
     /*
     *   Send command on dcc throught terminal (for mayabatchs, hython ...)
     *   return: success
     */
     DccActionModule.prototype.SendCommandToDccBatch = function (_dccName, _pythonFilePath) {
+        var _toReturn = new genericReturn_1.GenericReturn();
         var _dccBatchPath = "";
         switch (_dccName) {
             case "mayabatch":
-                _dccBatchPath = this.mainConfig.dccsBatch.maya;
+                _dccBatchPath = this.mainConfig.dccsPath.maya;
                 break;
             case "hython":
-                _dccBatchPath = this.mainConfig.dccsBatch.houdini;
+                _dccBatchPath = this.mainConfig.dccsPath.houdini;
                 break;
             default:
                 console.log("dcc Batch NotFound ! ");
-                return false;
+                _toReturn.error = "Dcc batch Not Found !";
+                return _toReturn;
         }
-        console.log("batch path : " + _dccBatchPath);
-        console.log("py file path : " + _pythonFilePath);
         var _batchDcc = spawn(_dccBatchPath, [_pythonFilePath], { 'shell': true, detached: true });
         _batchDcc.stdout.on('data', function (data) {
             console.log("stdout: " + data);
@@ -205,7 +226,8 @@ var DccActionModule = /** @class */ (function (_super) {
         _batchDcc.on('exit', function (code) {
             console.log("child process exited with code " + code);
         });
-        return true;
+        _toReturn.value = "sucess!";
+        return _toReturn;
     };
     return DccActionModule;
 }(baseModule_1.BaseModule));

@@ -5,8 +5,8 @@ export class LaunchDccModule extends BaseModule {
     launchDcc(_dccName){ // todo promise ?? 
         var _dcc = ""
         switch(_dccName){
-            case "maya": _dcc = this.mainConfig.dccsBatch.maya;break;
-            case "houdini": _dcc = this.mainConfig.dccsBatch.houdini;break;
+            case "maya": _dcc = this.mainConfig.dccsPath.maya;break;
+            case "houdini": _dcc = this.mainConfig.dccsPath.houdini;break;
 
             default:
                 console.log("dcc NotFound ! ") 

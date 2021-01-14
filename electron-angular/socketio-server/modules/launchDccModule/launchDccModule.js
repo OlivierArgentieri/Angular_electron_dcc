@@ -25,10 +25,10 @@ var LaunchDccModule = /** @class */ (function (_super) {
         var _dcc = "";
         switch (_dccName) {
             case "maya":
-                _dcc = this.mainConfig.dccsBatch.maya;
+                _dcc = this.mainConfig.dccsPath.maya;
                 break;
             case "houdini":
-                _dcc = this.mainConfig.dccsBatch.houdini;
+                _dcc = this.mainConfig.dccsPath.houdini;
                 break;
             default:
                 console.log("dcc NotFound ! ");

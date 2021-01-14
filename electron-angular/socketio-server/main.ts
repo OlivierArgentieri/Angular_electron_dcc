@@ -83,15 +83,21 @@ export default class SocketInterpreter extends SocketServer {
                 {
                     this.dccAction.runActionThroughtSocket(_actionObject).then((_command)=>{
                         console.log(_command)
-                        _callback("ok"); // TODO get back info of exec action
+                        _callback("success"); // TODO get back info of exec action
+                    })
+                    .catch((_error)=>{
+                        _callback(_error)
                     })
                     return;
                 }
                 
-                this.dccAction.runActionThroughtPython(_actionObject).then((_command)=>{
-                    console.log(_command)
+                this.dccAction.runActionThroughtPython(_actionObject).then((_result)=>{
+                    console.log(_result)
 
-                    _callback("ok"); // TODO get back info of exec action
+                    _callback("success"); // TODO get back info of exec action
+                })
+                .catch((_error)=>{
+                    _callback(_error)
                 })
                 // callbackFn is output of this method; called in service of component;
             });

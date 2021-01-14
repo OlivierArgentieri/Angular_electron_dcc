@@ -1,6 +1,6 @@
-//////////////////////////////////////////
-// class to serialize return data in json
-/////////////////////////////////////////
+/*
+* class to serialize return data in json
+*/
 export class ActionsResult {
     actions:Array<string>;
     error:string;

@@ -80,13 +80,19 @@ var SocketInterpreter = /** @class */ (function (_super) {
                 if (_actionObject.port > -1) {
                     _this.dccAction.runActionThroughtSocket(_actionObject).then(function (_command) {
                         console.log(_command);
-                        _callback("ok"); // TODO get back info of exec action
+                        _callback("success"); // TODO get back info of exec action
+                    })
+                        .catch(function (_error) {
+                        _callback(_error);
                     });
                     return;
                 }
-                _this.dccAction.runActionThroughtPython(_actionObject).then(function (_command) {
-                    console.log(_command);
-                    _callback("ok"); // TODO get back info of exec action
+                _this.dccAction.runActionThroughtPython(_actionObject).then(function (_result) {
+                    console.log(_result);
+                    _callback("success"); // TODO get back info of exec action
+                })
+                    .catch(function (_error) {
+                    _callback(_error);
                 });
                 // callbackFn is output of this method; called in service of component;
             });
