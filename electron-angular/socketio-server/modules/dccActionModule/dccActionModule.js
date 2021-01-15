@@ -103,33 +103,21 @@ var DccActionModule = /** @class */ (function (_super) {
                 reject("null parameters");
             // get name of action with directory name, to avoid user to put an error in file name
             var _actionPath = _this.getActionPathPerDcc(_actionData.dcc);
-            var _realActionName = _this.GetActionNameByFolderActionName(_actionPath, _actionData.name);
-            var _cmd = "from " + _actionData.name + "." + _realActionName.value + " import " + _actionData.entry_point + ";"; // add corresponding import
-            _cmd += _actionData.entry_point;
-            _cmd += "(";
-            for (var _i = 0; _i < _actionData.params.length; _i++) {
-                switch (_actionData.params[_i].type) {
-                    case "string":
-                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
-                        break;
-                    case "int":
-                        _cmd += _actionData.params[_i].name + " = " + _actionData.params[_i].default;
-                        break;
-                    default:
-                        _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
-                        break;
+            _this.getActionNameByFolderActionName(_actionPath, _actionData.name).then(function (_realActionName) {
+                console.log(_realActionName);
+                var _formatedCommand = _this.formatCommand(_actionData, _realActionName);
+                if (_formatedCommand.error) {
+                    reject(_formatedCommand.error);
+                    return;
                 }
-                if (_i + 1 < _actionData.params.length)
-                    _cmd += ',';
-            }
-            _cmd += ")"; // close method call
-            _this.newRequest(_actionData.port, _this.mainConfig.socketInterpreterSettings.host).then(function (client) {
-                client.write(_cmd);
-                client.on('data', function (data) {
-                    client.destroy();
+                _this.newRequest(_actionData.port, _this.mainConfig.socketInterpreterSettings.host).then(function (client) {
+                    client.write(_formatedCommand.value);
+                    client.on('data', function (data) {
+                        client.destroy();
+                    });
                 });
+                resolve("success"); // return success
             });
-            resolve(_cmd); // return command
         });
     };
     DccActionModule.prototype.runActionThroughtPython = function (_actionData) {
@@ -157,7 +145,6 @@ var DccActionModule = /** @class */ (function (_super) {
             }
             _cmd += ")"; // close method call
             // Write cmd to temporary python file and send this file to cmd
-            // same thing for maya ?
             // make method to switch pass python file for each dcc type ?? 
             var _fileName = "" + _this.mainConfig.tempFolder + '/temp_cmd_python.py';
             fs.writeFile(_fileName, _cmd, function (err) {
@@ -167,7 +154,7 @@ var DccActionModule = /** @class */ (function (_super) {
                 }
                 console.log('File successfully writed');
             });
-            var _result = _this.SendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
+            var _result = _this.sendCommandToDccBatch(_actionData.dcc, _fileName); // todo Promise
             if (_result.error == "")
                 resolve("ok start with .py"); // return sucess
             else
@@ -175,33 +162,63 @@ var DccActionModule = /** @class */ (function (_super) {
         });
     };
     /*
+    *   FormatCommand : Action Data input to fomated command
+    */
+    DccActionModule.prototype.formatCommand = function (_actionData, _realActionName) {
+        var _toReturn = new genericReturn_1.GenericReturn();
+        if (!_actionData || !_realActionName) {
+            _toReturn.error = "Invalid Parameters";
+            return _toReturn;
+        }
+        var _cmd = "from " + _actionData.name + "." + _realActionName + " import " + _actionData.entry_point + ";"; // add corresponding import
+        _cmd += _actionData.entry_point;
+        _cmd += "(";
+        for (var _i = 0; _i < _actionData.params.length; _i++) {
+            switch (_actionData.params[_i].type) {
+                case "string":
+                    _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
+                    break;
+                case "int":
+                    _cmd += _actionData.params[_i].name + " = " + _actionData.params[_i].default;
+                    break;
+                default:
+                    _cmd += _actionData.params[_i].name + " = '" + _actionData.params[_i].default + "'";
+                    break;
+            }
+            if (_i + 1 < _actionData.params.length)
+                _cmd += ',';
+        }
+        _cmd += ")"; // close method call
+        _toReturn.value = _cmd;
+        return _toReturn;
+    };
+    /*
     *   GetActionNameByFolderActionName : to avoid folderActionName == ActionName, if user put different name
     */
-    DccActionModule.prototype.GetActionNameByFolderActionName = function (_baseActionPath, _folderActionName) {
-        var _toReturn = new genericReturn_1.GenericReturn();
-        fs.readdir(_baseActionPath, function (_err, _files) {
-            if (_err) {
-                console.log('Unable to scan directory: ' + _err);
-                _toReturn.error = "Unable to scan directory";
-            }
-            for (var _a = 0, _files_3 = _files; _a < _files_3.length; _a++) {
-                var _file = _files_3[_a];
-                if (_file.includes("__init__"))
-                    continue;
-                if (_file.includes(".pyc"))
-                    continue;
-                // get the first .py file
-                _toReturn.value = _file.toString();
-            }
-            // return jsonObject
+    DccActionModule.prototype.getActionNameByFolderActionName = function (_baseActionPath, _folderActionName) {
+        return new Promise(function (resolve, reject) {
+            fs.readdir(_baseActionPath + "/" + _folderActionName, function (_err, _files) {
+                if (_err) {
+                    console.log('Unable to scan directory: ' + _err);
+                    reject("Unable to scan directory");
+                }
+                for (var _a = 0, _files_3 = _files; _a < _files_3.length; _a++) {
+                    var _file = _files_3[_a];
+                    if (_file.includes("__init__"))
+                        continue;
+                    if (_file.includes(".pyc"))
+                        continue;
+                    // get the first .py file
+                    resolve(_file.toString().split('.')[0]);
+                }
+            });
         });
-        return _toReturn;
     };
     /*
     *   Send command on dcc throught terminal (for mayabatchs, hython ...)
     *   return: success
     */
-    DccActionModule.prototype.SendCommandToDccBatch = function (_dccName, _pythonFilePath) {
+    DccActionModule.prototype.sendCommandToDccBatch = function (_dccName, _pythonFilePath) {
         var _toReturn = new genericReturn_1.GenericReturn();
         var _dccBatchPath = "";
         switch (_dccName) {
