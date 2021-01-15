@@ -37,5 +37,3 @@ def run(*args, **kwargs):
 
     hou.hipFile.save(outDirectory)
     print('----- Houdini Scene File Generated ! -----')
-
-    hou.exit()

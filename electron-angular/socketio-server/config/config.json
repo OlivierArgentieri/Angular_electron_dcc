@@ -16,7 +16,9 @@
     },
     "tempFolder": "D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/temp",
     "dccsPath":{
-        "maya": "D:/Program_Files/Maya2019.2/bin/mayabatch.exe",
-        "houdini": "F:/Program_Files/Houdini_18.0.499/bin/hython.exe" 
+        "maya": "D:/Program_Files/Maya2019.2/bin/maya.exe",
+        "mayabatch": "D:/Program_Files/Maya2019.2/bin/mayabatch.exe",
+        "houdini": "F:/Program_Files/Houdini_18.0.499/bin/houdini.exe",
+        "hython": "F:/Program_Files/Houdini_18.0.499/bin/hython.exe"
     }
 }

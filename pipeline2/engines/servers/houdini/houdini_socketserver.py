@@ -70,7 +70,8 @@ class HoudiniSocketServer(BaseSocketServer):
         name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
         exec_name = sys.executable
         
-        data = json.dumps({'filename': name, 'exec_name': exec_name}, sort_keys=True, indent=4)
+        #data = json.dumps({'filename': name, 'exec_name': exec_name}, sort_keys=True, indent=4)
+        data =  name
         
         client.send(data)
 

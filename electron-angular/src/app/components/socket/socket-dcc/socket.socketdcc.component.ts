@@ -32,9 +32,9 @@ export class SocketDccComponent implements OnInit {
   private snackBar: MatSnackBar = null;
 
   // action dcc
-  private dccActions: string[] = null;
-  private actionSelected: string = "";
-  private actionData: DccAction = null;
+  public dccActions: string[] = null;
+  public actionSelected: string = "";
+  public actionData: DccAction = null;
 
   // command dcc
   private dccCommand: DccCommandData = new DccCommandData();
@@ -111,6 +111,7 @@ export class SocketDccComponent implements OnInit {
   run() {
     this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
     this.actionData.name = this.actionSelected;
+    console.log(this.getDccParameter());
     this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
 
       this.snackBar.open(out, "close", {

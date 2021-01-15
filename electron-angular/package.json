@@ -1,7 +1,7 @@
 {
   "name": "angular-electron",
   "version": "9.0.2",
-  "description": "Angular 11 with Electron (Typescript + SASS + Hot Reload)",
+  "description": "Angular 11n (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
     "name": "Maxime GRIS",
@@ -50,7 +50,9 @@
     "@fortawesome/free-solid-svg-icons": "5.15.1",
     "@ng-bootstrap/ng-bootstrap": "8.0.0",
     "bootstrap": "4.5.3",
+    "electron-node-config": "1.1.0",
     "express": "4.17.1",
+    "rxjs": "6.6.3",
     "rxjs-compat": "6.6.3",
     "socket.io": "3.0.3",
     "socket.io-client": "3.0.3"
@@ -88,6 +90,7 @@
     "cross-env": "7.0.2",
     "electron": "10.1.5",
     "electron-builder": "22.9.1",
+    "electron-packager": "15.2.0",
     "electron-reload": "1.5.0",
     "eslint": "7.13.0",
     "eslint-plugin-import": "2.22.1",
@@ -102,7 +105,6 @@
     "karma-jasmine-html-reporter": "1.5.4",
     "mocha": "8.2.1",
     "npm-run-all": "4.1.5",
-    "rxjs": "6.6.3",
     "spectron": "12.0.0",
     "ts-node": "9.0.0",
     "tslib": "2.0.3",

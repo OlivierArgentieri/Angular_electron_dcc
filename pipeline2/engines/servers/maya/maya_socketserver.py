@@ -55,10 +55,12 @@ class MayaSocketServer(BaseSocketServer):
         """
 
         try:
-            maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+            self.function_to_process(data, client)
+            #maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
         except Exception, e:
             cmds.error("Maya Server, Exception processing Function: {}".format(e))
     
     def on_identify_dcc(self, client):
         data = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'unsaved'\nprint(name)"
-        maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+        self.function_to_process(data, client)
+        #maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)

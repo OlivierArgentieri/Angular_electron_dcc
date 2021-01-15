@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SocketService }  from '../socket-service';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 import { DccSocketService } from './dcc-socket-service';
-
+import { map } from 'rxjs/operators';
 @Injectable()
 export class DccService{
     
@@ -15,10 +14,10 @@ export class DccService{
     // sending message to socket io server
     public sendCommand(_cmdData, _callback){
        this.service = <Subject<any>>this.socketService
-        .sendCommand()
-        .map((_service: any):any =>{
+        .sendCommand().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
 
         this.service.next([_cmdData, (_out) =>
             _callback(_out)
@@ -28,10 +27,10 @@ export class DccService{
     // resolve dccs on port
     public resolve(_callback){
         this.service = <Subject<any>>this.socketService
-        .resolve()
-        .map((_service: any):any =>{
+        .resolve().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
 
         this.service.next(_callback);
     }
@@ -39,10 +38,10 @@ export class DccService{
     // get main config data
     public getConfig(_callback){
         this.service = <Subject<any>>this.socketService
-        .getConfig()
-        .map((_service: any):any =>{
+        .getConfig().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
 
         this.service.next(_callback);
     }
@@ -50,10 +49,10 @@ export class DccService{
     // get all dcc actions 
     public getDccActions(_dccName, _callback){
         this.service = <Subject<any>>this.socketService
-        .getDccActions()
-        .map((_service: any):any =>{
+        .getDccActions().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
 
         this.service.next([_dccName, _callback]);
     }
@@ -61,10 +60,10 @@ export class DccService{
      // get dcc action by name 
      public getDccActionByName(_dccName, _actionName, _callback){
         this.service = <Subject<any>>this.socketService
-        .getDccActionByName()
-        .map((_service: any):any =>{
+        .getDccActionByName().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
 
         this.service.next([_dccName, _actionName, (out)=>{
             _callback(out);               
@@ -74,10 +73,10 @@ export class DccService{
     // run Dcc action 
     public runDccAction(_actionData, _callback){
         this.service = <Subject<any>>this.socketService
-        .runDccAction()
-        .map((_service: any):any =>{
+        .runDccAction().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
         
         this.service.next([_actionData, (_out)=>{
             _callback(_out)
@@ -87,10 +86,10 @@ export class DccService{
     // instance Dcc action 
     public launchDccAction(_dccName){
         this.service = <Subject<any>>this.socketService
-        .launchDccAction()
-        .map((_service: any):any =>{
+        .launchDccAction().pipe(
+        map((_service: any):any =>{
             return _service;
-        });
+        }));
         
         this.service.next(_dccName);
     }

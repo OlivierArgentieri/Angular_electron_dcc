@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { io } from 'socket.io-client';
-import * as Rx from "rxjs/Rx";
-
+import { Subject } from "rxjs";
 import { AppConfig } from '../../../../environments/environment';
 
 @Injectable()
@@ -48,8 +47,8 @@ export class SocketService{
     // end override
     
 
-    public sendCommand():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public sendCommand():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -62,8 +61,8 @@ export class SocketService{
         return _subject;
     }
 
-    public resolve():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public resolve():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -74,8 +73,8 @@ export class SocketService{
         return _subject;
     }
 
-    public getConfig():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public getConfig():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -87,8 +86,8 @@ export class SocketService{
     }
 
 
-    public getDccActions():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public getDccActions():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -99,8 +98,8 @@ export class SocketService{
         return _subject;
     }
 
-    public getDccActionByName():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public getDccActionByName():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -111,8 +110,8 @@ export class SocketService{
         return _subject;
     }
 
-    public runDccAction():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public runDccAction():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();
@@ -124,8 +123,8 @@ export class SocketService{
     }
 
 
-    public launchDccAction():Rx.Subject<any>{
-        const _subject = new Rx.Subject();
+    public launchDccAction():Subject<any>{
+        const _subject = new Subject();
 
         this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
         this.socket.open();

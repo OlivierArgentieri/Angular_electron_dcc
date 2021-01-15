@@ -226,7 +226,7 @@ var DccActionModule = /** @class */ (function (_super) {
                 _dccBatchPath = this.mainConfig.dccsPath.maya;
                 break;
             case "hython":
-                _dccBatchPath = this.mainConfig.dccsPath.houdini;
+                _dccBatchPath = this.mainConfig.dccsPath.hython;
                 break;
             default:
                 console.log("dcc Batch NotFound ! ");

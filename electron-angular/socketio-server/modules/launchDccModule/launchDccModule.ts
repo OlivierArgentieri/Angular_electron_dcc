@@ -2,17 +2,19 @@ import { BaseModule } from "../base/baseModule";
 const { spawn } = require('child_process');
 export class LaunchDccModule extends BaseModule {
 
-    launchDcc(_dccName){ // todo promise ?? 
+    launchDcc(_dccName){ // todo promise !!
         var _dcc = ""
         switch(_dccName){
             case "maya": _dcc = this.mainConfig.dccsPath.maya;break;
             case "houdini": _dcc = this.mainConfig.dccsPath.houdini;break;
+            case "hython": _dcc = this.mainConfig.dccsPath.hython;break;
 
             default:
                 console.log("dcc NotFound ! ") 
                 return false;
         
         }
+        console.log(_dcc) 
         const _dccOBject = spawn(_dcc, [], {'shell': true, detached:true})
 
         _dccOBject.stdout.on('data', (data) => {

@@ -225,7 +225,7 @@ export class DccActionModule extends BaseModule {
         var _dccBatchPath = "";
         switch (_dccName) {
             case "mayabatch": _dccBatchPath = this.mainConfig.dccsPath.maya; break;
-            case "hython": _dccBatchPath = this.mainConfig.dccsPath.houdini; break;
+            case "hython": _dccBatchPath = this.mainConfig.dccsPath.hython; break;
 
             default:
                 console.log("dcc Batch NotFound ! ")

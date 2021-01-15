@@ -16,7 +16,7 @@
       <div *ngIf="objects;" class="col-lg-12 col-md-12">
         <mat-card  class=" text-white mb-4 bg-dark">
           <mat-card-header>
-            <img mat-card-avatar src="../../../assets/socket/dccs_logo/Maya_Logo_45x45.png" />
+            <img mat-card-avatar src="assets/socket/dccs_logo/Maya_Logo_45x45.png" />
             <mat-card-title>Maya</mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -60,6 +60,10 @@
             </table>
           </div>
           </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="launchNewDcc('maya')" class="bg-darklight text-white">New</button>
+            <button mat-button [routerLink]="['/socket/dcc', -1, 'mayabatch']" class="bg-darklight text-white">mayabatch</button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>
@@ -69,7 +73,7 @@
       <div *ngIf="objects;" class="col-lg-12 col-md-12">
         <mat-card  class=" text-white mb-4 bg-dark">
           <mat-card-header>
-            <img mat-card-avatar src="../../../assets/socket/dccs_logo/Houdini_Logo_45x45.png" />
+            <img mat-card-avatar src="assets/socket/dccs_logo/Houdini_Logo_45x45.png" />
             <mat-card-title>Houdini</mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -115,10 +119,10 @@
             </table>
           </div>
           </mat-card-content>
-          <mat-car-action>
-            <button mat-button (click)="launchNewDcc('hython')" class="bg-darklight text-white">New</button>
+          <mat-card-actions>
+            <button mat-button (click)="launchNewDcc('houdini')" class="bg-darklight text-white">New</button>
             <button mat-button [routerLink]="['/socket/dcc', -1, 'hython']" class="bg-darklight text-white">hython</button>
-          </mat-car-action>
+          </mat-card-actions>
         </mat-card>
       </div>
     </div>

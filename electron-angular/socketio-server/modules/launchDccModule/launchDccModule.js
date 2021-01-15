@@ -30,10 +30,14 @@ var LaunchDccModule = /** @class */ (function (_super) {
             case "houdini":
                 _dcc = this.mainConfig.dccsPath.houdini;
                 break;
+            case "hython":
+                _dcc = this.mainConfig.dccsPath.hython;
+                break;
             default:
                 console.log("dcc NotFound ! ");
                 return false;
         }
+        console.log(_dcc);
         var _dccOBject = spawn(_dcc, [], { 'shell': true, detached: true });
         _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);
