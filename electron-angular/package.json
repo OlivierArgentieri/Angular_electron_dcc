@@ -50,7 +50,6 @@
     "@fortawesome/free-solid-svg-icons": "5.15.1",
     "@ng-bootstrap/ng-bootstrap": "8.0.0",
     "bootstrap": "4.5.3",
-    "electron-node-config": "1.1.0",
     "express": "4.17.1",
     "rxjs": "6.6.3",
     "rxjs-compat": "6.6.3",
