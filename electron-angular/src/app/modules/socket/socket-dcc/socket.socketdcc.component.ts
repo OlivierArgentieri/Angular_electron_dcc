@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DccService } from '../services/dcc/dcc-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
 // keycodes for separator in chips list
 import { SPACE } from '@angular/cdk/keycodes';
 

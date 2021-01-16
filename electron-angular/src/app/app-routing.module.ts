@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 
-import { HomeRoutingModule } from './components/home/home-routing.module';
-import { SocketDccRoutingModule } from './components/socket/socket-dcc/socket.socketdcc-routing.module';
-import { SocketRoutingModule } from './components/socket/socket.socket-routing.module';
+import { HomeRoutingModule } from './home/home-routing.module';
+import { SocketDccRoutingModule } from './modules/socket/socket-dcc/socket.socketdcc-routing.module';
+import { SocketRoutingModule } from './modules/socket/socket.socket-routing.module';
 
 const routes: Routes = [
   {

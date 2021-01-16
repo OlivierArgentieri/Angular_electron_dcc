@@ -11,14 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomeModule } from './components/home/home.module';
-import { SocketDccModule } from './components/socket/socket-dcc/socket.socketdcc.module';
-import { SocketModule } from './components/socket/socket.socket.module';
+import { HomeModule } from './home/home.module';
+import { SocketDccModule } from './modules/socket/socket-dcc/socket.socketdcc.module';
+import { SocketModule } from './modules/socket/socket.socket.module';
 
 // Providers
-import { DccSocketService } from './components/socket/services/dcc/dcc-socket-service';
-import { DccService } from './components/socket/services/dcc/dcc-service';
-import { SocketService } from './components/socket/services/socket-service';
+import { DccSocketService } from './modules/socket/services/dcc/dcc-socket-service';
+import { DccService } from './modules/socket/services/dcc/dcc-service';
+import { SocketService } from './modules/socket/services/socket-service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';

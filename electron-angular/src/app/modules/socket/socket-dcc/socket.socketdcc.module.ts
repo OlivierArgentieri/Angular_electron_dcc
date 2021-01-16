@@ -6,14 +6,19 @@ import { SocketDccRoutingModule } from './socket.socketdcc-routing.module';
 import { SocketDccComponent } from './socket.socketdcc.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../material.module';
+import { SocketModule } from '../socket.socket.module'
+
 @NgModule({
-  declarations: [SocketDccComponent],
-  imports: 
-  [
+  declarations: [
+    SocketDccComponent,
+    
+  ],
+  imports:[
     CommonModule,
     SharedModule,
     SocketDccRoutingModule,
-    MaterialModule
+    MaterialModule,
+    SocketModule
     ]
 })
 export class SocketDccModule {}

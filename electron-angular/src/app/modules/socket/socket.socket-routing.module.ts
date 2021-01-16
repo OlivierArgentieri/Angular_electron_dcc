@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { SocketComponent } from './socket.socket.component';
 import { SocketDccComponent } from './socket-dcc/socket.socketdcc.component';
-
 const routes: Routes = [
   {
     path: 'socket',
