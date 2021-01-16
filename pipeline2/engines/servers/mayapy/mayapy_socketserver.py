@@ -24,7 +24,7 @@ class MayaSocketServer(BaseSocketServer):
         port_start = config.get('dccPortSettings', {}).get('mayaPortRangeStart', 0)
         port_end = config.get('dccPortSettings', {}).get('mayaPortRangeEnd', 0)
         
-        sys.path.append(config.get('pipelineSettings', {}).get('mayaActionsPath', 0)) # add houdini action in sys path 
+        sys.path.append(config.get('pipelineSettings', {}).get('mayapyActionsPath', 0)) # add houdini action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
     def function_to_process(self, data, client):
@@ -34,7 +34,7 @@ class MayaSocketServer(BaseSocketServer):
         :return:
         """
 
-        logging.info("Maya Server, Process Function: {}".format(data))
+        logging.info("Mayapy Server, Process Function: {}".format(data))
 
         out = ""
         if("print" in data):
@@ -55,10 +55,10 @@ class MayaSocketServer(BaseSocketServer):
         """
 
         try:
-            maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+            self.function_to_process(data, client)
         except Exception, e:
-            cmds.error("Maya Server, Exception processing Function: {}".format(e))
+            cmds.error("Mayapy Server, Exception processing Function: {}".format(e))
     
     def on_identify_dcc(self, client):
         data = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'unsaved'\nprint(name)"
-        maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
+        self.function_to_process(data, client)

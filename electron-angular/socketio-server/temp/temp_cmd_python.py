@@ -1,1 +1,1 @@
-from abc_to_hip.abc_to_hip import run;run(srcDir = 'D:/',outDir = 'C:/')
+from abc_to_hip.abc_to_hip import run;run(srcDir = 'D:/',outDir = 'D:/')

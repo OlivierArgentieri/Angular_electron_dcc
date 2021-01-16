@@ -68,8 +68,6 @@ export class SocketComponent implements OnInit, OnDestroy {
 
       this.service.sendCommand(JSON.stringify(_dccCommand), ()=>{});
     })
-    
-
     this.resolve()
   }
 
