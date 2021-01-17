@@ -15,28 +15,29 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LaunchDccModule = void 0;
 var baseModule_1 = require("../base/baseModule");
+var settingsModule_1 = require("../settingsModule/settingsModule");
 var spawn = require('child_process').spawn;
 var LaunchDccModule = /** @class */ (function (_super) {
     __extends(LaunchDccModule, _super);
     function LaunchDccModule() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        return _super.call(this) || this;
     }
     LaunchDccModule.prototype.launchDcc = function (_dccName) {
         var _dcc = "";
         var _cmd = "";
         switch (_dccName) {
             case "maya":
-                _dcc = this.mainConfig.dccsPath.maya;
+                _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.maya;
                 break;
             case "houdini":
-                _dcc = this.mainConfig.dccsPath.houdini;
+                _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.houdini;
                 break;
             case "hython":
-                _dcc = this.mainConfig.dccsPath.hython;
+                _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
                 break;
             case "mayapy":
-                _dcc = this.mainConfig.dccsPath.mayapy;
-                _cmd = this.mainConfig.pipelineSettings.mayapyHandlerPath;
+                _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.mayapy;
+                _cmd = settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.mayapyHandlerPath;
                 break;
             default:
                 console.log("dcc NotFound ! ");

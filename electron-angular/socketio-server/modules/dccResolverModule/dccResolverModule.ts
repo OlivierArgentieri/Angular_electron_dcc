@@ -1,6 +1,7 @@
 const net = require('net');
 
 import { BaseModule } from "../base/baseModule";
+import { SettingsModule } from "../settingsModule/settingsModule";
 import { ResolverSocketData, ResolverSocketRow, ResolverIdentify } from "./models/resolverSocketData";
 
 /////////////////////////////////////////
@@ -57,23 +58,23 @@ export class DccResolverModule extends BaseModule {
     }
 
     async main() : Promise<ResolverSocketData>{
-
+        
         const _promises = []
         // format data for dccs
-        const _host =  this.mainConfig.socketInterpreterSettings.host;
+        const _host =  SettingsModule.parsedConfig.socketInterpreterSettings.host;
 
         const _resolverSocketData:ResolverSocketData = new ResolverSocketData();
         
         // maya
-        var _portStart = this.mainConfig.dccPortSettings.mayaPortRangeStart;
-        var _portEnd = this.mainConfig.dccPortSettings.mayaPortRangeEnd;
+        var _portStart = SettingsModule.parsedConfig.dccPortSettings.mayaPortRangeStart;
+        var _portEnd = SettingsModule.parsedConfig.dccPortSettings.mayaPortRangeEnd;
         
         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
 
         
         // houdini
-        _portStart = this.mainConfig.dccPortSettings.houdiniPortRangeStart;
-        _portEnd = this.mainConfig.dccPortSettings.houdiniPortRangeEnd;
+        _portStart = SettingsModule.parsedConfig.dccPortSettings.houdiniPortRangeStart;
+        _portEnd = SettingsModule.parsedConfig.dccPortSettings.houdiniPortRangeEnd;
         
         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd))
 

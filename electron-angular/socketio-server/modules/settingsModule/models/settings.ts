@@ -13,15 +13,18 @@ interface DccPortSettings{
 }
 
 interface PipelineSettings{
-    mayaActionsPath:String
-    houdiniActionsPath:String
-    hythonActionsPath:String
+    mayaActionsPath:string
+    mayapyActionsPath:string
+    houdiniActionsPath:string
+    hythonActionsPath:string
+    mayapyHandlerPath:string
 }
 
 interface DccsPath{
-    maya:String
-    mayabatch:String
-    hython:String
+    maya:string
+    mayapy:string
+    hython:string
+    houdini:string
 }
 
 

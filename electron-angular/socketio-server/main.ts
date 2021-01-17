@@ -39,7 +39,7 @@ export default class SocketInterpreter extends SocketServer {
             socket.on("mayaCommand", (command, callback) => {
 
                 console.log(`received ${command}`)
-                var _commandObject:DccCommandData = JSON.parse(command)
+                var _commandObject: DccCommandData = JSON.parse(command)
                 this.dccCommand.sendCommand(_commandObject, callback);
             });
 
@@ -56,27 +56,27 @@ export default class SocketInterpreter extends SocketServer {
 
             // get main config
             socket.on("getConfig", callback => {
-                this.settingsModule.getSettings().then((_settings)=>{
-                    callback(_settings);
+                SettingsModule.getSettings().then((_config)=>{
+                    callback(_config);
                 })
-                 // callbackFn is output of this method; called in service of component;
+                // callbackFn is output of this method; called in service of component;
             });
 
             // update config
             socket.on("updateConfig", (_newConfig, callback) => {
                 console.log("ooookk")
-                this.settingsModule.updateSettings(_newConfig).then((_result)=>{
+                this.settingsModule.updateSettings(_newConfig).then((_result) => {
                     callback(_result);
                 })
-                .catch((_result)=>{
-                    callback(_result);
-                })
-                 // callbackFn is output of this method; called in service of component;
+                    .catch((_result) => {
+                        callback(_result);
+                    })
+                // callbackFn is output of this method; called in service of component;
             });
 
             // get Dcc Actions
             socket.on("getDccActions", (_dccName, _callback) => {
-                this.dccAction.getAll(_dccName).then((result)=>{
+                this.dccAction.getAll(_dccName).then((result) => {
                     console.log(result)
                     _callback(result);
                 })
@@ -84,8 +84,8 @@ export default class SocketInterpreter extends SocketServer {
             });
 
             // get Dcc Actions by name
-            socket.on("getDccActionByName", (_dccName, _actionName, _callback)  => {
-                this.dccAction.getByName(_actionName, _dccName).then((result)=>{
+            socket.on("getDccActionByName", (_dccName, _actionName, _callback) => {
+                this.dccAction.getByName(_actionName, _dccName).then((result) => {
                     console.log(result)
                     _callback(result);
                 })
@@ -93,35 +93,34 @@ export default class SocketInterpreter extends SocketServer {
             });
 
             // run action
-            socket.on("runDccAction", (_actionData, _callback)  => {
-                var _actionObject:ActionResult = JSON.parse(_actionData)
+            socket.on("runDccAction", (_actionData, _callback) => {
+                var _actionObject: ActionResult = JSON.parse(_actionData)
 
-                if(_actionObject.port > -1)
-                {
-                    this.dccAction.runActionThroughtSocket(_actionObject).then((_command)=>{
+                if (_actionObject.port > -1) {
+                    this.dccAction.runActionThroughtSocket(_actionObject).then((_command) => {
                         console.log(_command)
                         _callback("success"); // TODO get back info of exec action
                     })
-                    .catch((_error)=>{
-                        _callback(_error)
-                    })
+                        .catch((_error) => {
+                            _callback(_error)
+                        })
                     return;
                 }
-                
-                this.dccAction.runActionThroughtPython(_actionObject).then((_result)=>{
+
+                this.dccAction.runActionThroughtPython(_actionObject).then((_result) => {
                     console.log(_result)
 
                     _callback("success"); // TODO get back info of exec action
                 })
-                .catch((_error)=>{
-                    _callback(_error)
-                })
+                    .catch((_error) => {
+                        _callback(_error)
+                    })
                 // callbackFn is output of this method; called in service of component;
             });
 
             /**/
             // run action
-            socket.on("launchDcc", (_dccName, _callback)  => {
+            socket.on("launchDcc", (_dccName, _callback) => {
                 this.runDcc.launchDcc(_dccName);
                 /*
                 this.runDcc.Launch(_actionObject).then((_command)=>{
@@ -134,7 +133,10 @@ export default class SocketInterpreter extends SocketServer {
     }
 
     main() {
-        // start express server
-        this.startServer();
+        // init config structure
+        SettingsModule.getSettings().then((_)=>{
+            this.startServer();
+        })
+        
     }
 }

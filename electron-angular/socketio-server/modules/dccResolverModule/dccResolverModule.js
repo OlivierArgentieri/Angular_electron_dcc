@@ -52,6 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DccResolverModule = void 0;
 var net = require('net');
 var baseModule_1 = require("../base/baseModule");
+var settingsModule_1 = require("../settingsModule/settingsModule");
 var resolverSocketData_1 = require("./models/resolverSocketData");
 /////////////////////////////////////////
 // Class to discover opened dccs throught network 
@@ -122,14 +123,14 @@ var DccResolverModule = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _promises = [];
-                        _host = this.mainConfig.socketInterpreterSettings.host;
+                        _host = settingsModule_1.SettingsModule.parsedConfig.socketInterpreterSettings.host;
                         _resolverSocketData = new resolverSocketData_1.ResolverSocketData();
-                        _portStart = this.mainConfig.dccPortSettings.mayaPortRangeStart;
-                        _portEnd = this.mainConfig.dccPortSettings.mayaPortRangeEnd;
+                        _portStart = settingsModule_1.SettingsModule.parsedConfig.dccPortSettings.mayaPortRangeStart;
+                        _portEnd = settingsModule_1.SettingsModule.parsedConfig.dccPortSettings.mayaPortRangeEnd;
                         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
                         // houdini
-                        _portStart = this.mainConfig.dccPortSettings.houdiniPortRangeStart;
-                        _portEnd = this.mainConfig.dccPortSettings.houdiniPortRangeEnd;
+                        _portStart = settingsModule_1.SettingsModule.parsedConfig.dccPortSettings.houdiniPortRangeStart;
+                        _portEnd = settingsModule_1.SettingsModule.parsedConfig.dccPortSettings.houdiniPortRangeEnd;
                         _promises.push(this.resolveOnRange(_host, _portStart, _portEnd));
                         return [4 /*yield*/, Promise.all(_promises).then(function (_results) {
                                 _resolverSocketData.mayaDatas = _results[0];

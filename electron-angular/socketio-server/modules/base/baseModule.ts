@@ -1,9 +1,9 @@
+import { SettingsModule } from "../settingsModule/settingsModule";
+
 const net = require('net');
-const config = require('../../config/config.json');
 
 export class BaseModule {
     client = null;
-    mainConfig = config;
     
     newRequest(_port:number, _host:string): Promise<any> {
         return new Promise<any>((res, rej) => {
@@ -13,4 +13,5 @@ export class BaseModule {
             return this.client;
         });
     }
+
 }

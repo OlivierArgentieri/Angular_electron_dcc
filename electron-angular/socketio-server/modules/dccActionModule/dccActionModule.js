@@ -21,6 +21,7 @@ var actionsResult_1 = require("./models/actionsResult/actionsResult");
 var actionResult_1 = require("./models/actionResult/actionResult");
 var baseModule_1 = require("../base/baseModule");
 var genericReturn_1 = require("./models/genericReturn/genericReturn");
+var settingsModule_1 = require("../settingsModule/settingsModule");
 /////////////////////////////////////////
 // Class to manage all Dcc action 
 /////////////////////////////////////////
@@ -32,10 +33,10 @@ var DccActionModule = /** @class */ (function (_super) {
     // return corresponding action path/dccs
     DccActionModule.prototype.getActionPathPerDcc = function (_dccName) {
         switch (_dccName) {
-            case "maya": return this.mainConfig.pipelineSettings.mayaActionsPath;
-            case "houdini": return this.mainConfig.pipelineSettings.houdiniActionsPath;
-            case "hython": return this.mainConfig.pipelineSettings.hythonActionsPath;
-            case "mayapy": return this.mainConfig.pipelineSettings.mayapyActionsPath;
+            case "maya": return settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.mayaActionsPath;
+            case "houdini": return settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.houdiniActionsPath;
+            case "hython": return settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.hythonActionsPath;
+            case "mayapy": return settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.mayapyActionsPath;
             default:
                 return "NotFound";
         }
@@ -111,7 +112,7 @@ var DccActionModule = /** @class */ (function (_super) {
                     reject(_formatedCommand.error);
                     return;
                 }
-                _this.newRequest(_actionData.port, _this.mainConfig.socketInterpreterSettings.host).then(function (client) {
+                _this.newRequest(_actionData.port, settingsModule_1.SettingsModule.parsedConfig.socketInterpreterSettings.host).then(function (client) {
                     client.write(_formatedCommand.value);
                     client.on('data', function (data) {
                         client.destroy();
@@ -147,10 +148,10 @@ var DccActionModule = /** @class */ (function (_super) {
             _cmd += ")"; // close method call
             // Write cmd to temporary python file and send this file to cmd
             // make method to switch pass python file for each dcc type ?? 
-            var _fileName = "" + _this.mainConfig.tempFolder + '/temp_cmd_python.py';
+            var _fileName = "" + settingsModule_1.SettingsModule.parsedConfig.tempFolder + '/temp_cmd_python.py';
             fs.writeFile(_fileName, _cmd, function (err) {
                 if (err) {
-                    reject("{'error': 'cant write to file " + this.mainConfig.tempFolder + "'}");
+                    reject("{'error': 'cant write to file " + settingsModule_1.SettingsModule.parsedConfig.tempFolder + "'}");
                     return;
                 }
                 console.log('File successfully writed');
@@ -224,10 +225,10 @@ var DccActionModule = /** @class */ (function (_super) {
         var _dccBatchPath = "";
         switch (_dccName) {
             case "mayabatch":
-                _dccBatchPath = this.mainConfig.dccsPath.maya;
+                _dccBatchPath = settingsModule_1.SettingsModule.parsedConfig.dccsPath.maya;
                 break;
             case "hython":
-                _dccBatchPath = this.mainConfig.dccsPath.hython;
+                _dccBatchPath = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
                 break;
             default:
                 console.log("dcc Batch NotFound ! ");

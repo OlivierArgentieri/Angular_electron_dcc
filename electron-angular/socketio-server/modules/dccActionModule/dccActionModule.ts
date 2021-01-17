@@ -5,6 +5,7 @@ import { ActionsResult } from "./models/actionsResult/actionsResult";
 import { ActionResult } from "./models/actionResult/actionResult";
 import { BaseModule } from "../base/baseModule";
 import { GenericReturn } from "./models/genericReturn/genericReturn";
+import { SettingsModule } from "../settingsModule/settingsModule";
 
 
 
@@ -12,14 +13,14 @@ import { GenericReturn } from "./models/genericReturn/genericReturn";
 // Class to manage all Dcc action 
 /////////////////////////////////////////
 export class DccActionModule extends BaseModule {
-
+   
     // return corresponding action path/dccs
     private getActionPathPerDcc(_dccName): string {
         switch (_dccName) {
-            case "maya": return this.mainConfig.pipelineSettings.mayaActionsPath;
-            case "houdini": return this.mainConfig.pipelineSettings.houdiniActionsPath;
-            case "hython": return this.mainConfig.pipelineSettings.hythonActionsPath;
-            case "mayapy": return this.mainConfig.pipelineSettings.mayapyActionsPath;
+            case "maya": return SettingsModule.parsedConfig.pipelineSettings.mayaActionsPath;
+            case "houdini": return SettingsModule.parsedConfig.pipelineSettings.houdiniActionsPath;
+            case "hython": return SettingsModule.parsedConfig.pipelineSettings.hythonActionsPath;
+            case "mayapy": return SettingsModule.parsedConfig.pipelineSettings.mayapyActionsPath;
 
             default:
                 return "NotFound";
@@ -105,7 +106,7 @@ export class DccActionModule extends BaseModule {
                     return;
                 }
 
-                this.newRequest(_actionData.port, this.mainConfig.socketInterpreterSettings.host).then((client) => {
+                this.newRequest(_actionData.port, SettingsModule.parsedConfig.socketInterpreterSettings.host).then((client) => {
 
                     client.write(_formatedCommand.value);
                     client.on('data', (data) => {
@@ -141,10 +142,10 @@ export class DccActionModule extends BaseModule {
 
             // Write cmd to temporary python file and send this file to cmd
             // make method to switch pass python file for each dcc type ?? 
-            const _fileName = `${this.mainConfig.tempFolder}` + '/temp_cmd_python.py';
+            const _fileName = `${SettingsModule.parsedConfig.tempFolder}` + '/temp_cmd_python.py';
             fs.writeFile(_fileName, _cmd, function (err) {
                 if (err) {
-                    reject(`{'error': 'cant write to file ${this.mainConfig.tempFolder}'}`)
+                    reject(`{'error': 'cant write to file ${SettingsModule.parsedConfig.tempFolder}'}`)
                     return;
                 }
 
@@ -225,8 +226,8 @@ export class DccActionModule extends BaseModule {
         var _toReturn: GenericReturn = new GenericReturn()
         var _dccBatchPath = "";
         switch (_dccName) {
-            case "mayabatch": _dccBatchPath = this.mainConfig.dccsPath.maya; break;
-            case "hython": _dccBatchPath = this.mainConfig.dccsPath.hython; break;
+            case "mayabatch": _dccBatchPath = SettingsModule.parsedConfig.dccsPath.maya; break;
+            case "hython": _dccBatchPath = SettingsModule.parsedConfig.dccsPath.hython; break;
 
             default:
                 console.log("dcc Batch NotFound ! ")

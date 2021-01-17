@@ -58,8 +58,8 @@ var SocketInterpreter = /** @class */ (function (_super) {
             });
             // get main config
             socket.on("getConfig", function (callback) {
-                _this.settingsModule.getSettings().then(function (_settings) {
-                    callback(_settings);
+                settingsModule_1.SettingsModule.getSettings().then(function (_config) {
+                    callback(_config);
                 });
                 // callbackFn is output of this method; called in service of component;
             });
@@ -126,8 +126,11 @@ var SocketInterpreter = /** @class */ (function (_super) {
         });
     };
     SocketInterpreter.prototype.main = function () {
-        // start express server
-        this.startServer();
+        var _this = this;
+        // init config structure
+        settingsModule_1.SettingsModule.getSettings().then(function (_) {
+            _this.startServer();
+        });
     };
     return SocketInterpreter;
 }(socketServer_1.default));

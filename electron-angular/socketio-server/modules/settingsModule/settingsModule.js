@@ -16,16 +16,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsModule = void 0;
 var baseModule_1 = require("../base/baseModule");
 var fs = require('fs');
+var config = require('../../config/config.json');
 var __dirname = process.cwd();
 var SettingsModule = /** @class */ (function (_super) {
     __extends(SettingsModule, _super);
     function SettingsModule() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    SettingsModule.prototype.getSettings = function () {
-        var _this = this;
+    SettingsModule.getSettings = function () {
         return new Promise(function (resolve, reject) {
-            resolve(_this.mainConfig);
+            if (!fs.existsSync(__dirname + "/config/config.json")) {
+                SettingsModule.parsedConfig = config;
+                resolve(config);
+                return;
+            }
+            var _toReturn = JSON.parse(fs.readFileSync(__dirname + "/config/config.json", 'utf8'));
+            SettingsModule.parsedConfig = _toReturn;
+            resolve(_toReturn);
         });
     };
     SettingsModule.prototype.updateSettings = function (_newSettings) {
@@ -36,10 +43,28 @@ var SettingsModule = /** @class */ (function (_super) {
                 reject("invalid data");
                 return;
             }
-            var test = __dirname;
             // write file
-            fs.writeFileSync(__dirname + "/config.json", JSON.stringify(_newSettings));
+            fs.writeFileSync(__dirname + "/config/config.json", JSON.stringify(_newSettings));
             resolve("ok");
+        });
+    };
+    SettingsModule.initSettings = function () {
+        return new Promise(function (resolve, reject) {
+            // check if we have a settings folder
+            if (!fs.existsSync(__dirname + "/config")) {
+                fs.mkdirSync(__dirname + "/config", 502, function (err) {
+                    if (err) {
+                        console.log(err);
+                        reject();
+                    }
+                });
+            }
+            // create a copy of default settings if settings doesnt exist
+            if (!fs.existsSync(__dirname + "/config/config.json")) {
+                // write file
+                fs.writeFileSync(__dirname + "/config/config.json", JSON.stringify(config)); // set default config
+            }
+            resolve();
         });
     };
     return SettingsModule;

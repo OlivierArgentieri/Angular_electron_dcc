@@ -5,7 +5,7 @@ import { BaseModule } from "../base/baseModule";
 // Class to manage Command action
 /////////////////////////////////////////
 export class DccCommandModule extends BaseModule {
-
+    
     sendCommand(_commandData:DccCommandData, callback = undefined) {
         if(!_commandData) return
         this.newRequest(_commandData.port, _commandData.host)

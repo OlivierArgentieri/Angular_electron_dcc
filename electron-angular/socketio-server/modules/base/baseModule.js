@@ -2,11 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseModule = void 0;
 var net = require('net');
-var config = require('../../config/config.json');
 var BaseModule = /** @class */ (function () {
     function BaseModule() {
         this.client = null;
-        this.mainConfig = config;
     }
     BaseModule.prototype.newRequest = function (_port, _host) {
         var _this = this;
