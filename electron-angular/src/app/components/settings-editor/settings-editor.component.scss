@@ -1,0 +1,40 @@
+$dark-color : #161718;
+$darkLight-color : #181a1b;
+$primary-color : #16814f; 
+$success-color: #009221;
+$danger-color: #ad0000;
+$text-color : #8e9081;
+$text-white : #d0d0d0;
+
+.bg-darklight{
+    background: $darkLight-color;
+}
+
+.bg-dark{
+    background: $dark-color !important;
+}
+
+.bg-primary{
+    background: $primary-color;
+}
+
+.bg-success{
+    background: $success-color !important;
+}
+
+.bg-danger{
+    background: $danger-color !important;
+}
+
+.text-color{
+    color: $text-color;
+}
+
+.text-white{
+    color: $text-white !important;
+}
+
+.row,
+.row > .column {
+    padding: 8px;
+}

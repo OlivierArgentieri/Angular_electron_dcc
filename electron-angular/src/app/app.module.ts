@@ -11,9 +11,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// modules
 import { HomeModule } from './home/home.module';
 import { SocketDccModule } from './modules/socket/socket-dcc/socket.socketdcc.module';
 import { SocketModule } from './modules/socket/socket.socket.module';
+import { SettingsEditorModule } from './modules/settings-editor/settings-editor.module';
 
 // Providers
 import { DccSocketService } from './modules/socket/services/dcc/dcc-socket-service';
@@ -47,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HomeModule,
     SocketDccModule,
     SocketModule,
+    SettingsEditorModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,

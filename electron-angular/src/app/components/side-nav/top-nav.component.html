@@ -1,10 +1,10 @@
   <div class="navbar">
     <div class="ml-1">
-      <button mat-button (click)="Scroll('parcours')">Socket-Dcc</button>
+      <button mat-button [routerLink]="['/socket']">Socket-Dcc</button>
 
       <div class="float-right mr-5 ">
         <button mat-button [routerLink]="['/socket']">Home</button>
-        <button mat-button (click)="Scroll('contact')">Settings</button>
+        <button mat-button [routerLink]="['/settings']">Settings</button>
       </div>
     
     </div>
