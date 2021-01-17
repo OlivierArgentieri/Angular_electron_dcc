@@ -21,6 +21,7 @@ interface PipelineSettings{
 interface DccsPath{
     maya:String
     mayabatch:String
+    houdini:String
     hython:String
 }
 

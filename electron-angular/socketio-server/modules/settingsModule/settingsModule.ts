@@ -1,6 +1,9 @@
 import { BaseModule } from "../base/baseModule";
 import { Config } from "./models/settings";
 const fs = require('fs');
+
+
+const __dirname = process.cwd();
 export class SettingsModule extends BaseModule {
 
     getSettings() : Promise<string>{
@@ -12,15 +15,17 @@ export class SettingsModule extends BaseModule {
     updateSettings(_newSettings:Config):Promise<string>{
         return new Promise<string>((resolve, reject) => {
 
-            console.log(_newSettings)
+            console.log(__dirname)
             // try cast config 
             if(!_newSettings) {
                 reject("invalid data")
                 return;
             }
-
+            var test = __dirname;
+            
+        
             // write file
-            fs.writeFileSync('D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json', JSON.stringify(_newSettings));
+            fs.writeFileSync(`${__dirname}/socketio-server/config/config.json`, JSON.stringify(_newSettings));
             resolve("ok")
         });
     }

@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsModule = void 0;
 var baseModule_1 = require("../base/baseModule");
 var fs = require('fs');
+var __dirname = process.cwd();
 var SettingsModule = /** @class */ (function (_super) {
     __extends(SettingsModule, _super);
     function SettingsModule() {
@@ -29,14 +30,15 @@ var SettingsModule = /** @class */ (function (_super) {
     };
     SettingsModule.prototype.updateSettings = function (_newSettings) {
         return new Promise(function (resolve, reject) {
-            console.log(_newSettings);
+            console.log(__dirname);
             // try cast config 
             if (!_newSettings) {
                 reject("invalid data");
                 return;
             }
+            var test = __dirname;
             // write file
-            fs.writeFileSync('D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json', JSON.stringify(_newSettings));
+            fs.writeFileSync(__dirname + "/socketio-server/config/config.json", JSON.stringify(_newSettings));
             resolve("ok");
         });
     };
