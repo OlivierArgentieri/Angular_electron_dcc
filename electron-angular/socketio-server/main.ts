@@ -8,6 +8,7 @@ import { DccCommandModule } from "./modules/dccCommandModule/dccCommandModule";
 import DccCommandData from "./modules/dccCommandModule/models/commandData";
 import { ActionResult } from "./modules/dccActionModule/models/actionResult/actionResult";
 import { LaunchDccModule } from "./modules/launchDccModule/launchDccModule";
+import { SettingsModule } from "./modules/settingsModule/settingsModule";
 
 
 
@@ -18,6 +19,7 @@ export default class SocketInterpreter extends SocketServer {
     dccAction: DccActionModule = new DccActionModule();
     dccCommand: DccCommandModule = new DccCommandModule();
     runDcc: LaunchDccModule = new LaunchDccModule();
+    settingsModule: SettingsModule = new SettingsModule();
 
     client = null;
     constructor() {
@@ -54,7 +56,22 @@ export default class SocketInterpreter extends SocketServer {
 
             // get main config
             socket.on("getConfig", callback => {
-                callback(this.mainConfig); // callbackFn is output of this method; called in service of component;
+                this.settingsModule.getSettings().then((_settings)=>{
+                    callback(_settings);
+                })
+                 // callbackFn is output of this method; called in service of component;
+            });
+
+            // update config
+            socket.on("updateConfig", (_newConfig, callback) => {
+                console.log("ooookk")
+                this.settingsModule.updateSettings(_newConfig).then((_result)=>{
+                    callback(_result);
+                })
+                .catch((_result)=>{
+                    callback(_result);
+                })
+                 // callbackFn is output of this method; called in service of component;
             });
 
             // get Dcc Actions

@@ -20,6 +20,7 @@ var dccResolverModule_1 = require("./modules/dccResolverModule/dccResolverModule
 var dccActionModule_1 = require("./modules/dccActionModule/dccActionModule");
 var dccCommandModule_1 = require("./modules/dccCommandModule/dccCommandModule");
 var launchDccModule_1 = require("./modules/launchDccModule/launchDccModule");
+var settingsModule_1 = require("./modules/settingsModule/settingsModule");
 var SocketInterpreter = /** @class */ (function (_super) {
     __extends(SocketInterpreter, _super);
     function SocketInterpreter() {
@@ -29,6 +30,7 @@ var SocketInterpreter = /** @class */ (function (_super) {
         _this.dccAction = new dccActionModule_1.DccActionModule();
         _this.dccCommand = new dccCommandModule_1.DccCommandModule();
         _this.runDcc = new launchDccModule_1.LaunchDccModule();
+        _this.settingsModule = new settingsModule_1.SettingsModule();
         _this.client = null;
         return _this;
     }
@@ -56,7 +58,21 @@ var SocketInterpreter = /** @class */ (function (_super) {
             });
             // get main config
             socket.on("getConfig", function (callback) {
-                callback(_this.mainConfig); // callbackFn is output of this method; called in service of component;
+                _this.settingsModule.getSettings().then(function (_settings) {
+                    callback(_settings);
+                });
+                // callbackFn is output of this method; called in service of component;
+            });
+            // update config
+            socket.on("updateConfig", function (_newConfig, callback) {
+                console.log("ooookk");
+                _this.settingsModule.updateSettings(_newConfig).then(function (_result) {
+                    callback(_result);
+                })
+                    .catch(function (_result) {
+                    callback(_result);
+                });
+                // callbackFn is output of this method; called in service of component;
             });
             // get Dcc Actions
             socket.on("getDccActions", function (_dccName, _callback) {

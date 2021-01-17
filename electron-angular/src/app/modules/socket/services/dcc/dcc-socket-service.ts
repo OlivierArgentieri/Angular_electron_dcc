@@ -33,6 +33,13 @@ export class DccSocketService extends SocketService{
         });
     };
 
+    public actionUpdateConfig(_newConfig, _callback){
+        this.socket.emit('updateConfig',_newConfig, (_out)=>{ 
+            console.log(_out)
+            _callback(_out);
+        });
+    };
+    
     public actionGetDccActions(_dccName, _callback){
         this.socket.emit('getDccActions', _dccName, (out)=>{ 
             console.log(out)

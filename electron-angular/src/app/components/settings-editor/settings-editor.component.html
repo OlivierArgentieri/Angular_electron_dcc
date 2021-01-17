@@ -3,21 +3,139 @@
 <section class="bg-darklight text-white mt-5" id="main">
   <div class="container">
     <div class="row">
-        <mat-card  class=" text-white mb-4 bg-dark">
+
+      <div class=" col-lg-6">
+        <mat-card *ngIf="configObject && configObject.socketInterpreterSettings;" class="text-white mb-4 mt-5 bg-dark">
           <mat-card-header>
-            <mat-card-title>Settings</mat-card-title>
+            <mat-card-title>Socket interpreter Settings</mat-card-title>
           </mat-card-header>
 
           <mat-card-content>
-            
-            
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput placeholder="{{configObject.socketInterpreterSettings.host}}"
+                [(ngModel)]="configObject.socketInterpreterSettings.host" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput type="number" placeholder="{{configObject.socketInterpreterSettings.port}}"
+                [(ngModel)]="configObject.socketInterpreterSettings.port" required>
+            </mat-form-field>
 
           </mat-card-content>
 
           <mat-card-actions>
-            <button mat-button (click)="saveSettings()" class="bg-darklight text-white">Save</button>
+            
           </mat-card-actions>
         </mat-card>
       </div>
+
+      <div class=" col-lg-6">
+        <mat-card *ngIf="configObject && configObject.dccPortSettings;" class=" text-white mb-4 mt-5 bg-dark ">
+          <mat-card-header>
+            <mat-card-title>Dcc Port Settings</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput type="number" placeholder="mayaPortRangeStart" [(ngModel)]="configObject.dccPortSettings.mayaPortRangeStart" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput type="number" placeholder="mayaPortRangeEnd" [(ngModel)]="configObject.dccPortSettings.mayaPortRangeEnd" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput type="number" placeholder="houdiniPortRangeStart" [(ngModel)]="configObject.dccPortSettings.houdiniPortRangeStart" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2" autocomplete="off">
+              <input matInput type="number" placeholder="houdiniPortRangeEnd" [(ngModel)]="configObject.dccPortSettings.houdiniPortRangeEnd" required>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-actions>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div class=" col-lg-6">
+        <mat-card *ngIf="configObject && configObject.pipelineSettings;" class=" text-white mb-4 bg-dark ">
+          <mat-card-header>
+            <mat-card-title>Pipeline Settings</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="mayaPortRangeStart" [(ngModel)]="configObject.pipelineSettings.mayaActionsPath" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="houdiniActionsPath" [(ngModel)]="configObject.pipelineSettings.houdiniActionsPath" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="hythonActionsPath" [(ngModel)]="configObject.pipelineSettings.hythonActionsPath" required>
+            </mat-form-field>
+
+          </mat-card-content>
+
+          <mat-card-actions>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div class=" col-lg-6">
+        <mat-card *ngIf="configObject && configObject.tempFolder;" class=" text-white mb-4 bg-dark ">
+          <mat-card-header>
+            <mat-card-title> Temp Folder </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="tempFolder" [(ngModel)]="configObject.tempFolder" required>
+            </mat-form-field>
+
+          </mat-card-content>
+
+          <mat-card-actions>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div class=" col-lg-6">
+        <mat-card *ngIf="configObject && configObject.dccsPath;" class=" text-white mb-4 bg-dark ">
+          <mat-card-header>
+            <mat-card-title>Dcc Path Settings</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="maya" [(ngModel)]="configObject.dccsPath.maya" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="mayabatch" [(ngModel)]="configObject.dccsPath.mayabatch" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="houdini" [(ngModel)]="configObject.dccsPath.houdini" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="mr-2 col-lg-12" autocomplete="off">
+              <input matInput placeholder="hython" [(ngModel)]="configObject.dccsPath.hython" required>
+            </mat-form-field>
+
+          </mat-card-content>
+
+          <mat-card-actions>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div class="container">
+      <button mat-button (click)="saveSettings()" class="bg-dark text-white">Save</button>
+      </div>
+
     </div>
+  </div>
 </section>

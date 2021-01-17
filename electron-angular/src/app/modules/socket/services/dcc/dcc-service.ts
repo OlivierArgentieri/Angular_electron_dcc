@@ -46,6 +46,17 @@ export class DccService{
         this.service.next(_callback);
     }
 
+     // get main config data
+     public updateConfig(_newConfig, _callback){
+        this.service = <Subject<any>>this.socketService
+        .updateConfig().pipe(
+        map((_service: any):any =>{
+            return _service;
+        }));
+
+        this.service.next([_newConfig, _callback]);
+    }
+
     // get all dcc actions 
     public getDccActions(_dccName, _callback){
         this.service = <Subject<any>>this.socketService

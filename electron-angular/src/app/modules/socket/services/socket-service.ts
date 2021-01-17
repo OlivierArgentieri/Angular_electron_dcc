@@ -29,6 +29,10 @@ export class SocketService{
         throw new Error("not Implemented")
     }
 
+    public actionUpdateConfig(_newConfig, _callback){
+        throw new Error("not Implemented")
+    }
+
     public actionGetDccActions(_dccName, callback){
         throw new Error("not Implemented")
     }
@@ -81,6 +85,18 @@ export class SocketService{
 
         _subject.subscribe((_callback:any) =>{
             this.actionGetConfig(_callback)
+        });
+        return _subject;
+    }
+
+    public updateConfig():Subject<any>{
+        const _subject = new Subject();
+
+        this.socket = io(AppConfig.interpreter_url, { autoConnect: false, transports: ['websocket'], upgrade: false });
+        this.socket.open();
+
+        _subject.subscribe((_data:any) =>{
+            this.actionUpdateConfig(_data[0], _data[1])
         });
         return _subject;
     }

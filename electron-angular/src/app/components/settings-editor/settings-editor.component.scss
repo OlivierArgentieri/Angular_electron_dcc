@@ -38,3 +38,8 @@ $text-white : #d0d0d0;
 .row > .column {
     padding: 8px;
 }
+
+
+.mat-input-element::placeholder{
+    color:$text-color !important;
+ }
