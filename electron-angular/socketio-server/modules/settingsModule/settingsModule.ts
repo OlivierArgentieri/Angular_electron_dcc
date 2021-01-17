@@ -25,7 +25,7 @@ export class SettingsModule extends BaseModule {
             
         
             // write file
-            fs.writeFileSync(`${__dirname}/socketio-server/config/config.json`, JSON.stringify(_newSettings));
+            fs.writeFileSync(`${__dirname}/config.json`, JSON.stringify(_newSettings));
             resolve("ok")
         });
     }

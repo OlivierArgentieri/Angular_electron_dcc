@@ -35,6 +35,7 @@ var DccActionModule = /** @class */ (function (_super) {
             case "maya": return this.mainConfig.pipelineSettings.mayaActionsPath;
             case "houdini": return this.mainConfig.pipelineSettings.houdiniActionsPath;
             case "hython": return this.mainConfig.pipelineSettings.hythonActionsPath;
+            case "mayapy": return this.mainConfig.pipelineSettings.mayapyActionsPath;
             default:
                 return "NotFound";
         }

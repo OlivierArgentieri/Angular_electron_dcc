@@ -1,5 +1,4 @@
 {
-  "asar":false,
   "productName": "angular-electron",
   "directories": {
     "output": "release/"

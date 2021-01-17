@@ -23,6 +23,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
     }
     LaunchDccModule.prototype.launchDcc = function (_dccName) {
         var _dcc = "";
+        var _cmd = "";
         switch (_dccName) {
             case "maya":
                 _dcc = this.mainConfig.dccsPath.maya;
@@ -33,12 +34,15 @@ var LaunchDccModule = /** @class */ (function (_super) {
             case "hython":
                 _dcc = this.mainConfig.dccsPath.hython;
                 break;
+            case "mayapy":
+                _dcc = this.mainConfig.dccsPath.mayapy;
+                _cmd = this.mainConfig.pipelineSettings.mayapyHandlerPath;
+                break;
             default:
                 console.log("dcc NotFound ! ");
                 return false;
         }
-        console.log(_dcc);
-        var _dccOBject = spawn(_dcc, [], { 'shell': true, detached: true });
+        var _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true });
         _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);
         });

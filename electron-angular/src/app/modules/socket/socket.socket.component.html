@@ -64,7 +64,9 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="launchNewDcc('maya')" class="bg-darklight text-white">New</button>
-            <button mat-button [routerLink]="['/socket/dcc', -1, 'mayabatch']" class="bg-darklight text-white">mayabatch</button>
+            
+            <button mat-button (click)="launchNewDcc('mayapy')" class="bg-darklight text-white">New mayapy</button>
+            <!--<button mat-button [routerLink]="['/socket/dcc', -1, 'mayabatch']" class="bg-darklight text-white">mayabatch</button>-->
           </mat-card-actions>
         </mat-card>
       </div>
@@ -123,7 +125,8 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-button (click)="launchNewDcc('houdini')" class="bg-darklight text-white">New</button>
-            <button mat-button [routerLink]="['/socket/dcc', -1, 'hython']" class="bg-darklight text-white">hython</button>
+            <button mat-button (click)="launchNewDcc('hython')" class="bg-darklight text-white">New hython</button>
+            <!--<button mat-button [routerLink]="['/socket/dcc', -1, 'hython']" class="bg-darklight text-white">hython</button>-->
           </mat-card-actions>
         </mat-card>
       </div>

@@ -10,10 +10,10 @@ import threading
 import json
 
 
-class MayaSocketServer(BaseSocketServer):
+class MayapySocketServer(BaseSocketServer):
 
     def __init__(self):
-        super(MayaSocketServer, self).__init__()
+        super(MayapySocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
         
         self.start_with_config()

@@ -1,5 +1,4 @@
-import sys, os        
-#dir_path = os.path.dirname(os.path.realpath(__file__))
+import sys
 sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc") #todo
 
 tmp_modules = sys.modules.copy()
@@ -8,5 +7,9 @@ for key, value in tmp_modules.iteritems():
         sys.modules.pop(key, None)
 
 
-from pipeline2.engines.servers.maya import MayaSocketServer
-server = MayaSocketServer()
+import maya.standalone
+maya.standalone.initialize()
+
+from pipeline2.engines.servers.mayapy import MayapySocketServer
+server = MayapySocketServer()
+    
