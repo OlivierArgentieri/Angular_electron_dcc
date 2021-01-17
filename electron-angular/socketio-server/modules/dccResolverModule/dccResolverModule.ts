@@ -1,7 +1,7 @@
 const net = require('net');
 
 import { BaseModule } from "../base/baseModule";
-import { ResolverSocketData, ResolverSocketRow } from "./models/resolverSocketData";
+import { ResolverSocketData, ResolverSocketRow, ResolverIdentify } from "./models/resolverSocketData";
 
 /////////////////////////////////////////
 // Class to discover opened dccs throught network 
@@ -20,9 +20,7 @@ export class DccResolverModule extends BaseModule {
             tcpConnection.on('error', (error) => {
                 console.log(`not found on : ${_port}`)
                 client.destroy();
-                var out = new ResolverSocketRow();
-                out.filename = "undefined";
-                out.reachable = false;
+                var out = new ResolverSocketRow(0, false, null);
                 resolve(out);
                 return out;
             });
@@ -32,9 +30,8 @@ export class DccResolverModule extends BaseModule {
             // so we make another request to fill this filename
             tcpConnection.write("#Identify#");
             tcpConnection.on('data', (data) => {
-                var out = new ResolverSocketRow();
-                out.filename = data.toString();
-                out.reachable = true;
+                console.log(data.toString())
+                var out = new ResolverSocketRow(0, true, JSON.parse(data.toString()));
                 resolve(out);
                 return out;
             })
@@ -51,8 +48,8 @@ export class DccResolverModule extends BaseModule {
 
         await Promise.all(_promises)
             .then((results) => {
-                for (var _i = 0; _i <= _endPort - _startPort; _i++) {
-                    _toReturn.push(new ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].filename))
+                for (var _i = 0; _i <= _endPort - _startPort; _i++) {;
+                    _toReturn.push(new ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].identify))
                 }
             });
 

@@ -29,7 +29,12 @@
             <table mat-table [dataSource]="objects.mayaDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
               <ng-container matColumnDef="fileName">
                 <th mat-header-cell *matHeaderCellDef class="text-color"> Filename </th>
-                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.identify.filename}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Type </th>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.identify.exec_name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="port">
@@ -90,7 +95,12 @@
             <table  mat-table [dataSource]="objects.houdiniDatas" class="mat-elevation-z8 bg-darklight" style="width: 100%;"> 
               <ng-container matColumnDef="fileName">
                 <th mat-header-cell *matHeaderCellDef class="text-color"> Filename </th>
-                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.filename}} </td>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.identify.filename}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef class="text-color"> Type </th>
+                <td mat-cell *matCellDef="let obj " class="text-white"> {{obj.identify.exec_name}} </td>
               </ng-container>
 
               <ng-container matColumnDef="port">

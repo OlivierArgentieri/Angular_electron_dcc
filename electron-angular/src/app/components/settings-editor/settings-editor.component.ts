@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DccService } from '../../modules/socket/services/dcc/dcc-service';
-import { Config } from './models/config';
+import { DccService } from '../../shared/services/dcc-socket-services/dcc/dcc-service';
+import { Config } from '../../shared/models/config';
 
 
 

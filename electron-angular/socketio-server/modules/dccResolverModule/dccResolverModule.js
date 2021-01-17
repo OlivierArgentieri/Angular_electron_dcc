@@ -72,9 +72,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                         tcpConnection.on('error', function (error) {
                             console.log("not found on : " + _port);
                             client.destroy();
-                            var out = new resolverSocketData_1.ResolverSocketRow();
-                            out.filename = "undefined";
-                            out.reachable = false;
+                            var out = new resolverSocketData_1.ResolverSocketRow(0, false, null);
                             resolve(out);
                             return out;
                         });
@@ -82,9 +80,8 @@ var DccResolverModule = /** @class */ (function (_super) {
                         // so we make another request to fill this filename
                         tcpConnection.write("#Identify#");
                         tcpConnection.on('data', function (data) {
-                            var out = new resolverSocketData_1.ResolverSocketRow();
-                            out.filename = data.toString();
-                            out.reachable = true;
+                            console.log(data.toString());
+                            var out = new resolverSocketData_1.ResolverSocketRow(0, true, JSON.parse(data.toString()));
                             resolve(out);
                             return out;
                         });
@@ -107,7 +104,8 @@ var DccResolverModule = /** @class */ (function (_super) {
                         return [4 /*yield*/, Promise.all(_promises)
                                 .then(function (results) {
                                 for (var _i = 0; _i <= _endPort - _startPort; _i++) {
-                                    _toReturn.push(new resolverSocketData_1.ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].filename));
+                                    ;
+                                    _toReturn.push(new resolverSocketData_1.ResolverSocketRow(_startPort + _i, results[_i].reachable, results[_i].identify));
                                 }
                             })];
                     case 1:

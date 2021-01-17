@@ -1,13 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DccService } from './services/dcc/dcc-service';
+import { DccService } from '../../shared/services/dcc-socket-services/dcc/dcc-service';
 import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { DccCommandData } from './socket-dcc/models/socket.socketdcc.dcccommand';
-import { Config } from './models/config'
+import { DccCommandData } from '../../shared/models/dcc/dcc-command';
+import { Config } from '../../shared/models/config'
+
+interface ResolverIdentify{
+  filename:string
+  exec_name:string
+}
 
 interface ResolverSocketRow {
   port:Number;
   reachable:Boolean;
-  fileName:String;
+  identify:ResolverIdentify;
 }
 
  class ResolverSocketData {
@@ -18,13 +23,13 @@ interface ResolverSocketRow {
 
 @Component({
   selector: 'app-sockethome',
-  templateUrl: './socket.socket.component.html',
-  styleUrls: ['./socket.socket.component.scss']
+  templateUrl: './socket-home.component.html',
+  styleUrls: ['./socket-home.component.scss']
 })
-export class SocketComponent implements OnInit, OnDestroy {
+export class SocketHomeComponent implements OnInit, OnDestroy {
   faTerminal = faTerminal;
   faSignInAlt = faSignInAlt;
-  displayedColumns: string[] = ['fileName', 'port', 'reachable', 'actions'];
+  displayedColumns: string[] = ['fileName', 'type', 'port', 'reachable', 'actions'];
   constructor(private service: DccService){  }
 
   objects:ResolverSocketData = null;
@@ -40,7 +45,7 @@ export class SocketComponent implements OnInit, OnDestroy {
     this.objects = null;
     this.service.resolve((_outdata) => {
       this.objects = JSON.parse(_outdata);
-
+      console.log(_outdata)
       if(!this.objects)return;
 
       if(this.objects.mayaDatas)

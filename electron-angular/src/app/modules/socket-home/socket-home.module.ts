@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SocketRoutingModule } from './socket.socket-routing.module';
+import { SocketHomeRoutingModule } from './socket-home-routing.module';
 
-import { SocketComponent } from './socket.socket.component';
+import { SocketHomeComponent } from '../../components/socket-home/socket-home.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MaterialModule } from '../../material.module';
 
@@ -14,14 +14,14 @@ import { fas, faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { TopNavComponent } from '../../components/side-nav/top-nav.component'
 @NgModule({
   declarations: [
-    SocketComponent,
+    SocketHomeComponent,
     TopNavComponent
   ],
   imports: 
   [
     CommonModule,
     SharedModule,
-    SocketRoutingModule,
+    SocketHomeRoutingModule,
     MaterialModule,
     FontAwesomeModule
   ],
@@ -29,7 +29,7 @@ import { TopNavComponent } from '../../components/side-nav/top-nav.component'
     TopNavComponent
   ]
 })
-export class SocketModule {
+export class SocketHomeModule {
   constructor(){
     library.add(fas, faTerminal, faSignInAlt)
     }

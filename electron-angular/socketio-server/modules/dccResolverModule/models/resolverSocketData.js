@@ -1,14 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ResolverSocketData = exports.ResolverSocketRow = void 0;
+exports.ResolverSocketData = exports.ResolverSocketRow = exports.ResolverIdentify = void 0;
+var ResolverIdentify = /** @class */ (function () {
+    function ResolverIdentify() {
+    }
+    return ResolverIdentify;
+}());
+exports.ResolverIdentify = ResolverIdentify;
 var ResolverSocketRow = /** @class */ (function () {
-    function ResolverSocketRow(_port, _reachable, _filename) {
-        if (_port === void 0) { _port = 0; }
-        if (_reachable === void 0) { _reachable = false; }
-        if (_filename === void 0) { _filename = ""; }
+    function ResolverSocketRow(_port, _reachable, _identify) {
         this.port = _port;
         this.reachable = _reachable;
-        this.filename = _filename;
+        this.identify = _identify;
     }
     return ResolverSocketRow;
 }());

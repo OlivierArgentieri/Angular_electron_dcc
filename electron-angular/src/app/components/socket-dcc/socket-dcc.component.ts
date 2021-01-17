@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DccService } from '../services/dcc/dcc-service';
+import { DccService } from '../../shared/services/dcc-socket-services/dcc/dcc-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
 // keycodes for separator in chips list
 import { SPACE } from '@angular/cdk/keycodes';
 
 // models
-import { DccActions } from './models/socket.socketdcc.dccActions';
-import { DccAction } from './models/socket.socketdcc.dccAction';
-import { DccCommandData } from './models/socket.socketdcc.dcccommand';
-import { Config } from '../models/config'
+import { DccActions } from '../../shared/models/dcc/dccActions';
+import { DccAction } from '../../shared/models/dcc/dccAction';
+import { DccCommandData } from '../../shared/models/dcc/dcc-command';
+import { Config } from '../../shared/models/config'
 
 @Component({
   selector: 'app-socketdcc',
-  templateUrl: './socket.socketdcc.component.html',
-  styleUrls: ['./socket.socketdcc.component.scss']
+  templateUrl: './socket-dcc.component.html',
+  styleUrls: ['./socket-dcc.component.scss']
 })
 
 export class SocketDccComponent implements OnInit {
@@ -110,7 +110,6 @@ export class SocketDccComponent implements OnInit {
   run() {
     this.actionData.port = this.port != undefined ? this.port : 0; // in case of port parameters is null; 
     this.actionData.name = this.actionSelected;
-    console.log(this.getDccParameter());
     this.service.runDccAction(JSON.stringify(this.actionData), (out) => {
 
       this.snackBar.open(out, "close", {

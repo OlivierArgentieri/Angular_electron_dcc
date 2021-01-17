@@ -60,5 +60,7 @@ class MayapySocketServer(BaseSocketServer):
             cmds.error("Mayapy Server, Exception processing Function: {}".format(e))
     
     def on_identify_dcc(self, client):
-        data = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'unsaved'\nprint(name)"
+        name = 'mayapy.exe'
+        exec_name = sys.executable.rsplit('\\',1)[1]
+        data ="print(json.dumps({'filename': '" + name + "', 'exec_name': '" + exec_name + "'}, sort_keys=True, indent=4))"
         self.function_to_process(data, client)

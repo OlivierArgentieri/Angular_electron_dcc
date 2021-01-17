@@ -44,6 +44,7 @@ import { MatTreeModule } from '@angular/material/tree';
     LayoutModule,
 
     // MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     // MatButtonToggleModule,
     MatCardModule,
@@ -80,6 +81,7 @@ import { MatTreeModule } from '@angular/material/tree';
   exports: [
     // MatAutocompleteModule,
     MatButtonModule,
+    MatBadgeModule,
     // MatButtonToggleModule,
     MatCardModule,
     //MatBottomSheetModule,

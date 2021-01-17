@@ -4,8 +4,8 @@ import { PageNotFoundComponent } from './shared/components';
 
 // routing
 import { HomeRoutingModule } from './home/home-routing.module';
-import { SocketDccRoutingModule } from './modules/socket/socket-dcc/socket.socketdcc-routing.module';
-import { SocketRoutingModule } from './modules/socket/socket.socket-routing.module';
+import { SocketDccRoutingModule } from './modules/socket-dcc/socketdcc-routing.module';
+import { SocketHomeRoutingModule } from './modules/socket-home/socket-home-routing.module';
 import { SettingsEditorRoutingModule } from './modules/settings-editor/settings-editor-routing.module';
 
 const routes: Routes = [
@@ -25,7 +25,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     HomeRoutingModule,
     SocketDccRoutingModule,
-    SocketRoutingModule,
+    SocketHomeRoutingModule,
     SettingsEditorRoutingModule
   ],
   exports: [RouterModule]

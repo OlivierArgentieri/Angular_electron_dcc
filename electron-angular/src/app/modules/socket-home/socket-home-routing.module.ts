@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { SocketDccComponent } from './socket.socketdcc.component';
-
+import { SocketHomeComponent } from '../../components/socket-home/socket-home.component';
+import { SocketDccComponent } from '../../components/socket-dcc/socket-dcc.component';
 const routes: Routes = [
   {
-    path: 'socket/socketdcc',
+    path: 'socket',
+    component: SocketHomeComponent
+  },
+  {
+    path: 'socket/dcc/:port/:dcc',
     component: SocketDccComponent
   }
 ];
@@ -15,4 +19,4 @@ const routes: Routes = [
   imports: [CommonModule, RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SocketDccRoutingModule {}
+export class SocketHomeRoutingModule {}

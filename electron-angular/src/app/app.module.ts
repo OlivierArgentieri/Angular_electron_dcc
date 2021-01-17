@@ -13,14 +13,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // modules
 import { HomeModule } from './home/home.module';
-import { SocketDccModule } from './modules/socket/socket-dcc/socket.socketdcc.module';
-import { SocketModule } from './modules/socket/socket.socket.module';
+import { SocketDccModule } from './modules/socket-dcc/socketdcc.module';
+import { SocketHomeModule } from './modules/socket-home/socket-home.module';
 import { SettingsEditorModule } from './modules/settings-editor/settings-editor.module';
 
 // Providers
-import { DccSocketService } from './modules/socket/services/dcc/dcc-socket-service';
-import { DccService } from './modules/socket/services/dcc/dcc-service';
-import { SocketService } from './modules/socket/services/socket-service';
+import { DccSocketService } from './shared/services/dcc-socket-services/dcc/dcc-socket-service';
+import { DccService } from './shared/services/dcc-socket-services/dcc/dcc-service';
+import { SocketService } from './shared/services/dcc-socket-services/socket-service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -48,7 +48,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SharedModule,
     HomeModule,
     SocketDccModule,
-    SocketModule,
+    SocketHomeModule,
     SettingsEditorModule,
     AppRoutingModule,
     MaterialModule,

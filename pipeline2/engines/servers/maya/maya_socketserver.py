@@ -43,6 +43,7 @@ class MayaSocketServer(BaseSocketServer):
         try:
             cmds.headsUpMessage("Processing incoming data: {}".format(data), time=3.0)
             exec(data)
+            logging.info("Maya Server out: {}".format(out))
             client.send(out)
         except Exception, exec_error:
             client.send(str(exec_error))
@@ -60,5 +61,6 @@ class MayaSocketServer(BaseSocketServer):
             cmds.error("Maya Server, Exception processing Function: {}".format(e))
     
     def on_identify_dcc(self, client):
-        data = "name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'unsaved'\nprint(name)"
+        exec_name = sys.executable.rsplit('\\',1)[1]
+        data ="name = cmds.file(q=True, sn=True).split('/')[-1]\nname = name if len(name)>0 else 'unsaved'\nprint(json.dumps({'filename': name, 'exec_name': '" + exec_name + "'}, sort_keys=True, indent=4))"
         maya_utils.executeInMainThreadWithResult(self.function_to_process, data, client)
