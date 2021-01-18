@@ -30,6 +30,7 @@ interface ResolverSocketRow {
 export class SocketHomeComponent implements OnInit, OnDestroy {
   faTerminal = faTerminal;
   faSignInAlt = faSignInAlt;
+  loading:boolean = false;
   displayedColumns: string[] = ['fileName', 'type', 'port', 'reachable', 'actions'];
   constructor(private service: DccService, public dialog: MatDialog){  }
 
@@ -43,7 +44,8 @@ export class SocketHomeComponent implements OnInit, OnDestroy {
   }
 
   resolve(){
-    this.objects = null;
+    //this.objects = null;
+    this.loading = true;
     this.service.resolve((_outdata) => {
       this.objects = JSON.parse(_outdata);
       console.log(_outdata)
@@ -58,6 +60,7 @@ export class SocketHomeComponent implements OnInit, OnDestroy {
       if(this.objects.nukeDatas)
         this.objects.nukeDatas = this.objects.nukeDatas.filter(obj => obj.reachable);
 
+        this.loading = false;
       });
   }
 
@@ -81,6 +84,10 @@ export class SocketHomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogConfirmStopDccServer, {
       width: '500px',
       data: _socketRow
+    }).afterClosed().subscribe(response => {
+
+      if(response.data)
+        this.resolve()
     });
   }
 

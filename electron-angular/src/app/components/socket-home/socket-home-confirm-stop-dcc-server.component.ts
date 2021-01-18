@@ -32,12 +32,12 @@ interface ResolverSocketRow {
       private service:DccService) {}
   
     onNoClick(): void {
-      this.dialogRef.close();
+      this.dialogRef.close({data:false});
     }
 
     onYesClick(_port): void {
       this.stopDccServer(_port)
-      this.dialogRef.close();
+      this.dialogRef.close({data:true});
     }
 
     stopDccServer(_port){
