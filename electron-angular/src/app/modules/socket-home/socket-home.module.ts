@@ -4,28 +4,28 @@ import { CommonModule } from '@angular/common';
 import { SocketHomeRoutingModule } from './socket-home-routing.module';
 
 import { SocketHomeComponent } from '../../components/socket-home/socket-home.component';
+import { DialogConfirmStopDccServer } from '../../components/socket-home/socket-home-confirm-stop-dcc-server.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MaterialModule } from '../../material.module';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas, faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { TopNavModule } from '../top-nav/top-nav.module'
+import { TopNavModule  } from '../top-nav/top-nav.module'
 @NgModule({
   declarations: [
     SocketHomeComponent,
+    DialogConfirmStopDccServer
   ],
   imports: 
   [
     TopNavModule,
     CommonModule,
     SharedModule,
-    SocketHomeRoutingModule,
     MaterialModule,
-    FontAwesomeModule
+    SocketHomeRoutingModule
   ],
-  exports:[
+  exports:[MaterialModule
   ]
 })
 export class SocketHomeModule {

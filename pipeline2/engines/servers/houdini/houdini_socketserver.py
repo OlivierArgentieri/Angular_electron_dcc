@@ -75,4 +75,9 @@ class HoudiniSocketServer(BaseSocketServer):
         
         client.send(data)
 
-    
+    def on_shutdown(self):
+        """!
+        On Shutdown Action
+        """
+        self.serverRunning = False
+        sys.exit()

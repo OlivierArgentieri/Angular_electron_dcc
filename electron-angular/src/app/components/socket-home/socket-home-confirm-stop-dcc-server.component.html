@@ -1,0 +1,9 @@
+<h1 mat-dialog-title class="text-color">{{data.identify.filename}} {{data.identify.exec_name}} on {{data.port}}</h1>
+<div mat-dialog-content class="text-white">
+  <p>Are you sure to kill this socket server ?</p>
+ 
+</div>
+<div mat-dialog-actions>
+  <button mat-button class="bg-dark" color="primary" (click)="onNoClick(data.port)">No</button>
+  <button mat-button class="bg-dark" color="accent" (click)="onYesClick(data.port)">Yes</button>
+</div>

@@ -8,7 +8,6 @@
           <mat-icon>sync</mat-icon>
         </button>
       </div>
-     
     </div>
   </div>
   
@@ -56,8 +55,13 @@
                   <button mat-icon-button color="primary" [routerLink]="['/socket/dcc', obj.port, obj.identify.exec_name]" aria-label="Open" matTooltip="Open">
                     <mat-icon>open_in_new</mat-icon>
                   </button>
+
                   <button mat-icon-button color="primary" (click)="restartDccServer(obj.port)" aria-label="Open" matTooltip="Restart Server">
                     <mat-icon>refresh</mat-icon>
+                  </button>
+
+                  <button mat-icon-button color="accent" (click)="openDialog(obj)" aria-label="Open" matTooltip="Stop Server">
+                    <mat-icon>clear</mat-icon>
                   </button>
                 </td>
               </ng-container>
@@ -124,6 +128,9 @@
                   </button>
                   <button mat-icon-button color="primary" (click)="restartDccServer(obj.port)" aria-label="Open" matTooltip="Restart Server">
                     <mat-icon>refresh</mat-icon>
+                  </button>
+                  <button mat-icon-button color="accent" (click)="openDialog(obj)" aria-label="Open" matTooltip="Stop Server">
+                    <mat-icon>clear</mat-icon>
                   </button>
                 </td>
               </ng-container>

@@ -3,7 +3,8 @@ import { DccService } from '../../shared/services/dcc-socket-services/dcc/dcc-se
 import { faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { DccCommandData } from '../../shared/models/dcc/dcc-command';
 import { Config } from '../../shared/models/config'
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogConfirmStopDccServer } from './socket-home-confirm-stop-dcc-server.component'
 interface ResolverIdentify{
   filename:string
   exec_name:string
@@ -30,7 +31,7 @@ export class SocketHomeComponent implements OnInit, OnDestroy {
   faTerminal = faTerminal;
   faSignInAlt = faSignInAlt;
   displayedColumns: string[] = ['fileName', 'type', 'port', 'reachable', 'actions'];
-  constructor(private service: DccService){  }
+  constructor(private service: DccService, public dialog: MatDialog){  }
 
   objects:ResolverSocketData = null;
   ngOnInit(): void {
@@ -74,6 +75,13 @@ export class SocketHomeComponent implements OnInit, OnDestroy {
       this.service.sendCommand(JSON.stringify(_dccCommand), ()=>{});
     })
     this.resolve()
+  }
+
+  openDialog(_socketRow: ResolverSocketRow): void {
+    const dialogRef = this.dialog.open(DialogConfirmStopDccServer, {
+      width: '500px',
+      data: _socketRow
+    });
   }
 
   launchNewDcc(_dccName){

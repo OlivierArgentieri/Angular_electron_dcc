@@ -7,7 +7,7 @@ $text-color : #8e9081;
 $text-white : #d0d0d0;
 
 .bg-darklight{
-    background: $darkLight-color;
+    background: $darkLight-color !important;
 }
 
 .bg-dark{
@@ -84,4 +84,13 @@ $text-white : #d0d0d0;
     100% {
         opacity: 0.3;
     }
+}
+
+
+/*
+*   Dialog Part
+*/
+
+::ng-deep .mat-dialog-container {
+    background: $dark-color !important;
 }

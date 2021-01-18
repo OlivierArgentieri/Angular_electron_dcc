@@ -20,7 +20,7 @@ var spawn = require('child_process').spawn;
 var LaunchDccModule = /** @class */ (function (_super) {
     __extends(LaunchDccModule, _super);
     function LaunchDccModule() {
-        return _super.call(this) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LaunchDccModule.prototype.launchDcc = function (_dccName) {
         var _dcc = "";
@@ -31,6 +31,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 break;
             case "houdini":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.houdini;
+                _cmd = settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath; // to debug
                 break;
             case "hython":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
@@ -44,7 +45,6 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 console.log("dcc NotFound ! ");
                 return false;
         }
-        console.log("CMD : " + _cmd);
         var _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true });
         _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);
