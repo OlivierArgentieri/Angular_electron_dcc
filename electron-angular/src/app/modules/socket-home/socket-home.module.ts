@@ -11,14 +11,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas, faTerminal, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { TopNavComponent } from '../../components/side-nav/top-nav.component'
+import { TopNavModule } from '../top-nav/top-nav.module'
 @NgModule({
   declarations: [
     SocketHomeComponent,
-    TopNavComponent
   ],
   imports: 
   [
+    TopNavModule,
     CommonModule,
     SharedModule,
     SocketHomeRoutingModule,
@@ -26,7 +26,6 @@ import { TopNavComponent } from '../../components/side-nav/top-nav.component'
     FontAwesomeModule
   ],
   exports:[
-    TopNavComponent
   ]
 })
 export class SocketHomeModule {
