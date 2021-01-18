@@ -13,7 +13,10 @@ export class LaunchDccModule extends BaseModule {
     switch (_dccName) {
       case "maya": _dcc = SettingsModule.parsedConfig.dccsPath.maya; break;
       case "houdini": _dcc = SettingsModule.parsedConfig.dccsPath.houdini; break;
-      case "hython": _dcc = SettingsModule.parsedConfig.dccsPath.hython; break;
+      case "hython": 
+        _dcc = SettingsModule.parsedConfig.dccsPath.hython;
+        _cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
+        break;
       case "mayapy":
         _dcc = SettingsModule.parsedConfig.dccsPath.mayapy;
         _cmd = SettingsModule.parsedConfig.pipelineSettings.mayapyHandlerPath;
@@ -24,6 +27,7 @@ export class LaunchDccModule extends BaseModule {
         return false;
 
     }
+    console.log(`CMD : ${_cmd}`)
     const _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true })
 
     _dccOBject.stdout.on('data', (data) => {

@@ -69,7 +69,7 @@ class HoudiniSocketServer(BaseSocketServer):
     def on_identify_dcc(self, client):
         name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
         exec_name = sys.executable.rsplit('\\', 1)[1]
-        
+        exec_name = exec_name.split('.')[0]
         data = json.dumps({'filename': name, 'exec_name': exec_name}, sort_keys=True, indent=4)
         #data =  name
         

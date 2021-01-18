@@ -1,5 +1,7 @@
 import sys
-      
+import os
+
+print("path : " + sys.argv[0])
 sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc") # todo
 
 tmp_modules = sys.modules.copy()

@@ -18,6 +18,7 @@ interface PipelineSettings{
     houdiniActionsPath:string
     hythonActionsPath:string
     mayapyHandlerPath:string
+    hythonHandlerPath:string
 }
 
 interface DccsPath{

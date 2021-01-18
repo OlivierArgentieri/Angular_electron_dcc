@@ -34,6 +34,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 break;
             case "hython":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
+                _cmd = settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
                 break;
             case "mayapy":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.mayapy;
@@ -43,6 +44,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 console.log("dcc NotFound ! ");
                 return false;
         }
+        console.log("CMD : " + _cmd);
         var _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true });
         _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);

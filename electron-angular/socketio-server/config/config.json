@@ -14,7 +14,8 @@
         "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini",
         "hythonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/hython",
         "mayapyActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/mayapy",
-        "mayapyHandlerPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/handler/maya/mayapy_handler.py"
+        "mayapyHandlerPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/handler/maya/mayapy_handler.py",
+        "hythonHandlerPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/handler/houdini/123.py"
     },
     "tempFolder": "D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/temp",
     "dccsPath": {
