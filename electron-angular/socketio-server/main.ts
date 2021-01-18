@@ -134,6 +134,9 @@ export default class SocketInterpreter extends SocketServer {
 
     main() {
         // init config structure
+        SettingsModule.initSettings().then((_)=>{
+            console.log("ok init settings")
+        })
         SettingsModule.getSettings().then((_)=>{
             this.startServer();
         })

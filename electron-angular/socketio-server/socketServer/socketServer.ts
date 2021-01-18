@@ -1,3 +1,4 @@
+import { SettingsModule } from "../modules/settingsModule/settingsModule";
 import ISocketServer from "./ISocketServer";
 
 var app = require('express')();
@@ -24,8 +25,8 @@ export default class SocketServer implements ISocketServer{
         // setup socket action
         this.setupAction(io);
 
-        http.listen(config.socketInterpreterSettings.port, () => {
-            console.log(`listening on *: ${config.socketInterpreterSettings.port}`);
+        http.listen(SettingsModule.parsedConfig.socketInterpreterSettings.port, () => {
+            console.log(`listening on *: ${SettingsModule.parsedConfig.socketInterpreterSettings.port}`);
         });
     }
 

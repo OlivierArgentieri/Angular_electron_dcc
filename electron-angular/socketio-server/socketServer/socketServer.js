@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var settingsModule_1 = require("../modules/settingsModule/settingsModule");
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
@@ -17,8 +18,8 @@ var SocketServer = /** @class */ (function () {
         });
         // setup socket action
         this.setupAction(io);
-        http.listen(config.socketInterpreterSettings.port, function () {
-            console.log("listening on *: " + config.socketInterpreterSettings.port);
+        http.listen(settingsModule_1.SettingsModule.parsedConfig.socketInterpreterSettings.port, function () {
+            console.log("listening on *: " + settingsModule_1.SettingsModule.parsedConfig.socketInterpreterSettings.port);
         });
     };
     SocketServer.prototype.stopServer = function () {

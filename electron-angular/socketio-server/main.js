@@ -128,6 +128,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
     SocketInterpreter.prototype.main = function () {
         var _this = this;
         // init config structure
+        settingsModule_1.SettingsModule.initSettings().then(function (_) {
+            console.log("ok init settings");
+        });
         settingsModule_1.SettingsModule.getSettings().then(function (_) {
             _this.startServer();
         });
