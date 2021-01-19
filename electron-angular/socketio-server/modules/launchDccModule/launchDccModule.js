@@ -31,7 +31,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 break;
             case "houdini":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.houdini;
-                _cmd = settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath; // to debug
+                //_cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath; // to debug
                 break;
             case "hython":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
@@ -45,7 +45,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 console.log("dcc NotFound ! ");
                 return false;
         }
-        var _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true });
+        var _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true, env: { PATH: process.env.PATH } });
         _dccOBject.stdout.on('data', function (data) {
             console.log("stdout: " + data);
         });
