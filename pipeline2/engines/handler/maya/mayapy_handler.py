@@ -1,5 +1,8 @@
 import sys
-sys.path.append("D:/Projet/PullGithub/Angular_electron_dcc") #todo
+by_path = sys.argv[0]
+if(by_path != "" ):
+    path_to_append = sys.argv[0].split("pipeline2")[0]
+    sys.path.append(path_to_append) #todo
 
 tmp_modules = sys.modules.copy()
 for key, value in tmp_modules.iteritems():

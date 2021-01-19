@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from pipeline2.utils.utils import Utils
 
 import logging
@@ -12,12 +12,12 @@ import time
 ########################################
 class BaseSocketServer(object):
 
-    CONFIG_PATH = "D:/Projet/PullGithub/Angular_electron_dcc/electron-angular/socketio-server/config/config.json"
+    CONFIG_PATH = os.path.dirname(os.path.realpath(__file__)).split("pipeline2")[0]+"pipeline2/config/config.json"
 
     CONNECTIONS = 1
-    HOST = "192.168.1.15"
    
     def __init__(self):
+        print(sys.argv[0].split("pipeline2")[0]+"config/config.json")
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
     
