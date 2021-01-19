@@ -17,7 +17,7 @@ class BaseSocketServer(object):
     CONNECTIONS = 1
    
     def __init__(self):
-        print(sys.argv[0].split("pipeline2")[0]+"config/config.json")
+        print( os.path.dirname(os.path.realpath(__file__)))
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
     
