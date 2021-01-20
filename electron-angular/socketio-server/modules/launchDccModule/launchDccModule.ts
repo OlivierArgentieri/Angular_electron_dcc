@@ -16,7 +16,7 @@ export class LaunchDccModule extends BaseModule {
 
       case "hython": 
         _dcc = SettingsModule.parsedConfig.dccsPath.hython;
-        _cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
+        //_cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
         break;
       case "mayapy":
         _dcc = SettingsModule.parsedConfig.dccsPath.mayapy;

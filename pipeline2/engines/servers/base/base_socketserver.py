@@ -7,12 +7,14 @@ import threading
 import json
 import time
 
+BASE_PIPELINE_PATH = os.path.dirname(os.path.realpath(__file__)).split("pipeline2")[0]
+
 ########################################
 # Base class for all dccs socket server
 ########################################
 class BaseSocketServer(object):
 
-    CONFIG_PATH = os.path.dirname(os.path.realpath(__file__)).split("pipeline2")[0]+"pipeline2/config/config.json"
+    CONFIG_PATH = BASE_PIPELINE_PATH +"pipeline2/config/config.json"
 
     CONNECTIONS = 1
    
@@ -43,8 +45,8 @@ class BaseSocketServer(object):
 
         # The server need to find where he CAN run, on wich port
         config = self.get_config()
-        socketInterpreterSettings = config["socketInterpreterSettings"]
-        host = socketInterpreterSettings["host"]
+        socketInterpreterSettings = config.get('socketInterpreterSettings', {})
+        host = socketInterpreterSettings.get('host', {})
         available_ports = self.get_available_ports(host, port_start, port_end)
         
         if(len(available_ports) < 1) : return # if no port available

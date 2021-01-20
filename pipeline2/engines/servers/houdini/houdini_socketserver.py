@@ -8,7 +8,9 @@ import socket
 import threading
 import json
 
-
+##########################################################
+# class server for houdini. inherit BaseSocketServer class
+##########################################################
 class HoudiniSocketServer(BaseSocketServer):
 
     def __init__(self):
@@ -17,7 +19,10 @@ class HoudiniSocketServer(BaseSocketServer):
 
         self.start_with_config()
 
-    def start_with_config(self):    
+    def start_with_config(self):
+        """!
+        To configure server before call startServer, depend on which dcc used
+        """    
         config = self.get_config()
 
         port_start = config.get('dccPortSettings', {}).get('houdiniPortRangeStart', 0)
@@ -29,10 +34,10 @@ class HoudiniSocketServer(BaseSocketServer):
 
 
     def function_to_process(self, data, client):
-        """
-        Function To Process, exec received data/cmd
-        :param data: incoming data to process
-        :return:
+        """!
+        Function to execute, received command (callback)
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
 
         logging.info("Houdini Server, Process Function: {}".format(data))
@@ -51,15 +56,13 @@ class HoudiniSocketServer(BaseSocketServer):
             client.send(str(e))
 
     def process_update(self, data, client):
-        """
-        Process incoming data, to redirect exec on another thread for exemple
-        :param data:
-        :return:
+        """!
+        Redirect execution of data received (onMainThread for maya, for example)
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
         
         try:
-           
-            #hdefereval.executeInMainThreadWithResult(self.function_to_process, data, client)
             self.function_to_process(data, client) # on main thread
         except Exception as e:
             client.send(e)
@@ -67,6 +70,11 @@ class HoudiniSocketServer(BaseSocketServer):
 
 
     def on_identify_dcc(self, client):
+        """!
+        On Identify Dcc Action [Need to be override per dcc]
+        @param client SocketClient: Client Connection
+        """
+
         name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
         exec_name = sys.executable.rsplit('\\', 1)[1]
         exec_name = exec_name.split('.')[0]

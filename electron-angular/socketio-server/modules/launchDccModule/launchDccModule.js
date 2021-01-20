@@ -35,7 +35,7 @@ var LaunchDccModule = /** @class */ (function (_super) {
                 break;
             case "hython":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.hython;
-                _cmd = settingsModule_1.SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
+                //_cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
                 break;
             case "mayapy":
                 _dcc = settingsModule_1.SettingsModule.parsedConfig.dccsPath.mayapy;

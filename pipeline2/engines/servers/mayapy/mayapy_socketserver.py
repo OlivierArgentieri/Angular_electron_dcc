@@ -9,7 +9,9 @@ import socket
 import threading
 import json
 
-
+##########################################################
+# class server for mayapy. inherit BaseSocketServer class
+##########################################################
 class MayapySocketServer(BaseSocketServer):
 
     def __init__(self):
@@ -19,6 +21,9 @@ class MayapySocketServer(BaseSocketServer):
         self.start_with_config()
     
     def start_with_config(self):
+        """!
+        To configure server before call startServer, depend on which dcc used
+        """
         config = self.get_config()
 
         port_start = config.get('dccPortSettings', {}).get('mayaPortRangeStart', 0)
@@ -28,10 +33,10 @@ class MayapySocketServer(BaseSocketServer):
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
     def function_to_process(self, data, client):
-        """
-        Maya function
-        :param data: incoming data to process
-        :return:
+        """!
+        Function to execute, received command (callback)
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
 
         logging.info("Mayapy Server, Process Function: {}".format(data))
@@ -48,18 +53,23 @@ class MayapySocketServer(BaseSocketServer):
             client.send(str(exec_error))
 
     def process_update(self, data, client):
-        """
+        """!
         Process incoming data, run this in the Maya main thread
-        :param data:
-        :return:
+        @param data Json: Received Data
+        @param client SocketClient: Client Connection
         """
-
+        
         try:
             self.function_to_process(data, client)
         except Exception, e:
             cmds.error("Mayapy Server, Exception processing Function: {}".format(e))
     
     def on_identify_dcc(self, client):
+        """!
+        On Identify Dcc Action
+        @param client SocketClient: Client Connection
+        """
+
         name = 'unsaved'
         exec_name = sys.executable.rsplit('\\',1)[1]
         exec_name = exec_name.split('.')[0]
