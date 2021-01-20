@@ -98,9 +98,11 @@ var DccActionModule = /** @class */ (function (_super) {
     };
     // create command with ActionReulstObject
     // return formatted command
-    DccActionModule.prototype.runActionThroughtSocket = function (_actionData) {
+    DccActionModule.prototype.runActionThroughtSocket = function (_actionData, _callback) {
         var _this = this;
+        if (_callback === void 0) { _callback = undefined; }
         return new Promise(function (resolve, reject) {
+            console.log("ok");
             if (!_actionData)
                 reject("null parameters");
             // get name of action with directory name, to avoid user to put an error in file name
@@ -115,6 +117,7 @@ var DccActionModule = /** @class */ (function (_super) {
                 _this.newRequest(_actionData.port, settingsModule_1.SettingsModule.parsedConfig.socketInterpreterSettings.host).then(function (client) {
                     client.write(_formatedCommand.value);
                     client.on('data', function (data) {
+                        _callback(data.toString());
                         client.destroy();
                     });
                 });
@@ -173,6 +176,7 @@ var DccActionModule = /** @class */ (function (_super) {
             return _toReturn;
         }
         var _cmd = "from " + _actionData.name + "." + _realActionName + " import " + _actionData.entry_point + ";"; // add corresponding import
+        _cmd += "print(";
         _cmd += _actionData.entry_point;
         _cmd += "(";
         for (var _i = 0; _i < _actionData.params.length; _i++) {
@@ -190,7 +194,7 @@ var DccActionModule = /** @class */ (function (_super) {
             if (_i + 1 < _actionData.params.length)
                 _cmd += ',';
         }
-        _cmd += ")"; // close method call
+        _cmd += "))"; // close method call
         _toReturn.value = _cmd;
         return _toReturn;
     };

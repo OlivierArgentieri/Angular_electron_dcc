@@ -94,9 +94,9 @@ var SocketInterpreter = /** @class */ (function (_super) {
             socket.on("runDccAction", function (_actionData, _callback) {
                 var _actionObject = JSON.parse(_actionData);
                 if (_actionObject.port > -1) {
-                    _this.dccAction.runActionThroughtSocket(_actionObject).then(function (_command) {
+                    _this.dccAction.runActionThroughtSocket(_actionObject, _callback).then(function (_command) {
                         console.log(_command);
-                        _callback("success"); // TODO get back info of exec action
+                        // TODO get back info of exec action
                     })
                         .catch(function (_error) {
                         _callback(_error);

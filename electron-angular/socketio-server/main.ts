@@ -97,9 +97,9 @@ export default class SocketInterpreter extends SocketServer {
                 var _actionObject: ActionResult = JSON.parse(_actionData)
 
                 if (_actionObject.port > -1) {
-                    this.dccAction.runActionThroughtSocket(_actionObject).then((_command) => {
+                    this.dccAction.runActionThroughtSocket(_actionObject, _callback).then((_command) => {
                         console.log(_command)
-                        _callback("success"); // TODO get back info of exec action
+                         // TODO get back info of exec action
                     })
                         .catch((_error) => {
                             _callback(_error)

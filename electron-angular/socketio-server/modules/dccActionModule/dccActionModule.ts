@@ -90,9 +90,9 @@ export class DccActionModule extends BaseModule {
 
     // create command with ActionReulstObject
     // return formatted command
-    public runActionThroughtSocket(_actionData: ActionResult): Promise<string> {
+    public runActionThroughtSocket(_actionData: ActionResult, _callback = undefined): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-
+            
             if (!_actionData) reject("null parameters");
 
             // get name of action with directory name, to avoid user to put an error in file name
@@ -110,6 +110,7 @@ export class DccActionModule extends BaseModule {
 
                     client.write(_formatedCommand.value);
                     client.on('data', (data) => {
+                        _callback(data.toString())
                         client.destroy()
                     })
                 })
@@ -171,8 +172,8 @@ export class DccActionModule extends BaseModule {
             _toReturn.error = "Invalid Parameters";
             return _toReturn;
         }
-
         var _cmd = `from ${_actionData.name}.${_realActionName} import ${_actionData.entry_point};`; // add corresponding import
+        _cmd += "print("
         _cmd += _actionData.entry_point;
         _cmd += "("
 
@@ -187,7 +188,7 @@ export class DccActionModule extends BaseModule {
             if (_i + 1 < _actionData.params.length) _cmd += ',';
 
         }
-        _cmd += ")" // close method call
+        _cmd += "))" // close method call
         _toReturn.value = _cmd;
 
         return _toReturn;

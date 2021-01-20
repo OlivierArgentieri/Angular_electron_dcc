@@ -13,15 +13,14 @@ def initFileNodes():
     obj.createNode("geo")
 
 
-def run(*args, **kwargs):
-
+def run(*args, **kwargs):    
     # ==== args ====
     sourceDirectory = kwargs.get('srcDir', '')
     outDirectory =  kwargs.get('outDir', '')
 
     if(sourceDirectory == "" or outDirectory == ""):
         print("invalid params")
-        return
+        return "invalid params"
 
     outFileName = 'out.hip'
     outDirectory = os.path.join(outDirectory, outFileName)
@@ -36,6 +35,4 @@ def run(*args, **kwargs):
             generateAlembicNode(os.path.join(sourceDirectory, file))
 
     hou.hipFile.save(outDirectory)
-    print('----- Houdini Scene File Generated ! -----')
-
-    hou.exit()
+    return "----- Houdini Scene File Generated ! -----"

@@ -4,6 +4,6 @@
         {"name":"srcDir", "type":"string", "default":""},
         {"name":"outDir", "type":"string", "default":""}
     ],
-    "script_path": "./export_abc.py",
+    "script_path": "./abc_to_hip.py",
     "entry_point":"run"
 }
