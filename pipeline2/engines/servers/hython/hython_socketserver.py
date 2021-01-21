@@ -9,12 +9,12 @@ import threading
 import json
 
 ##########################################################
-# class server for houdini. inherit BaseSocketServer class
+# class server for hython. inherit BaseSocketServer class
 ##########################################################
-class HoudiniSocketServer(BaseSocketServer):
+class HythonSocketServer(BaseSocketServer):
 
     def __init__(self):
-        super(HoudiniSocketServer, self).__init__()
+        super(HythonSocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
 
         self.start_with_config()
@@ -28,7 +28,7 @@ class HoudiniSocketServer(BaseSocketServer):
         port_start = config.get('dccPortSettings', {}).get('houdiniPortRangeStart', 0)
         port_end = config.get('dccPortSettings', {}).get('houdiniPortRangeEnd', 0)
 
-        sys.path.append(config.get('pipelineSettings', {}).get('houdiniActionsPath', 0)) # add houdini action in sys path 
+        sys.path.append(config.get('pipelineSettings', {}).get('hythonActionsPath', 0)) # add hython action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
 
@@ -39,7 +39,7 @@ class HoudiniSocketServer(BaseSocketServer):
         @param client SocketClient: Client Connection
         """
 
-        logging.info("Houdini Server, Process Function: {}".format(data))
+        logging.info("Hython Server, Process Function: {}".format(data))
 
         out = ""
         if("print" in data):

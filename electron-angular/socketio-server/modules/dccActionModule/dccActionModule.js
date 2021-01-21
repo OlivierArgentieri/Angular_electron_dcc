@@ -102,7 +102,6 @@ var DccActionModule = /** @class */ (function (_super) {
         var _this = this;
         if (_callback === void 0) { _callback = undefined; }
         return new Promise(function (resolve, reject) {
-            console.log("ok");
             if (!_actionData)
                 reject("null parameters");
             // get name of action with directory name, to avoid user to put an error in file name

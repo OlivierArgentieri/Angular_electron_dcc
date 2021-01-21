@@ -19,7 +19,6 @@ class BaseSocketServer(object):
     CONNECTIONS = 1
    
     def __init__(self):
-        print( os.path.dirname(os.path.realpath(__file__)))
         self.serverRunning = True
         logging.basicConfig(level=logging.DEBUG)
     

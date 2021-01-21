@@ -11,12 +11,10 @@ export class LaunchDccModule extends BaseModule {
       case "maya": _dcc = SettingsModule.parsedConfig.dccsPath.maya; break;
       case "houdini": 
         _dcc = SettingsModule.parsedConfig.dccsPath.houdini;
-        //_cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath; // to debug
         break;
 
       case "hython": 
         _dcc = SettingsModule.parsedConfig.dccsPath.hython;
-        //_cmd = SettingsModule.parsedConfig.pipelineSettings.hythonHandlerPath;
         break;
       case "mayapy":
         _dcc = SettingsModule.parsedConfig.dccsPath.mayapy;
@@ -28,7 +26,8 @@ export class LaunchDccModule extends BaseModule {
         return false;
     }
     
-    const _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true, env: {PATH: process.env.PATH} })
+    // start softwares with curernt env configs
+    const _dccOBject = spawn(_dcc, [_cmd], { 'shell': true, detached: true, env: {PATH: process.env.PATH} }) 
 
     _dccOBject.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
