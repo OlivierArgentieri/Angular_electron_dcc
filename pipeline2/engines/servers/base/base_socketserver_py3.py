@@ -1,5 +1,5 @@
 import sys, os
-from pipeline2.utils.utils import Utils
+from pipeline2.utils.utils_py3 import Utils
 from pipeline2.libs import six
 
 import logging
@@ -127,7 +127,7 @@ class BaseSocketServer(object):
         
         try:
             sock.bind((host, port)) 
-        except Exception, socket_error:
+        except Exception as socket_error:
             msg = "Socket Server, Failed to open port: {}".format(socket_error)
             logging.error(msg)
             return
@@ -143,7 +143,7 @@ class BaseSocketServer(object):
                 if data == "#Shutdown#":
                     self.on_shutdown()
 
-                if data == "#Identify#":
+                if data == b'#Identify#':
                     self.on_identify_dcc(client)
 
                 if data == "#Restart#":
@@ -151,18 +151,18 @@ class BaseSocketServer(object):
 
                 else:
                     logging.info("Socket Server, Data Received: {}".format(data))
-                    self.process_update(data, client)
+                    self.process_update(data.decode("utf-8"), client)
 
             try:
                 client.close()
-            except Exception, client_error:
+            except Exception as client_error:
                 logging.info("Socket Server, Error Closing Client Socket: {}".format(client_error))
 
         logging.info("Socket Server, Shutting Down.")
 
         try:
             sock.close()
-        except Exception, close_error:
+        except Exception as close_error:
             logging.info("Socket Server, Error Closing Socket: {}".format(close_error))
 
         if data == "#Restart#":
