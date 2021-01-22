@@ -7,8 +7,8 @@ import { ViewChild } from '@angular/core';
 import { SPACE } from '@angular/cdk/keycodes';
 
 // models
-import { DccActions } from '../../shared/models/dcc/dccActions';
-import { DccAction } from '../../shared/models/dcc/dccAction';
+import { DccActions } from '../../shared/models/dcc/dcc-actions';
+import { DccAction } from '../../shared/models/dcc/dcc-action';
 import { DccCommandData } from '../../shared/models/dcc/dcc-command';
 import { Config } from '../../shared/models/config'
 
