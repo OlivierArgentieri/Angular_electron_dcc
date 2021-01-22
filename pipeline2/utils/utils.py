@@ -1,7 +1,7 @@
 from pipeline2.libs import six
 class Utils:
     @staticmethod
-    def is_port_is_use_py2(host, port):
+    def is_port_is_use(host, port):
         """
         Is Port Is Use
         :param host:
@@ -18,25 +18,6 @@ class Utils:
             msg = "Socket Server, Failed to open port: {}".format(socket_error)
             return False
 
-    @staticmethod
-    def is_port_is_use_py3(host, port):
-        """
-        Is Port Is Use
-        :param host:
-        :pram port:
-        :return boolean: true if port is in use, else if not 
-        """
-        import socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        try:
-            sock.bind((host, port))
-            return True
-      
-        except Exception as socket_error:
-            msg = "Socket Server, Failed to open port: {}".format(socket_error)
-            return False
-
-                
 
     @staticmethod
     def get_unused_ports(host, port_start, port_end):
