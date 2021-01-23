@@ -138,12 +138,12 @@ class BaseSocketServer(object):
         self.serverRunning = True
         while self.serverRunning:
             client, address = sock.accept()
-            data = client.recv(1024)
+            data = client.recv(1024).decode("utf-8")
             if data:
                 if data == "#Shutdown#":
                     self.on_shutdown()
 
-                if data == b'#Identify#':
+                if data == "#Identify#":
                     self.on_identify_dcc(client)
 
                 if data == "#Restart#":
@@ -151,7 +151,7 @@ class BaseSocketServer(object):
 
                 else:
                     logging.info("Socket Server, Data Received: {}".format(data))
-                    self.process_update(data.decode("utf-8"), client)
+                    self.process_update(data, client)
 
             try:
                 client.close()

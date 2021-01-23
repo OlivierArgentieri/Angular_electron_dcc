@@ -7,7 +7,8 @@ import logging
 import socket
 import threading
 import json
-
+import time
+import bpy 
 ##########################################################
 # class server for blender. inherit BaseSocketServer class
 ##########################################################
@@ -50,6 +51,9 @@ class BlenderSocketServer(BaseSocketServer):
 
         try:
             exec(data, global_scope, local_scope)
+
+            if("mesh" in data):
+                time.sleep(1)
             out = local_scope.get('out', '')
             print("out : {}".format(out))
             client.send(out.encode('utf-8'))
@@ -95,4 +99,3 @@ class BlenderSocketServer(BaseSocketServer):
         On Shutdown Action
         """
         self.serverRunning = False
-        sys.exit()
