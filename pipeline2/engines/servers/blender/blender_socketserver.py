@@ -1,14 +1,16 @@
-
 from pipeline2.engines.servers.base.base_socketserver_py3 import BaseSocketServer
 
 import sys
 
 import logging
 import socket
-import threading
+import threading, queue
 import json
 import time
 import bpy 
+import functools
+
+q = queue.Queue()
 ##########################################################
 # class server for blender. inherit BaseSocketServer class
 ##########################################################
@@ -68,12 +70,14 @@ class BlenderSocketServer(BaseSocketServer):
         @param data Json: Received Data
         @param client SocketClient: Client Connection
         """
-        
-        
 
         try:
             print(data)
-            self.function_to_process(data, client) # on main thread
+            bpy.app.handlers.frame_change_pre.append(self.function_to_process(data, client))
+            
+            #threading.Thread(target=self.function_to_process, args=(data, client)).start()
+            # add to queu here 
+            # on main thread
         except Exception as e:
             print(str(e) + "L65")
             #client.send(str(e).encode('utf-8'))
@@ -99,3 +103,7 @@ class BlenderSocketServer(BaseSocketServer):
         On Shutdown Action
         """
         self.serverRunning = False
+
+
+
+#read queue
