@@ -54,9 +54,10 @@ var net = require('net');
 var baseModule_1 = require("../base/baseModule");
 var settingsModule_1 = require("../settingsModule/settingsModule");
 var resolverSocketData_1 = require("./models/resolverSocketData");
-/////////////////////////////////////////
+var dccsDataModule_1 = require("../dccsDataModule/dccsDataModule");
+/////////////////////////////////////////////////////////
 // Class to discover opened dccs throught network 
-/////////////////////////////////////////
+/////////////////////////////////////////////////////////
 var DccResolverModule = /** @class */ (function (_super) {
     __extends(DccResolverModule, _super);
     function DccResolverModule() {
@@ -66,6 +67,7 @@ var DccResolverModule = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
+                        dccsDataModule_1.DccsDataModule.clearDatas();
                         // create new connection
                         var client = net.Socket();
                         var tcpConnection = client.connect(_port, _host, function () {
@@ -73,8 +75,9 @@ var DccResolverModule = /** @class */ (function (_super) {
                         tcpConnection.on('error', function (error) {
                             console.log("not found on : " + _port);
                             client.destroy();
-                            var out = new resolverSocketData_1.ResolverSocketRow(0, false, null);
+                            var out = new resolverSocketData_1.ResolverSocketRow(_port, false, null);
                             resolve(out);
+                            dccsDataModule_1.DccsDataModule.addNewDatas(out.port, null);
                             return out;
                         });
                         // result doesn't contains name of file
@@ -82,7 +85,8 @@ var DccResolverModule = /** @class */ (function (_super) {
                         tcpConnection.write("#Identify#");
                         tcpConnection.on('data', function (data) {
                             console.log(data.toString());
-                            var out = new resolverSocketData_1.ResolverSocketRow(0, true, JSON.parse(data.toString()));
+                            var out = new resolverSocketData_1.ResolverSocketRow(_port, true, JSON.parse(data.toString()));
+                            dccsDataModule_1.DccsDataModule.addNewDatas(out.port, tcpConnection);
                             resolve(out);
                             return out;
                         });
@@ -139,6 +143,7 @@ var DccResolverModule = /** @class */ (function (_super) {
                     case 1:
                         _a.sent();
                         return [2 /*return*/, new Promise(function (resolve, reject) {
+                                dccsDataModule_1.DccsDataModule.getDatas().forEach(function (o) { return console.log(o.port + " cnx : " + o.cnx); });
                                 resolve(_resolverSocketData);
                             })];
                 }

@@ -88,7 +88,7 @@ export class DccActionModule extends BaseModule {
     }
 
 
-    // create command with ActionReulstObject
+    // create command with ActionResultObject
     // return formatted command
     public runActionThroughtSocket(_actionData: ActionResult, _callback = undefined): Promise<string> {
         return new Promise<string>((resolve, reject) => {
@@ -163,7 +163,7 @@ export class DccActionModule extends BaseModule {
 
 
     /*
-    *   FormatCommand : Action Data input to fomated command
+    *   FormatCommand : Action Data input to formated command
     */
     private formatCommand(_actionData: ActionResult, _realActionName: string): GenericReturn {
         var _toReturn: GenericReturn = new GenericReturn();

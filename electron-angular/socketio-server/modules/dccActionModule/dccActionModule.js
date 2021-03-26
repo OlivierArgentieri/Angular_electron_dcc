@@ -96,7 +96,7 @@ var DccActionModule = /** @class */ (function (_super) {
             });
         });
     };
-    // create command with ActionReulstObject
+    // create command with ActionResultObject
     // return formatted command
     DccActionModule.prototype.runActionThroughtSocket = function (_actionData, _callback) {
         var _this = this;
@@ -166,7 +166,7 @@ var DccActionModule = /** @class */ (function (_super) {
         });
     };
     /*
-    *   FormatCommand : Action Data input to fomated command
+    *   FormatCommand : Action Data input to formated command
     */
     DccActionModule.prototype.formatCommand = function (_actionData, _realActionName) {
         var _toReturn = new genericReturn_1.GenericReturn();

@@ -10,9 +10,9 @@
         "houdiniPortRangeEnd": 6011
     },
     "pipelineSettings": {
-        "commonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/common",
-        "mayaActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/maya",
-        "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/houdini",
-        "hythonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/pipeline2/engines/actions/hython"
+        "commonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/demo_actions/common",
+        "mayaActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/demo_actions/maya",
+        "houdiniActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/demo_actions/houdini",
+        "hythonActionsPath": "D:/Projet/PullGithub/Angular_electron_dcc/demo_actions/hython"
     }
 }

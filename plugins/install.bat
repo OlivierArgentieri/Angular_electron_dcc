@@ -17,6 +17,3 @@ SET /P _version="Enter version of Houdini (example: 18.0) : "
 SET _cpto=%USERPROFILE%\Documents\houdini%_version%
 SET _mayaModPath=%CD%\houdini 
 XCOPY %_mayaModPath% %_cpto% /E /H /Y 
-
-
-

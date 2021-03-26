@@ -1,6 +1,6 @@
 import DccCommandData from "./models/commandData"
 import { BaseModule } from "../base/baseModule";
-
+import { DccsDataModule } from '../dccsDataModule/dccsDataModule'
 /////////////////////////////////////////
 // Class to manage Command action
 /////////////////////////////////////////
@@ -8,6 +8,19 @@ export class DccCommandModule extends BaseModule {
     
     sendCommand(_commandData:DccCommandData, callback = undefined) {
         if(!_commandData) return
+
+        
+        // const client = DccsDataModule.getDccByPort(_commandData.port);
+        // if(!client) return
+
+        // console.log(client)
+        // console.log(client.port)
+        // client.cnx.write(_commandData.command);
+        // client.cnx.on('data', (data) => {
+        //     if (callback)
+        //          callback(data.toString());
+        // })
+
         this.newRequest(_commandData.port, _commandData.host)
         .then((client) => {
             client.write(_commandData.command);

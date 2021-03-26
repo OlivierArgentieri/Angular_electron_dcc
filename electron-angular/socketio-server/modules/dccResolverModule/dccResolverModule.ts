@@ -3,26 +3,29 @@ const net = require('net');
 import { BaseModule } from "../base/baseModule";
 import { SettingsModule } from "../settingsModule/settingsModule";
 import { ResolverSocketData, ResolverSocketRow, ResolverIdentify } from "./models/resolverSocketData";
+import { DccsDataModule } from '../dccsDataModule/dccsDataModule';
 
-/////////////////////////////////////////
+/////////////////////////////////////////////////////////
 // Class to discover opened dccs throught network 
-/////////////////////////////////////////
-export class DccResolverModule extends BaseModule {
+/////////////////////////////////////////////////////////
 
+export class DccResolverModule extends BaseModule {
+    
     async resolve(_host:string, _port: number) {
         return new Promise<ResolverSocketRow>((resolve, reject) => {
-            
+            DccsDataModule.clearDatas()
+
             // create new connection
             var client = net.Socket();
             var tcpConnection = client.connect(_port, _host, function () {
-                
             });
 
             tcpConnection.on('error', (error) => {
                 console.log(`not found on : ${_port}`)
                 client.destroy();
-                var out = new ResolverSocketRow(0, false, null);
+                var out = new ResolverSocketRow(_port, false, null);
                 resolve(out);
+                DccsDataModule.addNewDatas(out.port, null)
                 return out;
             });
 
@@ -32,7 +35,8 @@ export class DccResolverModule extends BaseModule {
             tcpConnection.write("#Identify#");
             tcpConnection.on('data', (data) => {
                 console.log(data.toString())
-                var out = new ResolverSocketRow(0, true, JSON.parse(data.toString()));
+                var out = new ResolverSocketRow(_port, true, JSON.parse(data.toString()));
+                DccsDataModule.addNewDatas(out.port, tcpConnection)
                 resolve(out);
                 return out;
             })
@@ -84,10 +88,9 @@ export class DccResolverModule extends BaseModule {
             
         })
         
-       
         return new Promise<ResolverSocketData>((resolve, reject) => {
+            DccsDataModule.getDatas().forEach(o => console.log(o.port + " cnx : " + o.cnx))
             resolve(_resolverSocketData)
-           
         });
     }
 }

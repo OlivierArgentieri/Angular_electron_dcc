@@ -27,6 +27,15 @@ var DccCommandModule = /** @class */ (function (_super) {
         if (callback === void 0) { callback = undefined; }
         if (!_commandData)
             return;
+        // const client = DccsDataModule.getDccByPort(_commandData.port);
+        // if(!client) return
+        // console.log(client)
+        // console.log(client.port)
+        // client.cnx.write(_commandData.command);
+        // client.cnx.on('data', (data) => {
+        //     if (callback)
+        //          callback(data.toString());
+        // })
         this.newRequest(_commandData.port, _commandData.host)
             .then(function (client) {
             client.write(_commandData.command);
