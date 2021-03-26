@@ -1,6 +1,5 @@
 import sys, os
-from pipeline2.utils.utils import Utils
-from pipeline2.libs import six
+from utils import Utils
 
 import logging
 import socket
@@ -8,14 +7,14 @@ import threading
 import json
 import time
 
-BASE_PIPELINE_PATH = os.path.dirname(os.path.realpath(__file__)).split("pipeline2")[0]
+BASE_PIPELINE_PATH = os.path.dirname(os.path.realpath(__file__)).split("plugins")[0]
 
 ########################################
 # Base class for all dccs socket server
 ########################################
 class BaseSocketServer(object):
 
-    CONFIG_PATH = BASE_PIPELINE_PATH +"pipeline2/config/config.json"
+    CONFIG_PATH = BASE_PIPELINE_PATH +"electron-angular/config/config.json"
 
     CONNECTIONS = 1
    

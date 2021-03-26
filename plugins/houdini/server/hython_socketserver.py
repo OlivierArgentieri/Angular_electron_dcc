@@ -1,23 +1,20 @@
-from pipeline2.engines.servers.base.base_socketserver_py3 import BaseSocketServer
+from base_socketserver import BaseSocketServer
 
+import hou
 import sys
 
 import logging
 import socket
-import threading, queue
+import threading
 import json
-import time
-import bpy 
-import functools
 
-q = queue.Queue()
 ##########################################################
-# class server for blender. inherit BaseSocketServer class
+# class server for hython. inherit BaseSocketServer class
 ##########################################################
-class BlenderSocketServer(BaseSocketServer):
+class HythonSocketServer(BaseSocketServer):
 
     def __init__(self):
-        super(BlenderSocketServer, self).__init__()
+        super(HythonSocketServer, self).__init__()
         logging.basicConfig(level=logging.DEBUG)
 
         self.start_with_config()
@@ -31,7 +28,7 @@ class BlenderSocketServer(BaseSocketServer):
         port_start = config.get('dccPortSettings', {}).get('houdiniPortRangeStart', 0)
         port_end = config.get('dccPortSettings', {}).get('houdiniPortRangeEnd', 0)
 
-        sys.path.append(config.get('pipelineSettings', {}).get('houdiniActionsPath', 0)) # add houdini action in sys path 
+        sys.path.append(config.get('pipelineSettings', {}).get('hythonActionsPath', 0)) # add hython action in sys path 
         self.start_server(port_start, port_end, self.CONNECTIONS)
 
 
@@ -42,27 +39,20 @@ class BlenderSocketServer(BaseSocketServer):
         @param client SocketClient: Client Connection
         """
 
-        logging.info("Houdini Server, Process Function: {}".format(data))
+        logging.info("Hython Server, Process Function: {}".format(data))
 
-        global_scope = {}
-        local_scope = {}
-        
+        out = ""
         if("print" in data):
             data = data.replace("print", "out = str")
-            print(data)
 
         try:
-            exec(data, global_scope, local_scope)
+            exec(data)
+            client.send(out)
 
-            if("mesh" in data):
-                time.sleep(1)
-            out = local_scope.get('out', '')
-            print("out : {}".format(out))
-            client.send(out.encode('utf-8'))
-
+        except hou.Error as e:
+            client.send(str(e))
         except Exception as e:
-             print(str(e) + "L53")
-             client.send(str(e).encode('utf-8'))
+            client.send(str(e))
 
     def process_update(self, data, client):
         """!
@@ -70,18 +60,12 @@ class BlenderSocketServer(BaseSocketServer):
         @param data Json: Received Data
         @param client SocketClient: Client Connection
         """
-
+        
         try:
-            print(data)
-            bpy.app.handlers.frame_change_pre.append(self.function_to_process(data, client))
-            
-            #threading.Thread(target=self.function_to_process, args=(data, client)).start()
-            # add to queu here 
-            # on main thread
+            self.function_to_process(data, client) # on main thread
         except Exception as e:
-            print(str(e) + "L65")
-            #client.send(str(e).encode('utf-8'))
-            logging.error("Blender Server, Exception processing Function: {}".format(e))
+            client.send(e)
+            logging.error("Houdini Server, Exception processing Function: {}".format(e))
 
 
     def on_identify_dcc(self, client):
@@ -90,20 +74,17 @@ class BlenderSocketServer(BaseSocketServer):
         @param client SocketClient: Client Connection
         """
 
-        name =  'unsaved'
-        exec_name = sys.executable
-        #   exec_name = exec_name.split('.')[0]
+        name = hou.hipFile.name() if hou.hipFile.name() != 'untitled.hip' else 'unsaved'
+        exec_name = sys.executable.rsplit('\\', 1)[1]
+        exec_name = exec_name.split('.')[0]
         data = json.dumps({'filename': name, 'exec_name': exec_name}, sort_keys=True, indent=4)
         #data =  name
         
-        client.send(data.encode())
+        client.send(data)
 
     def on_shutdown(self):
         """!
         On Shutdown Action
         """
         self.serverRunning = False
-
-
-
-#read queue
+        sys.exit()

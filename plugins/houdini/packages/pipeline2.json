@@ -1,3 +1,9 @@
 {
-	"path" : "D:/OlivierArgentieri/Project/Pull_github/Angular_electron_dcc/pipeline2/engines/handler/houdini"
+	"path" : "D:/Projet/PullGithub/Angular_electron_dcc/plugins/houdini/starter",
+	"env": [
+		{
+            "var": "PYTHONPATH",
+            "value": "D:/Projet/PullGithub/Angular_electron_dcc/plugins/houdini/server"
+        }
+	]
 }

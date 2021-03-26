@@ -1,4 +1,3 @@
-from pipeline2.libs import six
 class Utils:
     @staticmethod
     def is_port_is_use(host, port):
